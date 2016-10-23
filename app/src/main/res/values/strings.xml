@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Date-a-Dog</string>
+    <string name="facebook_app_id">1105437202885536</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

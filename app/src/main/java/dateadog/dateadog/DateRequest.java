@@ -1,87 +1,77 @@
 package dateadog.dateadog;
-/**
- * A DateRequest is a user submission of what time and what dog they want to have a date with
- * @author Amanda Loh
- * @version 1.0
- */
 
 import java.util.Date;
 
+/**
+ * A {@code DateRequest} is a user submission of what time and what dog they want to have a date with.
+ */
 public class DateRequest {
 
     /**
-     * Types of status of dog requests
+     * States that a DateRequest can be in.
      */
-    public enum status {
-        ACCEPT, DENY, PENDING
+    public enum Status {
+        ACCEPTED, DENIED, PENDING
     };
 
-    private int dogID;
+    /** The ID for this date request. */
+    private int requestId;
+    /** The date/time at which the user will have a date with the dog. */
     private Date date;
-    private int requestID;
-    private int status;
-    private String token;
+    /** The ID of the dog the date is with. */
+    private int dogId;
+    /** The current status of the date request. */
+    private Status status;
 
     /**
-     * Constructor
-     * @param dogId identifies the dog
-     * @param date the time fo the date for the dog
-     * @param requestID for retrirving the date request from the database
+     * Constructs and initializes a new {@code DateRequest} with the given data.
+     *
+     * @param requestId the ID for this date request
+     * @param date the date/time at which the user will have a date with the given dog
+     * @param dogId the ID of the dog the date is with
+     * @param status the status of the date request (accepted, denied or pending)
      */
-    public DateRequest(int dogId, Date date, int requestID, int status, String token) {
-        this.dogID = dogID;
-        this.date = date;
-        this.requestID = requestID;
+    public DateRequest(int requestId, Date date, int dogId, Status status) {
+        this.requestId = requestId;
+        this.date = new Date(date.getTime());
+        this.dogId = dogId;
         this.status = status;
-        this.token = token;
-
-    }
-
-    //GETTERS
-    /*
-     * @return returns the dogID
-     */
-    int getDogID() {
-        return this.dogID;
     }
 
     /**
-     * @return returns the date of the dog date
-     */
-    Date getDate() {
-        return this.date;
-    }
-
-    /**
-     * @return returns the ID we need to get request from database
-     */
-    int getRequestID() {
-        return this.requestID;
-    }
-
-    /**
+     * Returns a number that uniquely identifies this {@code DateRequest}.
      *
-     * @return the status of request
+     * @return a number that uniquely identifies this {@code DateRequest}
      */
-    int getStatus() {
-        return this.status;
+    public int getRequestId() {
+        return requestId;
     }
 
     /**
+     * Returns the date/time at which the user will have a date with the dog.
      *
-     * @return the token of this request
+     * @return the date/time at which the user will have a date with the dog
      */
-    String getToken() {
-        return this.token;
+    public Date getDate() {
+        return date;
     }
-
-    //SETTERS
 
     /**
-     * @param newStatus what the new status ofthe request has to be set to
+     * Returns the ID of the dog the date is with.
+     *
+     * @return the ID of the dog the date is with
      */
-    void setStatus(char newStatus) {
-       this.status = newStatus;
+    public int getDogId() {
+        return dogId;
     }
+
+    /**
+     * Returns the current status of the date request.
+     *
+     * @return the current status of the date request
+     */
+    public Status getStatus() {
+        return status;
+    }
+
 }
-

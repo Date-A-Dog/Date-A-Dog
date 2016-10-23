@@ -3,7 +3,7 @@ package dateadog.dateadog;
 import java.util.Date;
 
 /**
- * A DateRequest is a user submission of what time and what dog they want to have a date with.
+ * A {@code DateRequest} is a user submission of what time and what dog they want to have a date with.
  */
 public class DateRequest {
 

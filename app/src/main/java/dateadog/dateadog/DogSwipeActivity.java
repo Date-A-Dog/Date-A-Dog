@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+/**
+ * DogSwipeActivity is how a user is able to interact with a presented dog profile.
+ */
 public class DogSwipeActivity extends AppCompatActivity {
 
     @Override

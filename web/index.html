@@ -1,12 +1,33 @@
 <!DOCTYPE html>
  <html lang="en">
  <head>
-	<!--<link rel="icon" href="image from resource file :P">-->
 	<title>Date a Dog</title>
 	
 	<link rel="import" href="header.html">
  </head>
 	<body>
+		<!-- init fb-->
+		<script>
+		  window.fbAsyncInit = function() {
+			FB.init({
+			  appId      : 'your-app-id',
+			  xfbml      : true,
+			  version    : 'v2.8',
+			  status	: true
+			});
+			FB.AppEvents.logPageView();
+		  };
+
+		  (function(d, s, id){
+			 var js, fjs = d.getElementsByTagName(s)[0];
+			 if (d.getElementById(id)) {return;}
+			 js = d.createElement(s); js.id = id;
+			 js.src = "//connect.facebook.net/en_US/sdk.js";
+			 fjs.parentNode.insertBefore(js, fjs);
+		   }(document, 'script', 'facebook-jssdk'));
+		   
+
+		</script>
 		<nav>
 		<ul>
 			<li>
@@ -21,7 +42,7 @@
 	<form action="logout.html">
 		<input type="submit" value="Log Out" />
 	</form>
-	<!--#include file="header.html"-->
+	
 	<h1>Main</h1>
 	<p>Hello there.</p>
  </body>

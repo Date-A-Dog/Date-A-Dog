@@ -8,3 +8,6 @@ android:
 
 script:
    - ./gradlew build
+
+jdk:
+  - oraclejdk8

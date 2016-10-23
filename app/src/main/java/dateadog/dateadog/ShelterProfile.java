@@ -45,4 +45,86 @@ public class ShelterProfile {
         this.email = email;
         this.name = name;
     }
+
+    /**
+     * Returns a String that uniquely identifies this {@code ShelterProfile}
+     *
+     * @return a String that uniquely identifies this {@code ShelterProfile}
+     */
+    public String getShelterId() {
+        return shelterId;
+    }
+
+    /**
+     * Returns the street of the shelter's address
+     *
+     * @return the street of the shelter's address
+     */
+    public String getStreet() {
+        return street;
+    }
+
+    /**
+     * Returns the city of the shelter's address
+     *
+     * @return the city of the shelter's address
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * Returns the state of the shelter's address
+     *
+     * @return the state of the shelter's address
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * Returns the zip code of the shelter's address
+     *
+     * @return the zip code of the shelter's address
+     */
+    public int getZip() {
+        return zip;
+    }
+
+    /**
+     * Returns the phone number of the shelter
+     *
+     * @return the phone number of the shelter
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * Returns the email of the shelter
+     *
+     * @return the email of the shelter
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Returns the name of the shelter
+     *
+     * @return the name of the shelter
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the availability of the shelter
+     *
+     * @return the availability of the shelter
+     */
+    public boolean getAvailability() {
+        return availability;
+    }
+
 }

@@ -11,6 +11,9 @@ android {
         versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    lintOptions {
+    	abortOnError false
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -29,4 +32,11 @@ dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
     compile 'com.facebook.android:facebook-android-sdk:4.16.1'
     testCompile 'junit:junit:4.12'
+}
+
+// Resolve dependency conflicts between main and test APKs.
+configurations.all {
+    resolutionStrategy {
+        force 'junit:junit:4.12', 'org.hamcrest:hamcrest-core:1.3'
+    }
 }

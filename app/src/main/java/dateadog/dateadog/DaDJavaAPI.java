@@ -1,5 +1,6 @@
 package dateadog.dateadog;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -10,12 +11,17 @@ public class DaDJavaAPI {
 
     private int lastViewedDogId;
 
+    /** Facebook authentication token. */
+    private String token;
+
     public DaDJavaAPI(int userId) {
 
     }
 
     public Set<DogProfile> getNextDogs(int zipCode) {
-        return null;
+        Set<DogProfile> result = new LinkedHashSet<>();
+        result.add(new DogProfile());
+        return result;
     }
 
     private void judgeDog(int dogId, boolean like) {

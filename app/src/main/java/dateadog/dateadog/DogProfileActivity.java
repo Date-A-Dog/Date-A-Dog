@@ -6,16 +6,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.*;
 
-/**
- * DogSwipeActivity is how a user is able to interact with a presented dog profile.
- */
-public class DogSwipeActivity extends AppCompatActivity {
+
+public class DogProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dog_swipe);
+        setContentView(R.layout.activity_dog_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -28,4 +27,5 @@ public class DogSwipeActivity extends AppCompatActivity {
             }
         });
     }
+
 }

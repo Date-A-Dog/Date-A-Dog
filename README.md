@@ -1,2 +1,2 @@
 # Date-a-Dog-Server
-Date-a-Dog's server components.
+Please see https://date-a-dog.github.io/ for help.

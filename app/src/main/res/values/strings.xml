@@ -92,4 +92,5 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_dog_grid">DogGridActivity</string>
+    <string name="title_activity_dog_profile">DogProfileActivity</string>
 </resources>

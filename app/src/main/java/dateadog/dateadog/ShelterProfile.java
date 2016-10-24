@@ -4,14 +4,8 @@ package dateadog.dateadog;
  * A {@code ShelterProfile} is a profile of a shelter.
  */
 public class ShelterProfile {
-    /** The street of the shelter's address */
-    private String street;
-    /** The city of the shelter's address */
-    private String city;
-    /** The state of the shelter's address */
-    private String state;
-    /** The zip code of the shelter's address */
-    private int zip;
+
+    private Address address;
     /** The shelter's phone number */
     private String phone;
     /** The shelter's email */
@@ -20,7 +14,7 @@ public class ShelterProfile {
     private String name;
     /** The ID for this shelter. */
     private String shelterId;
-    /** The street of the shelter's address */
+    /** The availability of the shelter */
     public boolean availability;
 
     /**
@@ -36,11 +30,8 @@ public class ShelterProfile {
      * @param name the name of the shelter
      */
     public ShelterProfile(String street, String shelterID, String city, String state, int zip, String phone, String email, String name){
-        this.street = street;
+        this.address = this.new Address(street, city ,state, zip);
         this.shelterId = shelterID;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
         this.phone = phone;
         this.email = email;
         this.name = name;
@@ -61,7 +52,7 @@ public class ShelterProfile {
      * @return the street of the shelter's address
      */
     public String getStreet() {
-        return street;
+        return address.getStreet();
     }
 
     /**
@@ -70,7 +61,7 @@ public class ShelterProfile {
      * @return the city of the shelter's address
      */
     public String getCity() {
-        return city;
+        return address.getCity();
     }
 
     /**
@@ -79,7 +70,7 @@ public class ShelterProfile {
      * @return the state of the shelter's address
      */
     public String getState() {
-        return state;
+        return address.getState();
     }
 
     /**
@@ -88,7 +79,7 @@ public class ShelterProfile {
      * @return the zip code of the shelter's address
      */
     public int getZip() {
-        return zip;
+        return address.getZip();
     }
 
     /**
@@ -127,4 +118,63 @@ public class ShelterProfile {
         return availability;
     }
 
+    /**
+     * {@code Address} is an inner class to contain the address fields for the shelter.
+     */
+    private class Address {
+        /** The street of the shelter's address */
+        private String street;
+        /** The city of the shelter's address */
+        private String city;
+        /** The state of the shelter's address */
+        private String state;
+        /** The zip code of the shelter's address */
+        private int zip;
+
+        /**
+         * Constructs and initializes a new {@code Address} with the given data.
+         *
+         * @param street the street of the address
+         * @param city the city of the address
+         * @param state the state of the address
+         * @param zip the zip code of the address
+         */
+        private Address(String street, String city, String state, int zip){
+            this.street = street;
+            this.city = city;
+            this.state = state;
+            this.zip = zip;
+        }
+
+        private String getStreet() {
+            return street;
+        }
+
+        /**
+         * Returns the city of the address
+         *
+         * @return the city of the address
+         */
+        private String getCity() {
+            return city;
+        }
+
+        /**
+         * Returns the state of the address
+         *
+         * @return the state of the address
+         */
+        private String getState() {
+            return state;
+        }
+
+        /**
+         * Returns the zip code of the address
+         *
+         * @return the zip code of the address
+         */
+        private int getZip() {
+            return zip;
+        }
+    }
 }

@@ -10,13 +10,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".DogGridActivity"
+    android:background="@drawable/dogbackground"
     tools:showIn="@layout/activity_fblogin">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Welcome to reserveMe"
+        android:text="Welcome to Date-A-Dog"
+        android:textColor="@color/cardview_light_background"
         android:id="@+id/info"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

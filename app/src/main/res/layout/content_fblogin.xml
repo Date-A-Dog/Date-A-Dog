@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Welcome to Date-A-Dog"
+        android:text="Welcome to Date-a-Dog"
         android:textColor="@color/cardview_light_background"
         android:id="@+id/info"
         android:layout_alignParentTop="true"

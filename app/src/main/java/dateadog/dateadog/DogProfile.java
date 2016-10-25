@@ -1,5 +1,7 @@
 package dateadog.dateadog;
 
+import java.util.Set;
+
 /**
  * A DogProfile is a dog available for a date at a participating shelter.
  */

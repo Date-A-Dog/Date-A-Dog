@@ -14,7 +14,7 @@ android:
 
 branches:
   only:
-    - test/travis-ci
+    - master
 
 script: ./gradlew build
 

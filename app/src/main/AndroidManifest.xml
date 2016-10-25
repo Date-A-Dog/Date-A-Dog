@@ -12,7 +12,8 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id"
+        />
 
         <activity
             android:name=".DogGridActivity"
@@ -30,6 +31,7 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <activity
             android:name=".DogProfileActivity"
             android:label="@string/title_activity_dog_profile"

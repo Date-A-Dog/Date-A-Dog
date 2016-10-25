@@ -20,7 +20,7 @@ public class DaDJavaAPI {
 
     public Set<DogProfile> getNextDogs(int zipCode) {
         Set<DogProfile> result = new LinkedHashSet<>();
-        result.add(new DogProfile());
+        //result.add(new DogProfile());
         return result;
     }
 

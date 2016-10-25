@@ -13,3 +13,8 @@ android:
 branches:
   only:
     - test/travis-ci
+
+script: ./gradlew build
+
+jdk:
+  - oraclejdk8

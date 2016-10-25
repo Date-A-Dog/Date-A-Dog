@@ -45,6 +45,10 @@ public class LoginActivity extends AppCompatActivity {
                         // App code
                     }
                 });
+
+        // Start Facebook login immediately (by programmatically "clicking" the Facebook
+        // login button).
+        loginButton.performClick();
     }
 
 }

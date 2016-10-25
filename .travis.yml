@@ -1,15 +1,15 @@
 language: android
 android:
   components:
-    - tools
-    - tools
     - platform-tools
-    - build-tools-24.0.2
+    - tools
     - build-tools-25.0.0
     - android-24
+    - extra-android-m2repository
+    - extra-google-m2repository
+  licenses:
+    - '.*'
 
-script:
-   - ./gradlew build
-
-jdk:
-  - oraclejdk8
+branches:
+  only:
+    - test/travis-ci

@@ -90,7 +90,8 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_dog_grid">DogGridActivity</string>
+    <string name="title_activity_login">@string/app_name</string>
     <string name="title_activity_dog_profile">DogProfileActivity</string>
     <string name="facebook_app_id">1105437202885536</string>
+    <string name="welcome_message">Welcome to Date-a-Dog!</string>
 </resources>

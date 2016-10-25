@@ -13,7 +13,7 @@ import com.facebook.login.widget.LoginButton;
 
 
 
-public class DogGridActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private CallbackManager callbackManager;
 
@@ -22,11 +22,11 @@ public class DogGridActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_fblogin);
+        setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         callbackManager = CallbackManager.Factory.create();
-        setContentView(R.layout.activity_fblogin);
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {

@@ -16,8 +16,8 @@
         />
 
         <activity
-            android:name=".DogGridActivity"
-            android:label="@string/title_activity_dog_grid"
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,8 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- TODO replace app_name with our facebook registered app id -->
-        <!-- removed android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -35,7 +34,7 @@
         <activity
             android:name=".DogProfileActivity"
             android:label="@string/title_activity_dog_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            ></activity>
     </application>
 
 </manifest>

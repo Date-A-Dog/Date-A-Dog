@@ -3,4 +3,12 @@
 
 Please see https://date-a-dog.github.io/ for help.
 
-Hugo Salazar - 10/23/2016
+## Developers
+Hassan Abdi (habdi)
+Alexis Allen (laetaku)
+Anmol Jammu (jammua)
+Amanda Loh (cosy16)
+Raag Pokhrel (raagp)
+Hugo Salazar (hsalazar)
+Amarpal Singh (amarpal)
+Lauren Wolfe (wolfela)

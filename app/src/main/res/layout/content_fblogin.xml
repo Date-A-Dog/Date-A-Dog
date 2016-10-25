@@ -23,7 +23,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="95dp"
-        android:textSize="36dp"
+        android:textSize="36sp"
         android:textAlignment="center" />
 
 
@@ -34,6 +34,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:textSize="26dp" />
+        android:textSize="26sp" />
 
 </RelativeLayout>

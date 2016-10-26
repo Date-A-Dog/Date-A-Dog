@@ -95,4 +95,5 @@
     <string name="facebook_app_id">1105437202885536</string>
     <string name="welcome_message">Welcome to Date-a-Dog!</string>
     <string name="title_activity_dog_swipe">DogSwipeActivity</string>
+    <string name="title_activity_liked_dogs">LikedDogsActivity</string>
 </resources>

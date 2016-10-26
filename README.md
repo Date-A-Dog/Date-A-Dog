@@ -1,4 +1,4 @@
-# Date-a-Dog
+# Date-A-Dog
 
 ## Development website
 Please see the development website (https://date-a-dog.github.io/) for help.

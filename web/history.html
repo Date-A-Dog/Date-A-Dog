@@ -2,26 +2,11 @@
  <html lang="en">
  <head>
 	<title>Date a Dog</title>
+	<link rel ="stylesheet" type="text/css" href="style.css" />
  </head>
 	<body>
-		<script>
-			window.fbAsyncInit = function() {
-				FB.init({
-					appId      : 'your-app-id',
-					xfbml      : true,
-					version    : 'v2.8'
-				});
-				FB.AppEvents.logPageView();
-			};
-
-			(function(d, s, id){
-				var js, fjs = d.getElementsByTagName(s)[0];
-				if (d.getElementById(id)) {return;}
-				js = d.createElement(s); js.id = id;
-				js.src = "//connect.facebook.net/en_US/sdk.js";
-				fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));
-		</script>
+		<script src="fbinitjs"></script>
+		<script src="fblogin.js"></script>
 		<nav>
 		<ul>
 			<li>
@@ -33,7 +18,7 @@
 			</li>
 		</ul>
 	</nav>
-	<form action="logout.html">
+	<form action="logout.html" id = "loginout">
 		<input type="submit" value="Log Out" />
 	</form>
 	

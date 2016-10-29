@@ -23,7 +23,6 @@
 
     </FrameLayout>
 
-    <!--
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +37,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
-    </android.support.design.widget.AppBarLayout> -->
+    </android.support.design.widget.AppBarLayout>
 
 </LinearLayout>
 

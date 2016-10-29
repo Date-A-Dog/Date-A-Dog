@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         if (facebookIsLoggedIn() && notFromMain) {
             fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
             authenticateAPI();
-            Intent intent = new Intent(LoginActivity.this, TinderSwipeActivity.class);
+            Intent intent = new Intent(LoginActivity.this, DogSwipeActivity.class);
             startActivity(intent);
         }
 

@@ -26,9 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity
-            android:name=".TinderSwipeActivity"
+            android:name=".DogSwipeActivity"
             android:label="TinderSwipeActivity" />
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -37,10 +39,6 @@
         <activity
             android:name=".DogProfileActivity"
             android:label="@string/title_activity_dog_profile" />
-        <activity
-            android:name=".DogSwipeActivity"
-            android:label="@string/title_activity_dog_swipe"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LikedDogsActivity"
             android:label="@string/title_activity_liked_dogs"

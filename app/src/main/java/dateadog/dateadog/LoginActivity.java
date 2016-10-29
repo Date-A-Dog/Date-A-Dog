@@ -19,7 +19,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         if (facebookIsLoggedIn() && notFromMain) {
             fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
             authenticateAPI();
-            Intent intent = new Intent(LoginActivity.this, TinderSwipeActivity.class);
+            Intent intent = new Intent(LoginActivity.this, DogSwipeActivity.class);
             startActivity(intent);
         }
 

@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
+                        System.out.println("I got into the success loop!");
                         Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }
@@ -69,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         if (facebookIsLoggedIn() && notFromMain) {
             fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
             authenticateAPI();
-            Intent intent = new Intent(LoginActivity.this, DogSwipeActivity.class);
+            Intent intent = new Intent(LoginActivity.this, TinderSwipeActivity.class);
             startActivity(intent);
         }
 

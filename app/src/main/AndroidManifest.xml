@@ -3,6 +3,8 @@
     package="dateadog.dateadog">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -25,9 +27,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".TinderSwipeActivity"
+            android:label="TinderSwipeActivity" />
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <activity
             android:name=".DogProfileActivity"
             android:label="@string/title_activity_dog_profile" />

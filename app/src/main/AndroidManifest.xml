@@ -45,6 +45,9 @@
             android:label="TinderSwipeActivity" />
         -->
         <activity
+            android:name=".TinderSwipeActivity"
+            android:label="TinderSwipeActivity" />
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />

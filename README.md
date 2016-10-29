@@ -1,4 +1,4 @@
-# Date-A-Dog(https://date-a-dog.github.io/)
+# [Date-A-Dog](https://date-a-dog.github.io/)
 
 Please visit https://date-a-dog.github.io/ for help.
 

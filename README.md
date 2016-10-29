@@ -1,3 +1,7 @@
-# Date-a-Dog-Server
-# Amarpal Singh
-Please see https://date-a-dog.github.io/ for help.
+# Date-A-Dog
+
+## Development website
+Please see the development website (https://date-a-dog.github.io/) for help.
+
+## Build status
+[![Build Status](https://travis-ci.org/Date-A-Dog/Date-A-Dog.svg?branch=master)](https://travis-ci.org/Date-A-Dog/Date-A-Dog)

@@ -2,8 +2,8 @@ var passport = require('passport');
 var FacebookTokenStrategy = require('passport-facebook-token');
 
 passport.use(new FacebookTokenStrategy({
-    clientID: 1831387340406886,
-    clientSecret: '0b81472405f89f038be4185f4cf68767',
+    clientID: 1105437202885536,
+    clientSecret: 'e0882edcccb66587e77e57cc09217952',
     fbGraphVersion: 'v2.8'
   }, function(accessToken, refreshToken, profile, done) {
     // console.log(profile);

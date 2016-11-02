@@ -47,6 +47,10 @@
         <activity
             android:name=".RequestSentActivity"
             android:label="@string/title_activity_request_sent"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CancelRequestActivity"
+            android:label="@string/title_activity_cancel_request"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

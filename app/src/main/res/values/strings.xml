@@ -98,4 +98,5 @@
     <string name="title_activity_liked_dogs">LikedDogsActivity</string>
     <string name="title_activity_confirm_request">ConfirmRequestActivity</string>
     <string name="title_activity_request_sent">RequestSentActivity</string>
+    <string name="title_activity_cancel_request">CancelRequestActivity</string>
 </resources>

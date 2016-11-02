@@ -53,13 +53,16 @@
         android:layout_marginLeft="64dp"
         android:layout_marginStart="64dp" />
 
-    <DatePicker
+    <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/datePicker"
+        android:name="android.support.v4.app.DialogFragment"
         android:layout_below="@+id/textView8"
-        android:layout_alignLeft="@+id/button3"
-        android:layout_alignStart="@+id/button3"
-        android:layout_marginTop="47dp" />
+        android:layout_alignLeft="@+id/textView8"
+        android:layout_alignStart="@+id/textView8"
+        android:layout_marginTop="84dp"
+        android:id="@+id/fragment"
+        android:layout_alignRight="@+id/textView8"
+        android:layout_alignEnd="@+id/textView8" />
 
 </RelativeLayout>

@@ -233,9 +233,14 @@ module.exports = {
   // Rest API specific queries
   getNextDogs: getNextDogs,
   // judgeDog: judgeDog,
-  // getRequests: getRequests,
-  // updateRequestStatus: updateRequestStatus,
-  // requestDate: requestDate,
-  // Daemon specific queries
+    getDogSummary: getDogSummary,
+    getDogDetail: getDogDetail,
+    getLikedDogs: getLikedDogs,
+    getRequestHistory: getReviewedDateHistory,
+    getUnreviewedRequestList: getUnreviewedRequestList,
+    updateRequestStatus: updateDateRequestStatus,
+    updateUserApplication: updateUserApplication,
+    requestDate: makeDateRequest,
+   // Daemon specific queries
   // updateDoggie: updateDoggie
 };

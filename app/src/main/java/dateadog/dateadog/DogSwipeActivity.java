@@ -28,6 +28,7 @@ import com.facebook.login.LoginManager;
 public class DogSwipeActivity extends AppCompatActivity implements FlingCardListener.ActionDownInterface {
 
     public static MyAppAdapter myAppAdapter;
+    private TextView noDogs; //displays when there are no dogs left
     public static ViewHolder viewHolder;
     private ArrayList<Data_TinderUI> al;
     private SwipeFlingAdapterView flingContainer;
@@ -44,6 +45,8 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipedog);
+        noDogs = (TextView)findViewById(R.id.textNoDogs);
+        //noDogs.setText("No More Dogs!");
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         al = new ArrayList<>();
         al.add(new Data_TinderUI("http://i.dailymail.co.uk/i/pix/2016/06/17/09/3562F5B200000578-3646283-image-m-30_1466150632154.jpg", "Mika, 3 years \nMy name is Mika and I love playing with my blue ducky, taking walks, and living life!"));
@@ -62,6 +65,10 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
             public void onLeftCardExit(Object dataObject) {
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();
+                if (al.size() == 0) {
+                    noDogs.setText("No More Dogs.\nRefresh Page Soon!");
+                    noDogs.setTextColor(Color.BLUE);
+                }
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
@@ -70,9 +77,12 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
 
             @Override
             public void onRightCardExit(Object dataObject) {
-
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();
+                if (al.size() == 0) {
+                    noDogs.setText("No More Dogs.\nRefresh Page Soon!");
+                    noDogs.setTextColor(Color.BLUE);
+                }
             }
 
             @Override

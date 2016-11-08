@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onError(FacebookException e) {
-                info.setText("Error: Please check internet connection");
+                //info.setText("Error: Please check internet connection");
             }
         });
 

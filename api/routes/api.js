@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var auth = require('../controllers/auth');
+var db = require('../controllers/queries');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -8,8 +9,6 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET dog profile listing. */
-router.post("/getNextDogs", auth.isAuthenticated, function(req, res) {
-  res.status(200).send(JSON.stringify(req.user));
-});
+router.post("/getNextDogs", auth.isAuthenticated, db.getNextDogs);
 
 module.exports = router;

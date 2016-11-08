@@ -48,7 +48,6 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
         al.add(new Data("http://i.dailymail.co.uk/i/pix/2016/06/17/09/3562F5B200000578-3646283-image-m-30_1466150632154.jpg", "Mika, 3"));
         al.add(new Data("http://i.dailymail.co.uk/i/pix/2016/06/17/09/3562F5B200000578-3646283-image-m-30_1466150632154.jpg", ""));
         al.add(new Data("http://images.meredith.com/content/dam/bhg/Images/2012/11/28/405944_10150676681556019_1918501130_n.jpg.rendition.largest.ss.jpg", ""));
-        al.add(new Data("http://i.ytimg.com/vi/PnxsTxV8y3g/maxresdefault.jpg", "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness."));
 
         myAppAdapter = new MyAppAdapter(al, DogSwipeActivity.this);
         flingContainer.setAdapter(myAppAdapter);

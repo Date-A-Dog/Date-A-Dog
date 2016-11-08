@@ -38,7 +38,7 @@
             android:background="?attr/colorPrimary"
             app:title="@string/app_name"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-
+        
     </android.support.design.widget.AppBarLayout>
 
 </LinearLayout>

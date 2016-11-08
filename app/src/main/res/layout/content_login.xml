@@ -12,6 +12,14 @@
     tools:context=".LoginActivity"
     tools:showIn="@layout/activity_login">
 
+    <TextView
+        android:id="@+id/text_details"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_above="@+id/login_button" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"

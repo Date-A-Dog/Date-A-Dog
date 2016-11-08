@@ -1,10 +1,13 @@
 package dateadog.dateadog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,6 +21,7 @@ import dateadog.dateadog.tindercard.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.facebook.login.LoginManager;
 
 
 public class DogSwipeActivity extends AppCompatActivity implements FlingCardListener.ActionDownInterface {
@@ -39,9 +43,7 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipedog);
-
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
-
         al = new ArrayList<>();
         al.add(new Data("http://i.dailymail.co.uk/i/pix/2016/06/17/09/3562F5B200000578-3646283-image-m-30_1466150632154.jpg", "Mika, 3"));
         al.add(new Data("http://i.dailymail.co.uk/i/pix/2016/06/17/09/3562F5B200000578-3646283-image-m-30_1466150632154.jpg", ""));
@@ -104,6 +106,38 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_dog_swipe, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        int compare = R.id.action_logout;
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_logout) {
+            LoginManager.getInstance().logOut();
+            Intent intent = new Intent(DogSwipeActivity.this, LoginActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_likeddogs) {
+            Intent intent = new Intent(DogSwipeActivity.this, LikedDogsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_home) {
+            Intent intent = new Intent(DogSwipeActivity.this, DogSwipeActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onActionDownPerform() {
         Log.e("action", "bingo");
     }
@@ -112,7 +146,6 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
         public static FrameLayout background;
         public TextView DataText;
         public ImageView cardImage;
-
 
     }
 

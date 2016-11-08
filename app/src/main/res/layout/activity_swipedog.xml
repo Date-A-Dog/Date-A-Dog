@@ -21,6 +21,8 @@
             android:background="@drawable/tinder_card_background"
             app:rotation_degrees="15.5" />
 
+
+
     </FrameLayout>
 
 

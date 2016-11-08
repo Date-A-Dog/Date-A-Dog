@@ -30,7 +30,7 @@
 
         <activity
             android:name=".DogSwipeActivity"
-            android:label="TinderSwipeActivity" />
+            android:label="Date-A-Dog" />
 
         <activity
             android:name="com.facebook.FacebookActivity"

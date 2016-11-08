@@ -2,6 +2,7 @@ package dateadog.dateadog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -45,9 +46,9 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
         setContentView(R.layout.activity_swipedog);
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         al = new ArrayList<>();
-        al.add(new Data("http://i.dailymail.co.uk/i/pix/2016/06/17/09/3562F5B200000578-3646283-image-m-30_1466150632154.jpg", "Mika, 3"));
-        al.add(new Data("http://i.dailymail.co.uk/i/pix/2016/06/17/09/3562F5B200000578-3646283-image-m-30_1466150632154.jpg", ""));
-        al.add(new Data("http://images.meredith.com/content/dam/bhg/Images/2012/11/28/405944_10150676681556019_1918501130_n.jpg.rendition.largest.ss.jpg", ""));
+        al.add(new Data("http://i.dailymail.co.uk/i/pix/2016/06/17/09/3562F5B200000578-3646283-image-m-30_1466150632154.jpg", "Mika, 3 years \nMy name is Mika and I love playing with my blue ducky, taking walks, and living life!"));
+        al.add(new Data("https://i.ytimg.com/vi/opKg3fyqWt4/hqdefault.jpg", "Ko, 5 months\nMy name is Ko and I am an excited puppy ready for action!"));
+        al.add(new Data("http://images.meredith.com/content/dam/bhg/Images/2012/11/28/405944_10150676681556019_1918501130_n.jpg.rendition.largest.ss.jpg", "Max, 2 years \nMy name is Max and I am a shy guy who loves to cuddle and take walks on a crisp Sunday afternoon!"));
 
         myAppAdapter = new MyAppAdapter(al, DogSwipeActivity.this);
         flingContainer.setAdapter(myAppAdapter);
@@ -187,8 +188,14 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
                 // configure view holder
                 viewHolder = new ViewHolder();
                 viewHolder.DataText = (TextView) rowView.findViewById(R.id.bookText);
+                viewHolder.DataText.setTextColor(Color.BLACK);
                 viewHolder.background = (FrameLayout) rowView.findViewById(R.id.background);
+                viewHolder.background.setBackgroundColor(Color.BLUE);
                 viewHolder.cardImage = (ImageView) rowView.findViewById(R.id.cardImage);
+                viewHolder.cardImage.setBackgroundColor(Color.BLUE);
+                viewHolder.cardImage.setMinimumHeight(60);
+                viewHolder.cardImage.setMaxHeight(60);
+
                 rowView.setTag(viewHolder);
 
             } else {

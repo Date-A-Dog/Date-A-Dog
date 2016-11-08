@@ -10,5 +10,8 @@ router.get('/', function(req, res, next) {
 
 /* GET dog profile listing. */
 router.post("/getNextDogs", auth.isAuthenticated, db.getNextDogs);
+router.post("/judgeDog", auth.isAuthenticated, db.judgeDog);
+router.post("/getDateRequestDetail", auth.isAuthenticated, db.getDateRequestDetail);
+router.post("createUser", auth.isAuthenticated, db.createUser);
 
 module.exports = router;

@@ -38,3 +38,6 @@ captures/
 
 # Keystore files
 *.jks
+
+# NodeJS node_module
+node_modules/

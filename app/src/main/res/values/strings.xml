@@ -17,5 +17,6 @@
     <string name="action_logout">Log Out</string>
     <string name="likeddogs">Liked Dogs</string>
     <string name="home">Swipe Screen</string>
+    <string name="NoMoreDogs">No More Dogs!\nRefresh Page Soon!</string>
 
 </resources>

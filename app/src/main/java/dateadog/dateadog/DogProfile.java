@@ -14,7 +14,7 @@ public class DogProfile {
     /** The age of this dog. */
     private String age;
     /** The shelter from where to request a date with this dog. */
-    private ShelterProfile shelter;
+    private int shelterID;
     /** A set of pictures of this dog. */
     private Set<String> images;
     /** A short description of this dog. */
@@ -27,12 +27,12 @@ public class DogProfile {
     private boolean availability;
 
 
-    public DogProfile(int dogID, String breed, String age, ShelterProfile shelter, Set<String> images,
+    public DogProfile(int dogID, String breed, String age, int shelterID, Set<String> images,
                       String description, String name, String sex, boolean availability) {
         this.dogId = dogID;
         this.breed = breed;
         this.age = age;
-        this.shelter = shelter;
+        this.shelterID = shelterID;
         this.images = images;
         this.description = description;
         this.name = name;

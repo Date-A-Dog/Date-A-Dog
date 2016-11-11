@@ -1,6 +1,7 @@
 package dateadog.dateadog;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.facebook.login.LoginManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,8 +84,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_log_out) {
-            // TODO: Implement ability to log out of app.
+            LoginManager.getInstance().logOut();
+            startActivity(new Intent(this, LoginActivity.class));
             return true;
+        } else if (id == R.id.action_help) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.help_website))));
         }
 
         return super.onOptionsItemSelected(item);

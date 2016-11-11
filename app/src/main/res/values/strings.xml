@@ -5,5 +5,7 @@
     <string name="title_activity_login">@string/app_name</string>
     <string name="title_activity_main">@string/app_name</string>
     <string name="action_log_out">Log Out</string>
-    <string name="section_format">PLACEHOLDER SECTION TEXT</string>
+    <string name="action_help">Help</string>
+    <string name="find_dogs">Dogs Near Me</string>
+    <string name="liked_dogs">Liked</string>
 </resources>

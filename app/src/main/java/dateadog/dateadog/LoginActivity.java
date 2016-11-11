@@ -49,6 +49,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Bypass login for testing purposes:
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -79,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginButton.setVisibility(View.GONE);
                 Profile profile = Profile.getCurrentProfile();
                 mTextDetails.setText("Welcome!");
-                Intent next = new Intent(LoginActivity.this, LoginActivity.class);
+                Intent next = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(next);
                 next.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
@@ -116,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
         if (facebookIsLoggedIn()) {
             fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
             authenticateAPI();
-            Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
     }

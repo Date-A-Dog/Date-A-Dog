@@ -3,4 +3,7 @@
     <string name="facebook_app_id">1105437202885536</string>
     <string name="fb_login_protocol_scheme">fb1105437202885536</string>
     <string name="title_activity_login">@string/app_name</string>
+    <string name="title_activity_main">@string/app_name</string>
+    <string name="action_log_out">Log Out</string>
+    <string name="section_format">PLACEHOLDER SECTION TEXT</string>
 </resources>

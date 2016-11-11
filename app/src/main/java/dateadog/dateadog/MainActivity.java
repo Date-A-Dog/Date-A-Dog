@@ -1,5 +1,6 @@
 package dateadog.dateadog;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -103,7 +104,10 @@ public class MainActivity extends AppCompatActivity {
             if (position == 0) {
                 return new Fragment();
             } else if (position == 1) {
-                return new Fragment();
+                // Open the DogSwipeActivity since it has not yet been converted to a fragment.
+                startActivity(new Intent(MainActivity.this, DogSwipeActivity.class));
+                // TODO: Convert DogSwipeActivity to a tabbed fragment.
+                return null;
             } else {
                 return null;
                 // TODO: Handle invalid position index more gracefully.

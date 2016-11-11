@@ -29,11 +29,11 @@ public class DaDJavaAPI {
     }
 
     public void likeDog(int dogId) {
-
+        judgeDog(dogId, true);
     }
 
     public void dislikeDog(int dogId) {
-
+        judgeDog(dogId, false);
     }
 
     public Set<DateRequest> getRequests() {
@@ -42,6 +42,11 @@ public class DaDJavaAPI {
 
     public void requestDate(int dogId) {
 
+    }
+
+
+    public ShelterProfile getShelterInfo(String shelterID) {
+        return null;
     }
 
 }

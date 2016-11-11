@@ -20,7 +20,9 @@ var db = pgp(cn);
 
 // add query functions
 function getNextDogs(req, res, next) {
-  var query = 'SELECT d.dog_id, d.dog_name, d.age, d.sex, d.size, di.image_url, s.shelter_name \
+  // dog_id, breeds, age, shelter_id, image_url, description, dog_name, sex, status
+  // var query = 'SELECT d.dog_id, d.dog_name, d.age, d.sex, d.size, di.image_url, s.shelter_name \
+  var query = 'SELECT d.dog_id, d.breeds, d.age, s.shelter_name, di.image_url, d.description, d.dog_name, d.sex, d.status \
                FROM Dogs d \
                JOIN DogImages di ON d.dog_id = di.dog_id \
                JOIN Shelters s ON d.shelter_id = s.shelter_id \

@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginButton.setVisibility(View.GONE);
                 Profile profile = Profile.getCurrentProfile();
                 mTextDetails.setText("Welcome!");
-                Intent next = new Intent(LoginActivity.this, DogSwipeActivity.class);
+                Intent next = new Intent(LoginActivity.this, LoginActivity.class);
                 startActivity(next);
                 next.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         if (facebookIsLoggedIn()) {
             fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
             authenticateAPI();
-            Intent intent = new Intent(LoginActivity.this, DogSwipeActivity.class);
+            Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
             startActivity(intent);
         }
     }

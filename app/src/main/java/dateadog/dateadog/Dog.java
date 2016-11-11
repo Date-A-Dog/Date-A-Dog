@@ -3,9 +3,9 @@ package dateadog.dateadog;
 import java.util.Set;
 
 /**
- * A DogProfile is a dog available for a date at a participating shelter.
+ * Represents a dog available for a date at a participating shelter.
  */
-public class DogProfile {
+public class Dog {
 
     /**The ID for this dog. */
     private int dogId;
@@ -27,7 +27,7 @@ public class DogProfile {
     private boolean availability;
 
 
-    public DogProfile(int dogID, String breed, String age, int shelterID, Set<String> images,
+    public Dog(int dogID, String breed, String age, int shelterID, Set<String> images,
                       String description, String name, String sex, boolean availability) {
         this.dogId = dogID;
         this.breed = breed;

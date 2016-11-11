@@ -14,32 +14,6 @@
     tools:showIn="@layout/activity_confirm_request">
 
 
-    <Button
-        android:text="Request Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:layout_marginBottom="31dp"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_marginLeft="35dp"
-        android:layout_marginStart="35dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="Request Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_alignBaseline="@+id/button3"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="30dp"
-        android:layout_marginEnd="30dp" />
-
     <TextView
         android:text="Request date for:"
         android:layout_width="wrap_content"
@@ -53,16 +27,47 @@
         android:layout_marginLeft="64dp"
         android:layout_marginStart="64dp" />
 
-    <fragment
+    <Button
+        android:text="Confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="android.support.v4.app.DialogFragment"
+        android:id="@+id/button2"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_alignBaseline="@+id/button3"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_toRightOf="@+id/textView8"
+        android:layout_toEndOf="@+id/textView8" />
+
+    <Button
+        android:text="Select Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alert_dialog_time_picker"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/alert_dialog_date_picker"
+        android:layout_alignLeft="@+id/alert_dialog_date_picker"
+        android:layout_alignStart="@+id/alert_dialog_date_picker" />
+
+    <Button
+        android:text="Select Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alert_dialog_date_picker"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_marginTop="34dp"
         android:layout_below="@+id/textView8"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8"
-        android:layout_marginTop="84dp"
-        android:id="@+id/fragment"
-        android:layout_alignRight="@+id/textView8"
-        android:layout_alignEnd="@+id/textView8" />
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:layout_marginBottom="86dp"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/alert_dialog_time_picker"
+        android:layout_toStartOf="@+id/alert_dialog_time_picker" />
 
 </RelativeLayout>

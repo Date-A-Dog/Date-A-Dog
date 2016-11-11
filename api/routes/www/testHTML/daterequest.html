@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <h1 id='object'> Date Request</h1>
+  <link rel="stylesheet" type="text/css" href="../css/css/style.css" />
+
+    <nav>
+	<ul>
+
+      <li>
+        <a href="dogprofile.html">dog profile</a>
+      </li>
+      <li>
+        <a href="daterprofile.html">dater profile</a>
+      </li>
+
+	</ul>
+  </nav>
+
+</head>
+
+<body>
+  <button onclick="displayObject()"> Show Object properties</button>
+  <p id="request">??</p>
+  
+  <script src="../js/address.js"></script>
+  <script src="../js/dogprofile.js">  </script>
+  <script src="../js/daterequest.js">  </script>
+  <script src="../js/daterprofile.js">  </script>
+
+ 
+  <script>
+   function displayObject(){
+    fetchRequests();
+   	//intialize dog
+    var photoURL = "http://craftsbyamanda.com/wp-content/uploads/2015/09/star-wars-craft-paint-stick-chewbacca-2.jpg";
+    var dog = DogProfile(14553, "Chewbacca", "M", photoURL);
+   	// inifialize dater
+
+    var address = Address("123 N Elmo St", "Seattle", "WA", "92104");
+    var dater = DaterProfile("John", "Doe","John.doe@gmial.com", "281-330-8004", address);
+
+    //initialize date
+    var request = DateRequest("187326", dog, dater, "tomorrow", "Pending");
+     
+    var reqJSON = JSON.stringify(request, null, 4);
+    var daterJSON= JSON.stringify(request.daterProfile, null, 4);
+    var dogJSON= JSON.stringify(request.dogProfile, null, 4);
+
+    document.getElementById("request").innerHTML = "REQUEST: \n" + reqJSON;
+    alert(reqJSON);
+    console.log(str);
+
+   }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+	<meta charset="utf-8"/>
+	<title>Date a Dog</title>
+	<link rel="icon" href="sample.png">
+	
+	<link rel ="stylesheet" type="text/css" href="css/style.css" />
+	<link rel ="stylesheet" type="text/css" href="css/content-display.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/fbinitjs"></script>
+	<script src="js/fblogin.js"></script>
+	<script src="js/accordion.js"></script>
+	<script src="js/createrequesttablehere"></script>
+	<script src="js/chevron.js"></script>
+ </head>
+<body id="dad">
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">Date A Dog</a>
+			</div>
+			
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="requests.html">Requests</a></li>
+				<li><a href="history.html">History</a></li>
+				<li><a href="index.html"><!--<span class="glyphicon glyphicon-log-in"></span> -->Logout</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<h1>Requests</h1>
+	<table id="requests">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Dog</th>
+				<th>Dater</th>
+				<th>When</th>
+				<th>Status</th>
+				<th class="chevron"></th><!--chevron-->
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td id="inside" colspan="6">
+					<!-- Example entries go here -->
+					<table class="accordion-container">
+						<thead>
+							<tr>
+								<td class="accordion">id here</td>
+								<td class="accordion">dog here</td>
+								<td class="accordion">dater here</td>
+								<td class="accordion">some date</td>
+								<td class="accordion"> status here</td>
+								<td class="accordion chevron">
+									<i class="indicator glyphicon glyphicon-chevron-up pull-right" ></i>
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="expanded">
+								<td class="request-image"><img src="sample.png" alt="sample dog pic" height="100" weight="100"></td>
+								<td>Dater Name</td>
+								<td>More info?</td>
+							</tr>
+							<tr class="expanded">
+								<td class="request-image"><img src="sample.png" alt="sample dog pic" height="100" weight="100"></td>
+								<td>Dog Name</td>
+								<td>More info?</td>
+							</tr>
+							<tr class="expanded">
+								<td></td>
+								<td class="approve">
+									<button type="button" class="request-buttons btn btn-success btn-lg" />Approve</button>
+								</td>
+								<td class= "deny">
+									<button type="button" class="request-buttons btn btn-warning btn-lg" />Deny</button>
+								</td>
+								<td class= "undo">
+									<button type="button" class="request-buttons btn btn-secondary btn-lg" />Undo</button>
+								</td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="accordion-container">
+						<thead>
+							<tr>
+								<td class="accordion">id here</td>
+								<td class="accordion">dog here</td>
+								<td class="accordion">dater here</td>
+								<td class="accordion">some date</td>
+								<td class="accordion"> status here</td>
+								<td class="accordion chevron">
+									<i class="indicator glyphicon glyphicon-chevron-up pull-right" ></i>
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="expanded">
+								<td class="request-image"><img src="sample.png" alt="sample dog pic" height="100" weight="100"></td>
+								<td>Dater Name</td>
+								<td>More info?</td>
+							</tr>
+							<tr class="expanded">
+								<td class="request-image"><img src="sample.png" alt="sample dog pic" height="100" weight="100"></td>
+								<td>Dog Name</td>
+								<td>More info?</td>
+							</tr>
+							<tr class="expanded">
+								<td></td>
+								<td class="approve">
+									<button type="button" class="request-buttons btn btn-success btn-lg" />Approve</button>
+								</td>
+								<td class= "deny">
+									<button type="button" class="request-buttons btn btn-warning btn-lg" />Deny</button>
+								</td>
+								<td class= "undo">
+									<button type="button" class="request-buttons btn btn-secondary btn-lg" />Undo</button>
+								</td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<!--<table id="sampleTable">
+		var requestArray = ;
+		<script>updateTable("sampleTable",requestArray);</script>
+	</table>-->
+ </body>

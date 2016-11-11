@@ -30,8 +30,9 @@ import com.facebook.AccessTokenTracker;
 import java.util.HashMap;
 import java.util.Map;
 import com.facebook.Profile;
+import android.support.v7.app.AlertDialog;
 import com.facebook.GraphRequest;
-
+import android.content.DialogInterface;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -73,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onSuccess(LoginResult loginResult) {
+                fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
+                authenticateAPI();
                 loginButton.setVisibility(View.GONE);
                 Profile profile = Profile.getCurrentProfile();
                 mTextDetails.setText("Welcome!");
@@ -95,7 +98,17 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onError(FacebookException e) {
-                info.setText("Error: Please check internet connection");
+                //info.setText("Error: Please check internet connection");
+                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                alertDialog.setTitle("Warning");
+                alertDialog.setMessage("Error: Please check internet connection");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         });
 
@@ -168,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         //TO DO: CHANGE THIS TO A URL FOR PAUL WANTS
-        String host = "http://localhost:3000";
+        String host = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com";
         String url = host + "/api/getNextDogs";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {

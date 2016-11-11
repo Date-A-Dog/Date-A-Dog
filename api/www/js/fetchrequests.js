@@ -76,7 +76,7 @@ function fetchRequests(path, callback) {
     }
   };
 
-  httpRequest.open('POST', /api/getHugosRequest);
+  httpRequest.open('POST', '/api/getHugosRequest');
   httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABAIqQxGjcfUTpkqp8KBUm3DZBjrOZBfhUoAE1QAM4RyZCZAf5s5L0Hh6sZAAyIywRg3TrJsNEGWfFks2UlYYuhYXbnbIePPtUZCW1ZClZChYouwMZBAHmD9djQRvPgTITI6Hr1tFJHcbyghL2Vm7gVGgmrmx9G69caUwZDZD");
   xmlhttp.send(JSON.stringify({shelter_id: "WA214"}));

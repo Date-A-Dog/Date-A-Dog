@@ -33,6 +33,7 @@
             </intent-filter>
         </activity>
 
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
@@ -43,6 +44,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name=".DogSwipeActivity"
+            android:label="@string/title_activity_dog_swipe" />
 
         <activity
             android:name=".MainActivity"

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <h1 id='object'> Dog Profile</h1>
+  <link rel="stylesheet" type="text/css" href="../css/css/style.css" />
+</head>
+
+<body>
+  <button onclick="displayObject()"> Show Object properties</button>
+
+  <p id="field1">?</p>
+  <p id="field2">??</p>
+  <p id="field3">??</p>
+  <p id="field4">??</p>
+  
+  <p><img id="image1" src="http://rlv.zcache.com/golden_retriever_dog_cartoon_poster-rb28ffea4bfe6407793fcf45ed753ef62_w2q_8byvr_324.jpg" style="width:304px;height:228px;" align="middle"></p>
+
+
+  <div id="output"> 
+    <table id="pending_table", >
+    <caption>Pendign Requests</caption>
+      <tr>
+        <th>requestId</th><th>UserName</th><th>dogName</th><th>Date</th><th>Status</th>
+      </tr>
+
+    </table>
+  </div>
+
+  <div id="output"> 
+    <table id="history_table", >
+    <caption>Request History</caption>
+      <tr>
+        <th>requestId</th><th>UserName</th><th>dogName</th><th>Date</th><th>Status</th>
+      </tr>
+
+    </table>
+  </div>
+
+
+  <script src="../js/fetchrequests.js"></script>
+  <script src="../js/updatetable.js"></script>
+  <script src="../js/shelter.js"></script>
+  <script src="../js/dogprofile.js"></script>
+  <script src="../js/daterequest.js"></script>
+  <script src="../js/daterprofile.js"></script>
+ 
+  <script>
+
+   var shelter = new Shelter("WA142");
+
+   // only load data when refresh is done fetching
+   shelter.refreshRequests(function(){ 
+      //shelter.getPendingRequests('pending_table');
+      //shelter.getHistoryRequests('history_table');
+      console.dir( shelter.getPendingRequests());
+      console.dir( shelter.getHistoryRequests());
+
+      updateTable('pending_table', shelter.getPendingRequests());
+      updateTable('history_table', shelter.getHistoryRequests());
+    });
+
+  </script>
+  <script>
+   function displayObject(){
+    
+   // shelter.refreshRequests();
+
+     var photoURL = "http://craftsbyamanda.com/wp-content/uploads/2015/09/star-wars-craft-paint-stick-chewbacca-2.jpg";
+     var dog = DogProfile(14553, "Chewbacca", "M", photoURL);
+     
+     document.getElementById("field1").innerHTML = "DogID: " + dog.id;
+     document.getElementById("field2").innerHTML = "Name: "  + dog.name;
+     document.getElementById("field3").innerHTML = "Sex: "   + dog.sex;
+     document.getElementById("field4").innerHTML = "photoLink: " + "\"" + dog.photoURL + "\"";
+     document.getElementById("image1").src = dog.photoURL;
+     
+     
+   }
+   
+  </script>
+</body>
+
+</html>

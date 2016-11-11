@@ -8,4 +8,5 @@
     <string name="action_help">Help</string>
     <string name="find_dogs">Dogs Near Me</string>
     <string name="liked_dogs">Liked</string>
+    <string name="help_website">https://date-a-dog.github.io/</string>
 </resources>

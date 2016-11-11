@@ -29,6 +29,4 @@ public class DogUnitTest {
         assertNotEquals(dog1, null);
     }
 
-
-
 }

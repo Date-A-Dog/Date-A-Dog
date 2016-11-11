@@ -50,9 +50,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Bypass login for testing purposes:
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -179,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Authenticates the app with the API using the POST method and a custom HTML header
-     * Also, uses the volley library
+     * Also, uses the volley library.
      */
     private void authenticateAPI() {
         RequestQueue queue = Volley.newRequestQueue(this);

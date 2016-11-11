@@ -38,6 +38,7 @@ public class DADAPI {
     public void seenDog(Dog dog) {
         JSONObject obj = new JSONObject();
         // execute method and handle any error responses.
+
     }
 
     private Set<Dog> filterSeenDogs(Set<Dog> result) {

@@ -107,7 +107,7 @@ function filterDateRequestProperties(data) {
     var dog = DogProfile(r.dog.id,
                          r.dog.name,
                          r.dog.sex,
-                         r.media.photos.1.pn);
+                         r.dog.media.photos[1].pn);
     // build dateRequest from parsed data
     var parsedRequest = DateRequest(r.request.id,
                                     dog, dater,
@@ -151,4 +151,3 @@ function filterDateRequestProperties(data) {
   return filteredArray;
 }; */
 
-module.exports = filterDateRequestProperties;

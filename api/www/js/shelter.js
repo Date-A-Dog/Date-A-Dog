@@ -202,4 +202,3 @@ var Shelter = function(_id, _testingMockData) {
   return shelter;
 };
 
-module.exports = Shelter;

@@ -17,4 +17,3 @@ var DaterProfile =function(fName,lName, email, phone, address) {
   return profile;
 }
 
-module.exports = DaterProfile;

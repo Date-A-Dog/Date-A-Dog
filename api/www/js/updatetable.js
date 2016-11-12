@@ -79,4 +79,3 @@ updateTable = function(tableId, dateRequests) {
 
 };
 
-exports.updateTable;

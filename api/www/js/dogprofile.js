@@ -20,4 +20,3 @@ var DogProfile = function(dogId, name, sex, photoURL) {
   return profile;
 };
 
-module.exports = DogProfile;

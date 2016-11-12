@@ -38,14 +38,12 @@ public class DADAPI {
     public void seenDog(Dog dog) {
         JSONObject obj = new JSONObject();
         // execute method and handle any error responses.
-
     }
 
     private Set<Dog> filterSeenDogs(Set<Dog> result) {
         // backend.getSeenDogs(I) | filter result
         return null;
     }
-
 
     public void updateLocation(int zipCode) {
         this.zipCode = zipCode;

@@ -193,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 //implment gson
                 Gson gson = new Gson();
-                Type listType = new TypeToken<List<String>>(){}.getType();
+                //Type listType = new TypeToken<List<Pet>(){}.getType();
                 //List<String> yourList = new Gson().fromJson(response.get("doggies"), listType);
             }
         }, new Response.ErrorListener() {

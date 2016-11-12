@@ -1,1 +1,1 @@
-CREATE USER dadapisvc with PASSWORD 'v8FrUD5XavaswezEsu';
+CREATE USER dadadmin with PASSWORD 'zOg8sUs87TOu';

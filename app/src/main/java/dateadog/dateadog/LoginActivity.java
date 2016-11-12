@@ -17,7 +17,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
@@ -25,7 +24,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.AccessTokenTracker;
@@ -33,12 +31,11 @@ import java.util.HashMap;
 import java.util.Map;
 import com.facebook.Profile;
 import android.support.v7.app.AlertDialog;
-import com.facebook.GraphRequest;
+import android.content.DialogInterface;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import android.content.DialogInterface;
-
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginButton loginButton;

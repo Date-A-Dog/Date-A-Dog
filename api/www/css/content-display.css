@@ -25,68 +25,55 @@ body {
 	--table-inner-selected-bg(--even-darker-bg-color);*/
 }
 
-/* main table properties*/
-#requests, #history {
-	margin: 0 auto;
-	width: 900px;
-	border: 1px solid var(--palest);
-	table-layout: fixed;
+/* Requests display */
+#accordion {
+	background: var(--table-outer-bg);
+	margin-left: 2em;
+	margin-right: 2em;
 }
 
-/* labels for main table */
-#requests th, #history th{
-	padding-left: 1em;
+/* request element */
+#accordion h3 {
+	font-size: 1em;
+	font-weight: bold;
 }
 
-/* Main table properties per element */
-#requests thead, #history thead{
-	background: var(--palest);
-	border-bottom: 1px solid var(--palest);
+/* expanded request element */
+#accordion .accordionEle {
+	background: var(--table-inner-bg);
+	height: auto !important;
+	padding: 0.5em;
 }
 
-/* inner table entries*/
-.accordion-container{
-	width: 100%;
-	background-color: var(--table-inner-bg);
-	color: var(--table-inner-text-color);
+/* images for expanded request info */
+#accordion .accordion-img {
+	display:inline;
+	height: 6em;
 }
 
-/* inner table entries selected?*/
-
-
-/* outer table entires*/
-.accordion-container .accordion{ /*.card-header{*/
-	cursor: pointer;
-	
-	background:var(--table-outer-bg);
-	color: var(--table-outer-text-color);
-	
+#accordion p{
+	font-size: 1em;
+	text-align: left;
 }
 
-#requests th, #history th {
-	width: 19%;
+/* Request bars */
+#accordion .accordionTitle{
+	padding: 1em;
+	border-bottom: 1px solid var(--nav-text-color);
 }
 
-/* entries in table, setting width here keeps them from changing when expanded???*/
-#inside td, #inside th{
-	padding: 10px;
-	width: 19%;
-}
-
-#requests .chevron, #history .chevron{
-	width: 5%;
-}
-
-/* Placement inside table elements for request buttons, images */
-.deny {
+/* text in request bars */
+#accordion .accordionTitle h3{
 	text-align: center;
+	display: inline;
+	margin-right: 2em;
 }
-.approve {
-	text-align: right;
+
+.request-buttons{
+	margin-left: 0.2em;
+	margin-right: 0.2em;
 }
-.approve, .deny, .undo{
-	
-}
-.request-image{
+
+#accordion .request-button-container{
 	text-align: center;
 }

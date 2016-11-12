@@ -1,0 +1,29 @@
+\c dateadog;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  22406048,
+  119889308491710,
+  'WA214',
+  1510992000
+) ON CONFLICT DO NOTHING;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  30329094,
+  10155407387966038,
+  'WA214',
+  1510995600
+) ON CONFLICT DO NOTHING;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  31945123,
+  10154041783618193,
+  'WA214',
+  1510999200
+) ON CONFLICT DO NOTHING;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  32883666,
+  10153811720940946,
+  'WA214',
+  1511002800
+) ON CONFLICT DO NOTHING;

@@ -7,7 +7,12 @@ passport.use(new FacebookTokenStrategy({
     fbGraphVersion: 'v2.8'
   }, function(accessToken, refreshToken, profile, done) {
     // console.log(profile);
-    return done(null, profile);
+    var user = {};
+    user.id = profile._json.id;
+    user.name = profile._json.name;
+    user.last_name = profile._json.last_name;
+    user.first_name = profile._json.first_name;
+    return done(null, user);
   }
 ));
 

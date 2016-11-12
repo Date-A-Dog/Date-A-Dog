@@ -18,4 +18,3 @@ DateRequest = function(requestId, dogProfile, daterProfile, dateTime, status) {
 
   return request;
 };
-module.exports = DateRequest;

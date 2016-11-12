@@ -1,4 +1,4 @@
-\c dadapidb;
+\c dateadog;
 
 INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
   22406048,

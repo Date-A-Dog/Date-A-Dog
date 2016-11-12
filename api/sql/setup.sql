@@ -1,20 +1,20 @@
-DROP DATABASE IF EXISTS dadapidb;
-CREATE DATABASE dadapidb;
-GRANT ALL PRIVILEGES ON DATABASE dadapidb to dadapisvc;
+DROP DATABASE IF EXISTS dateadog;
+CREATE DATABASE dateadog;
+GRANT ALL PRIVILEGES ON DATABASE dateadog to dadadmin;
 
-\c dadapidb;
+\c dateadog;
 
 CREATE TABLE doggies (
   id bigint PRIMARY KEY, -- Petfinder Id
   dog jsonb
 );
-GRANT ALL PRIVILEGES ON TABLE doggies TO dadapisvc;
+GRANT ALL PRIVILEGES ON TABLE doggies TO dadadmin;
 
 CREATE TABLE shelters (
   id text PRIMARY KEY,
   shelter jsonb
 );
-GRANT ALL PRIVILEGES ON TABLE shelters TO dadapisvc;
+GRANT ALL PRIVILEGES ON TABLE shelters TO dadadmin;
 
 CREATE TABLE users (
   id bigint PRIMARY KEY, -- Facebook Id
@@ -27,7 +27,7 @@ CREATE TABLE users (
   phone text,
   shelterId text DEFAULT null
 );
-GRANT ALL PRIVILEGES ON TABLE users TO dadapisvc;
+GRANT ALL PRIVILEGES ON TABLE users TO dadadmin;
 
 CREATE TABLE requests (
   id bigserial,
@@ -40,7 +40,7 @@ CREATE TABLE requests (
   FOREIGN KEY (dogId) REFERENCES doggies (id),
   FOREIGN KEY (userId) REFERENCES users (id)
 );
-GRANT ALL PRIVILEGES ON TABLE requests TO dadapisvc;
+GRANT ALL PRIVILEGES ON TABLE requests TO dadadmin;
 
 CREATE TABLE judged (
   userId bigint,
@@ -51,7 +51,7 @@ CREATE TABLE judged (
   FOREIGN KEY (userId) REFERENCES users (id),
   FOREIGN KEY (dogId) REFERENCES doggies (id)
 );
-GRANT ALL PRIVILEGES ON TABLE judged TO dadapisvc;
+GRANT ALL PRIVILEGES ON TABLE judged TO dadadmin;
 
 CREATE INDEX user_requests ON requests (id ASC);
 CREATE INDEX shelter_requests ON requests (shelterId ASC);

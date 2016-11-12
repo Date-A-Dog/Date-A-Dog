@@ -9,7 +9,7 @@ pf.getDogs('98105', 0, function(err, dogs) {
     }
   }
   console.log('Inserting doggies into database...');
-  // db.updateDoggie(dogs);
+  db.updateDoggie(dogs);
   console.log('Complete.')
   db.getShelterIds(function(err, shelterIds) {
     shelters = [];

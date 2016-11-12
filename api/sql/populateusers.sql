@@ -1,4 +1,4 @@
-\c dadapidb;
+\c dateadog;
 
 INSERT INTO users (id, fname, lname) VALUES (
   10205514638251720,

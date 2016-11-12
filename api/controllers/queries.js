@@ -9,11 +9,11 @@ var pgp = require('pg-promise')(options);
 
 // Database connection details;
 var cn = {
-    host: 'localhost', // 'localhost' is the default;
+    host: 'dad-postgres.clcyrikoceop.us-west-2.rds.amazonaws.com', // 'localhost' is the default;
     port: 5432, // 5432 is the default;
-    database: 'dadapidb',
-    user: 'dadapisvc',
-    password: 'v8FrUD5XavaswezEsu',
+    database: 'dateadog',
+    user: 'dadadmin',
+    password: 'zOg8sUs87TOu',
     poolSize: 25
 };
 var db = pgp(cn);

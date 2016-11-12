@@ -12,9 +12,10 @@
         android:text="Find dogs near me"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="181dp"
         android:id="@+id/placeholder_button"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:elevation="0dp" />
+        android:elevation="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
 </RelativeLayout>

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
-import dateadog.dateadog.DogSwipeActivity;
+import dateadog.dateadog.SwipeActivityFragment;
 
 /**
  * Created by dionysis_lorentzos on 5/8/14
@@ -78,7 +78,7 @@ public class FlingCardListener implements View.OnTouchListener {
 
                 // from http://android-developers.blogspot.com/2010/06/making-sense-of-multitouch.html
                 // Save the ID of this pointer
-                DogSwipeActivity.removeBackground();
+                SwipeActivityFragment.removeBackground();
 
 
                 mActivePointerId = event.getPointerId(0);

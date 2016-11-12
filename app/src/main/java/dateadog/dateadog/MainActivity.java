@@ -24,7 +24,7 @@ import android.widget.Button;
 
 import com.facebook.login.LoginManager;
 
-public class MainActivity extends AppCompatActivity implements LikedDogsFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements LikedDogsFragment.OnFragmentInteractionListener, SwipeActivityFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MainActivity.class.getName();
 
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                return FindDogsFragment.newInstance();
+                return SwipeActivityFragment.newInstance();
             } else if (position == 1) {
                 return LikedDogsFragment.newInstance();
             } else {

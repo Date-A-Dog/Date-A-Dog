@@ -26,6 +26,7 @@ updateUserApplication: updateUserApplication
 /* GET dog profile listing. */
 router.post("/login", auth.isAuthenticated, db.login);
 router.post("/getNextDogs", auth.isAuthenticated, db.getNextDogs);
+router.post("/getNextDogsDemo", db.getNextDogsDemo);
 // router.post("/getDogHistory", auth.isAuthenticated, db.getDogHistory);
 // router.post("/getLikedDogs", auth.isAuthenticated, db.getLikedDogs);
 // router.post("/getDislikedDogs", auth.isAuthenticated, db.getDislikedDogs);

@@ -34,8 +34,6 @@ function login(req, res, next) {
 }
 
 function getNextDogs(req, res, next) {
-  console.log(req.user.id);
-  console.log(req.body.zip);
   var query = 'SELECT d.dog \
                FROM doggies d JOIN shelters s ON d.dog->>\'shelterId\' = s.id \
                WHERE NOT EXISTS (SELECT j.dogId \
@@ -46,6 +44,25 @@ function getNextDogs(req, res, next) {
                ORDER BY d.id ASC \
                LIMIT $3';
   db.any(query, [req.user.id, '98105', '20'])
+    .then(function (data) {
+      res.status(200).json(data);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function getNextDogsDemo(req, res, next) {
+  var query = 'SELECT d.dog \
+               FROM doggies d JOIN shelters s ON d.dog->>\'shelterId\' = s.id \
+               WHERE NOT EXISTS (SELECT j.dogId \
+                                 FROM judged j \
+                                 WHERE d.id = j.dogId \
+                                   AND j.userId = $1 \
+                                   AND d.dog->>\'zip\' = $2) \
+               ORDER BY d.id ASC \
+               LIMIT $3';
+  db.any(query, ['119889308491710', '98105', '20'])
     .then(function (data) {
       console.log(data);
       res.status(200).json(data);

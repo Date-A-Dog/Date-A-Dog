@@ -44,7 +44,7 @@ function fetchRequests(path, callback) {
 
   httpRequest.open('POST', '/api/getShelterRequests');
   httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABAJKJ2TdW9LK0gKFMaMPuMFlDKCQUYwxHBbYzPGe210ZAmxSJpFqN5L2XxjJVEWfZBmgw47LZCwgqj6Pf7W98Nk0XWei5lyIpqhN1MZBeE0yjNYeIZAJIFRlkRJyH9BFazVvODLHKE1n8xtMZBbPfCsEukunkKBS5dgCAWYzUKe");
+  httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABAD7IRQxADvwgiGtE5rvDHB1uZAYSZAcylASYNaZA5SOyskOy8w7MLpQaoShpnJcbCnvlAFOgWDoH5RFbNr8u86HefW4qn22XEKNUOmVQQ6j7bFfbz0RZAjZAMNx9j8o6gxToC9elvzp7BZATa9eZB1DjmTATVCx6kCK6FIMH4tr");
   httpRequest.send(JSON.stringify());
 };
 
@@ -99,7 +99,7 @@ function filterDateRequestProperties(data) {
 
     // parse daterProfile into object
     var dater = DaterProfile (r.user.fname,
-                              r.user.lName,
+                              r.user.lname,
                               r.user.email,
                               r.user.phone,
                               address);

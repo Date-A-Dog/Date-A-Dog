@@ -8,7 +8,14 @@ petfinder.getBreedList('dog', function(err, breeds) {
 
 // Find pets in the zip code 98105 - University of Washington
 var getDogs = function(zipcode, offset, callback) {
-  petfinder.findPet('98105', {'animal':'dog', 'count':1000, 'offset': offset}, callback);
+  petfinder.findPet('98105', {'animal':'dog', 'count':10, 'offset': offset}, callback);
 }
 
-exports.getDogs = getDogs;
+var getShelter = function(shelterId, callback) {
+  petfinder.getShelter(shelterId, {'format':'json'}, callback);
+}
+
+module.exports = {
+  getDogs: getDogs,
+  getShelter: getShelter
+};

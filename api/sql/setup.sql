@@ -10,6 +10,12 @@ CREATE TABLE doggies (
 );
 GRANT ALL PRIVILEGES ON TABLE doggies TO dadapisvc;
 
+CREATE TABLE shelters (
+  id text PRIMARY KEY,
+  shelter jsonb
+);
+GRANT ALL PRIVILEGES ON TABLE shelters TO dadapisvc;
+
 CREATE TABLE users (
   id bigint PRIMARY KEY, -- Facebook Id
   fname text,
@@ -17,19 +23,19 @@ CREATE TABLE users (
   street text,
   city text,
   state char(2),
-  zipcode text,
-  phoneNumber text,
-  shelterId text
+  zip text,
+  phone text,
+  shelterId text DEFAULT null
 );
 GRANT ALL PRIVILEGES ON TABLE users TO dadapisvc;
 
 CREATE TABLE requests (
-  id bigserial ,
-  dogId bigint ,
+  id bigserial,
+  dogId bigint,
   userId bigint,
   shelterId text,  -- consider constraint check on shelterId
   epoch bigint,
-  status char(1),
+  status char(1) DEFAULT 'P',
   PRIMARY KEY (id),
   FOREIGN KEY (dogId) REFERENCES doggies (id),
   FOREIGN KEY (userId) REFERENCES users (id)
@@ -37,12 +43,12 @@ CREATE TABLE requests (
 GRANT ALL PRIVILEGES ON TABLE requests TO dadapisvc;
 
 CREATE TABLE judged (
-  uid bigint,
+  userId bigint,
   dogId bigint,
-  liked boolean,
+  liked boolean DEFAULT null,
   epoch bigint,
-  PRIMARY KEY(uid, dogId),
-  FOREIGN KEY (uid) REFERENCES users (id),
+  PRIMARY KEY(userId, dogId),
+  FOREIGN KEY (userId) REFERENCES users (id),
   FOREIGN KEY (dogId) REFERENCES doggies (id)
 );
 GRANT ALL PRIVILEGES ON TABLE judged TO dadapisvc;

@@ -23,7 +23,9 @@ function updateDoggie(dogs) {
   db.tx(function (t) {
         var queries = dogs.map(function (dog) {
             console.log('inserting: ' + dog.id);
-            return t.none("INSERT INTO doggies (id, dog) VALUES($1, $2)", [dog.id, JSON.stringify(dog)]);
+            return t.none("INSERT INTO doggies (id, dog) \
+                           VALUES ($1, $2) \
+                           ON CONFLICT DO NOTHING", [dog.id, JSON.stringify(dog)]);
         });
         return t.batch(queries);
     })
@@ -37,7 +39,35 @@ function updateDoggie(dogs) {
     });
 }
 
+function getShelterIds(callback) {
+  var query = 'SELECT DISTINCT \
+                 dog->>\'shelterId\' AS shelterId \
+               FROM doggies';
+  db.any(query)
+    .then(function (data) {
+      callback(null, data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+function updateShelter(shelter) {
+  var query = 'INSERT INTO shelters (id, shelter) \
+               VALUES ($1, $2) \
+               ON CONFLICT DO NOTHING';
+  db.none(query, [shelter.id, shelter])
+    .then(function () {
+      console.log('inserted ' + shelter.id);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
 module.exports = {
   // Daemon specific queries
-  updateDoggie: updateDoggie
+  updateDoggie: updateDoggie,
+  getShelterIds: getShelterIds,
+  updateShelter: updateShelter
 };

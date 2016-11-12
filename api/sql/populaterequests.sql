@@ -1,0 +1,50 @@
+\c dadapidb;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  22406048,
+  10153811720940946,
+  'WA214',
+  1510992000
+) ON CONFLICT DO NOTHING;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  30329094,
+  10205514638251720,
+  'WA214',
+  1510995600
+) ON CONFLICT DO NOTHING;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  31945123,
+  119960895151218,
+  'WA214',
+  1510999200
+) ON CONFLICT DO NOTHING;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  32883666,
+  10152056383368193,
+  'WA214',
+  1511002800
+) ON CONFLICT DO NOTHING;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  33032771,
+  10154267120282858,
+  'WA214',
+  1511006400
+) ON CONFLICT DO NOTHING;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  33430177,
+  1359994787366850,
+  'WA214',
+  1511010000
+) ON CONFLICT DO NOTHING;
+
+INSERT INTO requests (dogId, userId, shelterId, epoch) VALUES (
+  35309209,
+  10153202618096038,
+  'WA214',
+  1511013600
+) ON CONFLICT DO NOTHING;

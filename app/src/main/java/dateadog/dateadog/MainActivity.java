@@ -24,7 +24,9 @@ import android.widget.Button;
 
 import com.facebook.login.LoginManager;
 
-public class MainActivity extends AppCompatActivity implements LikedDogsFragment.OnFragmentInteractionListener, SwipeActivityFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements LikedDogsFragment.OnFragmentInteractionListener,
+                                                               SwipeActivityFragment.OnFragmentInteractionListener,
+                                                               FormFragment.OnFragmentInteractionListener{
 
     private static final String TAG = MainActivity.class.getName();
 
@@ -74,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         tabLayout.getTabAt(0).setText(R.string.find_dogs);
         tabLayout.getTabAt(1).setIcon(R.drawable.heart);
         tabLayout.getTabAt(1).setText(R.string.liked_dogs);
+        tabLayout.getTabAt(2).setText("Forms");
+        tabLayout.getTabAt(2).setIcon(R.drawable.form);
+
     }
 
 
@@ -157,6 +162,8 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
                 return SwipeActivityFragment.newInstance();
             } else if (position == 1) {
                 return LikedDogsFragment.newInstance();
+            }else if (position == 2) {
+                return FormFragment.newInstance();
             } else {
                 return null;
                 // TODO: Handle invalid position index more gracefully.
@@ -166,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         @Override
         public int getCount() {
             // Show 2 total pages.
-            return 2;
+            return 3;
         }
     }
 }

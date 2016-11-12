@@ -149,6 +149,7 @@ module.exports = {
   // Rest API specific queries
   login: login,
   getNextDogs: getNextDogs,
+  getNextDogsDemo: getNextDogsDemo,
   // getDogHistory: getDogHistory,
   // getLikedDogs: getLikedDogs,
   // getDislikedDogs: getDislikedDogs,

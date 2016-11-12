@@ -32,7 +32,14 @@ public class Dog {
     }
 
     public String getSex() {
-        return sex;
+        if (sex.equals("F")) {
+            return "Female";
+        } else if (sex.equals("M")) {
+            return "Male";
+        } else {
+            System.out.println(sex);
+            return sex;
+        }
     }
 
     /** A set of pictures of this dog. */

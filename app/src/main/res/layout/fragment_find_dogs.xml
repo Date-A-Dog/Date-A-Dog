@@ -15,5 +15,6 @@
         android:layout_marginTop="181dp"
         android:id="@+id/placeholder_button"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:elevation="0dp" />
 </RelativeLayout>

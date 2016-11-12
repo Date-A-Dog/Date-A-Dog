@@ -51,17 +51,6 @@ public class LikedDogsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_liked_dogs, container, false);
-        GridView gridView = (GridView) rootView.findViewById(R.id.dogs_grid);
-        gridView.setAdapter(new LikedDogsImageAdapter(getActivity()));
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "" + position,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
         return rootView;
     }
 

@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         int id = item.getItemId();
 
         if (id == R.id.action_log_out) {
-            // LoginManager.getInstance().logOut();
+            LoginManager.getInstance().logOut();
             startActivity(new Intent(this, LoginActivity.class));
             return true;
         } else if (id == R.id.action_help) {

@@ -99,7 +99,34 @@ function getShelterRequests(req, res, next) {
     });
 }
 
-
+function getShelterRequestsDemo(req, res, next) {
+  console.log('getShelterRequests called');
+  var query = 'SELECT json_build_object(\'id\', r.id, \
+                                        \'epoch\', r.epoch, \
+                                        \'status\', r.status) AS request, \
+                      d.dog AS dog, \
+                      s.shelter AS shelter, \
+                      json_build_object(\'id\', u.id, \
+                                        \'fname\', u.fname, \
+                                        \'lname\', u.lname, \
+                                        \'street\', u.street, \
+                                        \'city\', u.city, \
+                                        \'state\', u.state, \
+                                        \'zip\', u.zip, \
+                                        \'phone\', u.phone) AS user \
+               FROM requests r \
+               JOIN doggies d ON d.id = r.dogId \
+               JOIN shelters s ON s.id = r.shelterId \
+               JOIN users u ON  u.id = r.userId \
+               WHERE r.shelterId = $1';
+  db.any(query, ['WA214'])
+    .then(function(data) {
+      res.status(200).json(data)
+    })
+    .catch(function(err) {
+      return next(err);
+    });
+}
 
 module.exports = {
   // Rest API specific queries

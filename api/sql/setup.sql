@@ -1,4 +1,5 @@
 -- DROP DATABASE IF EXISTS dateadog;
+\c dateadog;
 DROP TABLE doggies;
 DROP TABLE shelters;
 DROP TABLE users;

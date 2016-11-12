@@ -76,7 +76,7 @@ function judgeDog(req, res, next) {
                VALUES ($1, $2, $3) \
                ON CONFLICT (userId, dogId) \
                DO UPDATE SET liked = $3';
-  db.none(query, [req.user.id, req.body.dogId, req.body.liked])
+  db.none(query, [req.user.id, req.body.id, req.body.liked])
     .then(function () {
       res.sendStatus(200);
     })
@@ -90,7 +90,7 @@ function judgeDogDemo(req, res, next) {
                VALUES ($1, $2, $3) \
                ON CONFLICT (userId, dogId) \
                DO UPDATE SET liked = $3';
-  db.none(query, ['119889308491710', req.body.dogId, req.body.liked])
+  db.none(query, ['119889308491710', req.body.id, req.body.liked])
     .then(function () {
       res.sendStatus(200);
     })

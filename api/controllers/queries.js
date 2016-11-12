@@ -34,8 +34,6 @@ function login(req, res, next) {
 }
 
 function getNextDogs(req, res, next) {
-  console.log(req.user.id);
-  console.log(req.body.zip);
   var query = 'SELECT d.dog \
                FROM doggies d JOIN shelters s ON d.dog->>\'shelterId\' = s.id \
                WHERE NOT EXISTS (SELECT j.dogId \
@@ -46,6 +44,25 @@ function getNextDogs(req, res, next) {
                ORDER BY d.id ASC \
                LIMIT $3';
   db.any(query, [req.user.id, '98105', '20'])
+    .then(function (data) {
+      res.status(200).json(data);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function getNextDogsDemo(req, res, next) {
+  var query = 'SELECT d.dog \
+               FROM doggies d JOIN shelters s ON d.dog->>\'shelterId\' = s.id \
+               WHERE NOT EXISTS (SELECT j.dogId \
+                                 FROM judged j \
+                                 WHERE d.id = j.dogId \
+                                   AND j.userId = $1 \
+                                   AND d.dog->>\'zip\' = $2) \
+               ORDER BY d.id ASC \
+               LIMIT $3';
+  db.any(query, ['119889308491710', '98105', '20'])
     .then(function (data) {
       console.log(data);
       res.status(200).json(data);
@@ -99,18 +116,46 @@ function getShelterRequests(req, res, next) {
     });
 }
 
-
+function getShelterRequestsDemo(req, res, next) {
+  console.log('getShelterRequests called');
+  var query = 'SELECT json_build_object(\'id\', r.id, \
+                                        \'epoch\', r.epoch, \
+                                        \'status\', r.status) AS request, \
+                      d.dog AS dog, \
+                      s.shelter AS shelter, \
+                      json_build_object(\'id\', u.id, \
+                                        \'fname\', u.fname, \
+                                        \'lname\', u.lname, \
+                                        \'street\', u.street, \
+                                        \'city\', u.city, \
+                                        \'state\', u.state, \
+                                        \'zip\', u.zip, \
+                                        \'phone\', u.phone) AS user \
+               FROM requests r \
+               JOIN doggies d ON d.id = r.dogId \
+               JOIN shelters s ON s.id = r.shelterId \
+               JOIN users u ON  u.id = r.userId \
+               WHERE r.shelterId = $1';
+  db.any(query, ['WA214'])
+    .then(function(data) {
+      res.status(200).json(data)
+    })
+    .catch(function(err) {
+      return next(err);
+    });
+}
 
 module.exports = {
   // Rest API specific queries
   login: login,
   getNextDogs: getNextDogs,
+  getNextDogsDemo: getNextDogsDemo,
   // getDogHistory: getDogHistory,
   // getLikedDogs: getLikedDogs,
   // getDislikedDogs: getDislikedDogs,
   // judgeDog: judgeDog,
   getShelterRequests: getShelterRequests,
-  // getShelterRequestsDemo: getShelterRequestsDemo,
+  getShelterRequestsDemo: getShelterRequestsDemo,
   // getShelter: getShelter,
   // updateRequestStatus: updateRequestStatus,
   // requestDate: requestDate,

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
- <html lang="en">
- <head>
+<html lang="en">
+<head>
 	<meta charset="utf-8"/>
 	<title>Date-A-Dog</title>
 
 	<link rel="icon" href="sample.png">
-	
+
 	<link rel ="stylesheet" type="text/css" href="css/style.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	<script src="js/fbinit.js"></script>
 	<script src="js/fblogin.js"></script>
 </head>
@@ -22,14 +24,19 @@
 			
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="requests.html">Requests</a></li>
-				<li><a href="history_2.html">History</a></li>
+				<li><a href="history.html">History</a></li>
 				<li><a href="index.html"><!--<span class="glyphicon glyphicon-log-in"></span> -->Logout</a></li>
 			</ul>
 		</div>
-	</nav>
+	</div>
+</nav>
 
-	
-	<h1>Welcome</h1>
-	<p>This website is a work-in-progress but feel free to look around.</p>
-	<p>Login goes <a href="requests.html">here</a> somewhere</p>
- </body>
+
+<h1><center><p><font size = "10">Welcome to Date-A-Dog!</font></center></h1>
+<h1><center><font size = "5" color = "green">Log in using shelter Facebook information to view date
+	requests.</font></center></h1>
+
+<center><div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false"
+			 data-auto-logout-link="true"></div></center>
+
+</body>

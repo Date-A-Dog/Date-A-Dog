@@ -1,43 +1,29 @@
 \c dateadog;
 
-INSERT INTO users (id, fname, lname) VALUES (
-  10205514638251720,
-  'Alexis',
-  'Allen'
-) ON CONFLICT DO NOTHING;
-
-INSERT INTO users (id, fname, lname) VALUES (
-  119960895151218,
+INSERT INTO users (id, fname, lname, shelterid) VALUES (
+  119889308491710,
   'Sally',
-  'Smith'
+  'Smith',
+  'WA214'
 ) ON CONFLICT DO NOTHING;
 
-INSERT INTO users (id, fname, lname) VALUES (
-  10152056383368193,
+INSERT INTO users (id, fname, lname, shelterid) VALUES (
+  10154041783618193,
   'Anuraag',
-  'Pokhrel'
+  'Pokhrel',
+  'WA214'
 ) ON CONFLICT DO NOTHING;
 
-INSERT INTO users (id, fname, lname) VALUES (
-  10154267120282858,
-  'Hassan',
-  'Abdi'
-) ON CONFLICT DO NOTHING;
-
-INSERT INTO users (id, fname, lname) VALUES (
-  1359994787366850,
-  'Hugo',
-  'Salazarr'
-) ON CONFLICT DO NOTHING;
-
-INSERT INTO users (id, fname, lname) VALUES (
-  10153202618096038,
+INSERT INTO users (id, fname, lname, shelterid) VALUES (
+  10155407387966038,
   'Amanda',
-  'Loh'
+  'Loh',
+  'WA214'
 ) ON CONFLICT DO NOTHING;
 
-INSERT INTO users (id, fname, lname) VALUES (
+INSERT INTO users (id, fname, lname, shelterid) VALUES (
   10153811720940946,
   'Amarpal',
-  'Khokhar'
+  'Singh',
+  'WA214'
 ) ON CONFLICT DO NOTHING;

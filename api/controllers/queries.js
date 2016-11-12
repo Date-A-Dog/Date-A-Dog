@@ -137,7 +137,7 @@ module.exports = {
   // getDislikedDogs: getDislikedDogs,
   // judgeDog: judgeDog,
   getShelterRequests: getShelterRequests,
-  // getShelterRequestsDemo: getShelterRequestsDemo,
+  getShelterRequestsDemo: getShelterRequestsDemo,
   // getShelter: getShelter,
   // updateRequestStatus: updateRequestStatus,
   // requestDate: requestDate,

@@ -64,7 +64,6 @@ function getNextDogsDemo(req, res, next) {
                LIMIT $3';
   db.any(query, ['119889308491710', '98105', '20'])
     .then(function (data) {
-      console.log(data);
       res.status(200).json(data);
     })
     .catch(function (err) {
@@ -72,14 +71,28 @@ function getNextDogsDemo(req, res, next) {
     });
 }
 
-function getDogHistory(req, res, next) {
-  var query = 'SELECT d.dog, j.status \
-               FROM doggies d JOIN judged j ON d.id = j.dogId \
-               WHERE j.userId = $1 \
-               ORDER BY d.id ASC';
-  db.any(query, [req.user.id])
-    .then(function (data) {
-      res.status(200).json(data);
+function judgeDog(req, res, next) {
+  var query = 'INSERT INTO judged (userId, dogId, liked) \
+               VALUES ($1, $2, $3) \
+               ON CONFLICT (userId, dogId) \
+               DO UPDATE SET liked = $3';
+  db.none(query, [req.user.id, req.body.dogId, req.body.liked])
+    .then(function () {
+      res.sendStatus(200);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function judgeDogDemo(req, res, next) {
+  var query = 'INSERT INTO judged (userId, dogId, liked) \
+               VALUES ($1, $2, $3) \
+               ON CONFLICT (userId, dogId) \
+               DO UPDATE SET liked = $3';
+  db.none(query, ['119889308491710', req.body.dogId, req.body.liked])
+    .then(function () {
+      res.sendStatus(200);
     })
     .catch(function (err) {
       return next(err);
@@ -151,9 +164,11 @@ module.exports = {
   getNextDogs: getNextDogs,
   getNextDogsDemo: getNextDogsDemo,
   // getDogHistory: getDogHistory,
+  // getDogHistoryDemo: getDogHistoryDemo,
   // getLikedDogs: getLikedDogs,
   // getDislikedDogs: getDislikedDogs,
-  // judgeDog: judgeDog,
+  judgeDog: judgeDog,
+  judgeDogDemo: judgeDogDemo,
   getShelterRequests: getShelterRequests,
   getShelterRequestsDemo: getShelterRequestsDemo,
   // getShelter: getShelter,

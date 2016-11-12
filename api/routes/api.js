@@ -28,9 +28,11 @@ router.post("/login", auth.isAuthenticated, db.login);
 router.post("/getNextDogs", auth.isAuthenticated, db.getNextDogs);
 router.post("/getNextDogsDemo", db.getNextDogsDemo);
 // router.post("/getDogHistory", auth.isAuthenticated, db.getDogHistory);
+// router.post("/getDogHistoryDemo", db.getDogHistory);
 // router.post("/getLikedDogs", auth.isAuthenticated, db.getLikedDogs);
 // router.post("/getDislikedDogs", auth.isAuthenticated, db.getDislikedDogs);
-// router.post("/judgeDog", auth.isAuthenticated, db.judgeDog);
+router.post("/judgeDog", auth.isAuthenticated, db.judgeDog);
+router.post("/judgeDogDemo", db.judgeDogDemo);
 router.post("/getShelterRequests", auth.isAuthenticated, db.getShelterRequests);
 router.post("/getShelterRequestsDemo", db.getShelterRequestsDemo); // For Demo
 // router.post("/getShelter", auth.isAuthenticated, db.getShelter);

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 
 /**
@@ -64,7 +65,17 @@ public class LikedDogsTempFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_liked_dogs_temp, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_liked_dogs_temp, container, false);
+        LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.dogs_layout);
+        DADAPI api = DADAPI.getInstance();
+        for (Dog dog : api.getNextDogs(0)) {
+            layout.addView(createImageViewFromDog(dog));
+        }
+        return rootView;
+    }
+
+    private static void createImageViewFromDog(Dog dog) {
+        
     }
 
     // TODO: Rename method, update argument and hook method into UI event

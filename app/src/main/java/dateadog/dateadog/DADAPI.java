@@ -2,14 +2,10 @@ package dateadog.dateadog;
 
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -21,6 +17,8 @@ public class DADAPI {
 
     private static final String TAG = DADAPI.class.getName();
 
+    private static DADAPI instance = null;
+
     private static String PETFINDER_API_KEY = "d025e514d458e4366c42ea3006fd31b3";
     private static String PETFINDER_URL_BASE = "http://api.petfinder.com/pet.find&format=json&animal=dog&output=full&count=100?key=" + PETFINDER_API_KEY;
     private static String DAD_SERVER_URL_BASE = "http://localhost:3000/";
@@ -30,9 +28,19 @@ public class DADAPI {
     private int lastOffset;
     private URL petfinderURL;
 
-    public DADAPI(User user, int zipCode) {
+    public static DADAPI getInstance() {
+        if (instance == null) {
+            instance = new DADAPI();
+        }
+        return instance;
+    }
+
+    protected DADAPI() {
+
+    }
+
+    public void setUser(User user) {
         this.user = user;
-        updateLocation(zipCode);
     }
 
     public void seenDog(Dog dog) {
@@ -45,7 +53,7 @@ public class DADAPI {
         return null;
     }
 
-    public void updateLocation(int zipCode) {
+    public void setLocation(int zipCode) {
         this.zipCode = zipCode;
         this.lastOffset = 0;
 

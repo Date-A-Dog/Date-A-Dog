@@ -3,6 +3,8 @@ package dateadog.dateadog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -11,14 +13,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getName();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -95,6 +105,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+        public PlaceholderFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            Button placeholderButton = (Button) rootView.findViewById(R.id.placeholder_button);
+            placeholderButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getActivity(), DogSwipeActivity.class));
+                }
+            });
+            return rootView;
+        }
+    }
+
+    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
@@ -110,10 +153,7 @@ public class MainActivity extends AppCompatActivity {
             if (position == 0) {
                 return new Fragment();
             } else if (position == 1) {
-                // Open the DogSwipeActivity since it has not yet been converted to a fragment.
-                startActivity(new Intent(MainActivity.this, DogSwipeActivity.class));
-                // TODO: Convert DogSwipeActivity to a tabbed fragment.
-                return null;
+                return PlaceholderFragment.newInstance(position + 1);
             } else {
                 return null;
                 // TODO: Handle invalid position index more gracefully.

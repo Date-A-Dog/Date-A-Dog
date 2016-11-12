@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dateadog.dateadog.LikedDogsTempFragment">
+    tools:context="dateadog.dateadog.LikedDogsFragment">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dogs_layout"></LinearLayout>
+        android:id="@+id/dogs_grid" />
 
 </FrameLayout>

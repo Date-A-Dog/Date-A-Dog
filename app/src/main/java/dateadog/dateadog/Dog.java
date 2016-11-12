@@ -26,6 +26,8 @@ public class Dog {
     /** Whether or not this dog is available to date. */
     private boolean availability;
 
+    public Dog() {}
+
 
     public Dog(int dogID, String breed, String age, int shelterID, Set<String> images,
                       String description, String name, String sex, boolean availability) {

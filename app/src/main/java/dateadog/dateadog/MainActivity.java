@@ -2,9 +2,9 @@ package dateadog.dateadog;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -21,12 +21,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LikedDogsFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MainActivity.class.getName();
 
@@ -47,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if( Build.VERSION.SDK_INT >= 9){
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+            StrictMode.setThreadPolicy(policy);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -107,16 +111,16 @@ public class MainActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
-        public PlaceholderFragment() {
+    public static class FindDogsFragment extends Fragment {
+        public FindDogsFragment() {
         }
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static FindDogsFragment newInstance() {
+            FindDogsFragment fragment = new FindDogsFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
             return fragment;
@@ -125,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_find_dogs, container, false);
             Button placeholderButton = (Button) rootView.findViewById(R.id.placeholder_button);
             placeholderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
             });
             return rootView;
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Log.i(TAG, uri.toString());
     }
 
     /**
@@ -151,9 +160,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                return LikedDogsTempFragment.newInstance("", "");
+                return FindDogsFragment.newInstance();
             } else if (position == 1) {
-                return PlaceholderFragment.newInstance(position + 1);
+                return LikedDogsFragment.newInstance();
             } else {
                 return null;
                 // TODO: Handle invalid position index more gracefully.

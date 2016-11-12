@@ -1,5 +1,7 @@
 package dateadog.dateadog;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.logging.Handler;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +34,9 @@ import java.util.Map;
 import com.facebook.Profile;
 import android.support.v7.app.AlertDialog;
 import com.facebook.GraphRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import android.content.DialogInterface;
 
 
@@ -49,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -59,8 +63,6 @@ public class LoginActivity extends AppCompatActivity {
         info = (TextView)findViewById(R.id.info);
         mTextDetails = (TextView)findViewById(R.id.text_details);
         loginButton = (LoginButton) findViewById(R.id.login_button);
-
-
 
         /**
          * Registers a callback from the FB login button
@@ -191,6 +193,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 Log.v("Reponse = ", "It did something with response" + response.toString());
                 System.out.println(response.toString());
+                //implment gson
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<String>>(){}.getType();
+                //List<String> yourList = new Gson().fromJson(response.get("doggies"), listType);
             }
         }, new Response.ErrorListener() {
             @Override

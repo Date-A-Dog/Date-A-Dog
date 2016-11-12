@@ -33,7 +33,7 @@ CREATE TABLE users (
   state char(2),
   zip text,
   phone text,
-  shelterId text DEFAULT null
+  shelterId text DEFAULT NULL
 );
 GRANT ALL PRIVILEGES ON TABLE users TO dadadmin;
 
@@ -42,7 +42,7 @@ CREATE TABLE requests (
   dogId bigint,
   userId bigint,
   shelterId text,  -- consider constraint check on shelterId
-  epoch bigint,
+  epoch bigint NOT NULL,
   status char(1) DEFAULT 'P',
   PRIMARY KEY (id),
   FOREIGN KEY (dogId) REFERENCES doggies (id),
@@ -54,7 +54,7 @@ CREATE TABLE judged (
   userId bigint,
   dogId bigint,
   liked boolean DEFAULT null,
-  epoch bigint,
+  epoch bigint NOT NULL,
   PRIMARY KEY(userId, dogId),
   FOREIGN KEY (userId) REFERENCES users (id),
   FOREIGN KEY (dogId) REFERENCES doggies (id)

@@ -72,11 +72,11 @@ function getNextDogsDemo(req, res, next) {
 }
 
 function judgeDog(req, res, next) {
-  var query = 'INSERT INTO judged (userId, dogId, liked) \
-               VALUES ($1, $2, $3) \
+  var query = 'INSERT INTO judged (userId, dogId, liked, epoch) \
+               VALUES ($1, $2, $3, $4) \
                ON CONFLICT (userId, dogId) \
                DO UPDATE SET liked = $3';
-  db.none(query, [req.user.id, req.body.id, req.body.liked])
+  db.none(query, [req.user.id, req.body.id, req.body.liked, req.body.epoch])
     .then(function () {
       res.sendStatus(200);
     })
@@ -86,11 +86,11 @@ function judgeDog(req, res, next) {
 }
 
 function judgeDogDemo(req, res, next) {
-  var query = 'INSERT INTO judged (userId, dogId, liked) \
-               VALUES ($1, $2, $3) \
+  var query = 'INSERT INTO judged (userId, dogId, liked, epoch) \
+               VALUES ($1, $2, $3, $4) \
                ON CONFLICT (userId, dogId) \
-               DO UPDATE SET liked = $3';
-  db.none(query, ['119889308491710', req.body.id, req.body.liked])
+               DO UPDATE SET liked = $3, epoch = $4';
+  db.none(query, ['119889308491710', req.body.id, req.body.liked, req.body.epoch])
     .then(function () {
       res.sendStatus(200);
     })

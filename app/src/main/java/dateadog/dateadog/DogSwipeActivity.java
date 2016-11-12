@@ -29,7 +29,7 @@ import com.facebook.login.LoginManager;
 
 public class DogSwipeActivity extends AppCompatActivity implements FlingCardListener.ActionDownInterface {
     public static MyAppAdapter myAppAdapter; //holds the app adapter
-    private TextView noDogs; //displays when there are no dogs left
+    private TextView noDogs; // displays when there are no dogs left
     public static ViewHolder viewHolder;
     private ArrayList<Data_TinderUI> al;
     private SwipeFlingAdapterView flingContainer;
@@ -194,7 +194,7 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
 
     //this method loads the data into the al array needed from the pending dogs arraylist
     //takes in al and arrayList as params and returns the updated al
-    private List<Data_TinderUI> loadAL(List<DogProfile> pending, List<Data_TinderUI>al) {
+    private List<Data_TinderUI> loadAL(List<Dog> pending, List<Data_TinderUI>al) {
         return null;
     }
 }

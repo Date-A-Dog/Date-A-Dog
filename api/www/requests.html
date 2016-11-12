@@ -5,18 +5,25 @@
 	<title>Date a Dog</title>
 	<link rel="icon" href="sample.png">
 	
-	<link rel ="stylesheet" type="text/css" href="css/style.css" />
-	<link rel ="stylesheet" type="text/css" href="css/content-display.css" />
+	<link rel ="stylesheet" type="text/css" href="./style.css" />
+	<link rel ="stylesheet" type="text/css" href="./content-display.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="js/fbinitjs"></script>
-	<script src="js/fblogin.js"></script>
-	<script src="js/accordion.js"></script>
-	<script src="js/createrequesttablehere"></script>
-	<script src="js/chevron.js"></script>
+	<script src="./fbinit.js"></script>
+	<script src="./fblogin.js"></script>
+	<script src="./chevron.js"></script>
+	<script src="./accordion.js"></script>
+	<script src="./address.js"></script>
+	<script src="./dogprofile.js"></script>
+	<script src="./daterprofile.js"></script>
+	<script src="./daterequest.js"></script>
+	<script src="./fetchrequests.js"></script>
+	<script src="./shelter.js"></script>
+	<script src="./updatetable.js"></script>
  </head>
 <body id="dad">
 	<nav class="navbar navbar-inverse">
@@ -28,111 +35,110 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="requests.html">Requests</a></li>
 				<li><a href="history.html">History</a></li>
-				<li><a href="index.html"><!--<span class="glyphicon glyphicon-log-in"></span> -->Logout</a></li>
+				<li><a href="index.html">Logout</a></li>
 			</ul>
 		</div>
 	</nav>
 
 	<h1>Requests</h1>
-	<table id="requests">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Dog</th>
-				<th>Dater</th>
-				<th>When</th>
-				<th>Status</th>
-				<th class="chevron"></th><!--chevron-->
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td id="inside" colspan="6">
-					<!-- Example entries go here -->
-					<table class="accordion-container">
-						<thead>
-							<tr>
-								<td class="accordion">id here</td>
-								<td class="accordion">dog here</td>
-								<td class="accordion">dater here</td>
-								<td class="accordion">some date</td>
-								<td class="accordion"> status here</td>
-								<td class="accordion chevron">
-									<i class="indicator glyphicon glyphicon-chevron-up pull-right" ></i>
-								</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="expanded">
-								<td class="request-image"><img src="sample.png" alt="sample dog pic" height="100" weight="100"></td>
-								<td>Dater Name</td>
-								<td>More info?</td>
-							</tr>
-							<tr class="expanded">
-								<td class="request-image"><img src="sample.png" alt="sample dog pic" height="100" weight="100"></td>
-								<td>Dog Name</td>
-								<td>More info?</td>
-							</tr>
-							<tr class="expanded">
-								<td></td>
-								<td class="approve">
-									<button type="button" class="request-buttons btn btn-success btn-lg" />Approve</button>
-								</td>
-								<td class= "deny">
-									<button type="button" class="request-buttons btn btn-warning btn-lg" />Deny</button>
-								</td>
-								<td class= "undo">
-									<button type="button" class="request-buttons btn btn-secondary btn-lg" />Undo</button>
-								</td>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="accordion-container">
-						<thead>
-							<tr>
-								<td class="accordion">id here</td>
-								<td class="accordion">dog here</td>
-								<td class="accordion">dater here</td>
-								<td class="accordion">some date</td>
-								<td class="accordion"> status here</td>
-								<td class="accordion chevron">
-									<i class="indicator glyphicon glyphicon-chevron-up pull-right" ></i>
-								</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="expanded">
-								<td class="request-image"><img src="sample.png" alt="sample dog pic" height="100" weight="100"></td>
-								<td>Dater Name</td>
-								<td>More info?</td>
-							</tr>
-							<tr class="expanded">
-								<td class="request-image"><img src="sample.png" alt="sample dog pic" height="100" weight="100"></td>
-								<td>Dog Name</td>
-								<td>More info?</td>
-							</tr>
-							<tr class="expanded">
-								<td></td>
-								<td class="approve">
-									<button type="button" class="request-buttons btn btn-success btn-lg" />Approve</button>
-								</td>
-								<td class= "deny">
-									<button type="button" class="request-buttons btn btn-warning btn-lg" />Deny</button>
-								</td>
-								<td class= "undo">
-									<button type="button" class="request-buttons btn btn-secondary btn-lg" />Undo</button>
-								</td>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<!--<table id="sampleTable">
-		var requestArray = ;
-		<script>updateTable("sampleTable",requestArray);</script>
-	</table>-->
+
+	<!-- For placement of requests -->
+	<div id="accordion">
+		
+	</div>
+	<!-- fills accordion with requests and available actions -->
+	<script type="text/javascript">
+
+		jQuery(function() { 
+			jQuery( "#accordion" ).accordion();
+		});
+		var siteUrl = '/'; 
+
+		//ExecuteOrDelayUntilScriptLoaded(retrieveListItems, "sp.js")
+		// only load data when refresh is done fetching
+		var shelter = Shelter("WA141");
+		shelter.updateDateRequests(function(){ 
+
+			var requestsList = shelter.getPendingRequests();
+
+			for (var i = 0; i < requestsList.length; i++) {
+				var r = requestsList[i];
+			 
+				var newDiv = "<div class=\"accordionTitle\"><h3> Dog Name: " + r.dogProfile.name + "</h3>"+
+							"<h3>Dater: " + r.daterProfile.fName +" " + r.daterProfile.lName + "</h3>"+
+							"<h3>When: "+ r.dateTime + "</h3>"+
+							"</div> " + 
+							"<div class=\"accordionEle\"> " + 
+							 "<p> Requester: <strong>"  + r.daterProfile.fName +" " + r.daterProfile.lName +"</strong> " +
+							 "Zipcode: <strong>"+r.daterProfile.address.zipcode+"</strong></p>" +  
+							 "<p>Date requested with: </p>" +
+							 "<p><img class=\"accordion-img\" src=\""+ r.dogProfile.photoURL +"\" alt=\"dog image\">  " + 
+							 "<strong>"+r.dogProfile.name+"</strong> </p> " +
+							 "<p class=\"request-button-container\"> " + 
+							 // buttons
+							 "<button id =\"A" + r.id + "\" class=\"request-buttons btn btn-success btn-lg\" onclick=\"aproveRequest(" + r.id + ")\"> Approve</button>" +
+							 "<button id =\"D" + r.id + "\" class=\"request-buttons btn btn-warning btn-lg\" onclick=\"denyRequest(" + r.id + ")\"> Deny</button>" +
+							 "<button id =\"U" + r.id + "\" class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + r.id + ")\"> Undo</button> " + 
+							 "</p>" +
+							 "</div>";
+				$("#accordion").append(newDiv);
+			}
+			$("#accordion").accordion("refresh");
+			$("#accordion").accordion();
+
+			jQuery( document ).ready(function() {
+				//alert( "document loaded" );
+			});
+ 
+		});
+
+
+
+
+		function aproveRequest(reqId){ 
+		  updateButtons(reqId, "approve");
+		  alert("Approving request: " + reqId);
+		}
+
+		function denyRequest(reqId){   
+		  updateButtons(reqId, "deny");
+		  alert("Denying request: " + reqId);
+		}
+
+		function undoRequest(reqId){  
+		 updateButtons(reqId, "undo");
+		 alert("Undoing request: " + reqId);
+		}
+
+		function updateButtons(reqId, clickedButton) {
+		  var buttonID_A = "A" + reqId;
+		  var buttonID_D = "D" + reqId;  
+		  var buttonID_U = "U" + reqId;
+		  //window.alert("Approving request: " + buttonID_A);
+			
+		  var approveButton = document.getElementById(buttonID_A);
+		  var denyButton = document.getElementById(buttonID_D);
+		  var undoButton = document.getElementById(buttonID_U);
+
+		  switch(clickedButton) {
+			case "approve": 
+			  approveButton.disabled = true;
+			  denyButton.disabled = false;
+			  undoButton.diabled = false;
+
+			break;
+			case "deny":
+			  approveButton.disabled = false;
+			  denyButton.disabled = true;
+			  undoButton.diabled = false;
+
+			break;
+			case "undo":
+			  approveButton.disabled = false;
+			  denyButton.disabled = false;
+			  undoButton.diabled = false;
+			break;
+		  }  
+		}
+	</script>
  </body>

@@ -1,6 +1,6 @@
 //this find the chevron icon in the given container and switchs it to up or down depending on current state
 //does not work yet
-function changeChevron(){'
+function changeChevron(){
 
   var glyphClass = $(this).find('indicator');
   
@@ -11,4 +11,4 @@ function changeChevron(){'
     glyphClass.removeClass("glyphicon-chevron-down")
 	glyphClass.addClass("glyphicon-chevron-up");
   }
-});
+};

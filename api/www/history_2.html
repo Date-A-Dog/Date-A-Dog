@@ -5,11 +5,11 @@
 	<title>Date a Dog</title>
 
 	<link rel="icon" href="sample.png">
-
+	
 	<link rel ="stylesheet" type="text/css" href="css/style.css" />
 	<link rel ="stylesheet" type="text/css" href="css/content-display.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+	
 
  </head>
  <body>
@@ -22,46 +22,47 @@
 </div>
 
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
 
-<script src="./js/fetchrequests.js"></script>
-<script src="./js/updatetable.js"></script>
-<script src="./js/shelter.js"></script>
-<script src="./js/dogprofile.js"></script>
-<script src="./js/daterequest.js"></script>
-<script src="./js/daterprofile.js"></script>
+<script src="js/fetchrequests.js"></script>
+<script src="js/updatetable.js"></script>
+<script src="js/shelter.js"></script>
+<script src="js/dogprofile.js"></script>
+<script src="js/daterequest.js"></script>
+<script src="js/daterprofile.js"></script>
 
 
 <script type="text/javascript">
 
-jQuery(function() {
+jQuery(function() { 
          jQuery( "#accordion" ).accordion();
          });
 
-var siteUrl = '/';
+var siteUrl = '/'; 
 
 //ExecuteOrDelayUntilScriptLoaded(retrieveListItems, "sp.js")
  // only load data when refresh is done fetching
 var shelter = Shelter("WA141");
-shelter.updateDateRequests(function(){
+shelter.updateDateRequests(function(){ 
 
    var requestsList = shelter.getHistoryRequests();
 
    for (var i = 0; i < requestsList.length; i++) {
      var r = requestsList[i];
-
-     var newDiv = "<h3> Dog Name: " + r.dogProfile.name + " <p> Date: " + r.dateTime + "</p>  </h3> " +
-                "<div> " +
-                 "<p> Requester Name: "  + r.daterProfile.fName +" " + r.daterProfile.lName + " </p>" +
-                 "<p> status: " + r.status+  " </p>" +
-                 "<p> dogname: " + r.dogProfile.name+" </p></br> " +
+ 
+     var newDiv = "<h3> Dog Name: " + r.dogProfile.name + " <p> Date: " + r.dateTime + "</p>  </h3> " + 
+                "<div> " + 
+                 "<p> Requester Name: "  + r.daterProfile.fName +" " + r.daterProfile.lName + " </p>" + 
+                 "<p> status: " + r.status+  " </p>" + 
+                 "<p> dogname: " + r.dogProfile.name+" </p></br> " + 
                  "<p><img id=\"image1\" src= " + r.dogProfile.photoURL + " style=\"width:304px;height:228px;\" align=\"middle\"></p>" +
                  "<p></p>" +
                  // buttons
                  "<button id =\"A" + r.id + "\"onclick=\"aproveRequest(" + r.id + ")\"> Approve</button>" +
                  "<button id =\"D" + r.id + "\"onclick=\"denyRequest(" + r.id + ")\"> Deny</button>" +
-                 "<button id =\"U" + r.id + "\"onclick=\"undoRequest(" + r.id + ")\"> Undo</button> " +
+                 "<button id =\"U" + r.id + "\"onclick=\"undoRequest(" + r.id + ")\"> Undo</button> " + 
                  "</p></br>" +
                  "</div>";
       $("#accordion").append(newDiv)
@@ -73,39 +74,39 @@ shelter.updateDateRequests(function(){
     jQuery( document ).ready(function() {
     //alert( "document loaded" );
     });
-
+ 
 });
 
 
 
 
-function aproveRequest(reqId){
+function aproveRequest(reqId){ 
   updateButtons(reqId, "approve");
   shelter.updateStatus(reqId, "A");
 }
 
-function denyRequest(reqId){
+function denyRequest(reqId){   
   updateButtons(reqId, "deny");
   shelter.updateStatus(reqId, "D");
 }
 
-function undoRequest(reqId){
+function undoRequest(reqId){  
  updateButtons(reqId, "undo");
  shelter.updateStatus(reqId, "P");
 }
 
 function updateButtons(reqId, clickedButton) {
   var buttonID_A = "A" + reqId;
-  var buttonID_D = "D" + reqId;
+  var buttonID_D = "D" + reqId;  
   var buttonID_U = "U" + reqId;
   //window.alert("Approving request: " + buttonID_A);
-
+    
   var approveButton = document.getElementById(buttonID_A);
   var denyButton = document.getElementById(buttonID_D);
   var undoButton = document.getElementById(buttonID_U);
 
   switch(clickedButton) {
-    case "approve":
+    case "approve": 
       approveButton.disabled = true;
       denyButton.disabled = false;
       undoButton.diabled = false;
@@ -122,7 +123,7 @@ function updateButtons(reqId, clickedButton) {
       denyButton.disabled = false;
       undoButton.diabled = false;
     break;
-  }
+  }  
 }
 
 
@@ -131,3 +132,6 @@ function updateButtons(reqId, clickedButton) {
 
 
  </body>
+
+	
+

@@ -22,13 +22,13 @@ import dateadog.dateadog.tindercard.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import com.facebook.login.LoginManager;
 
 
 public class DogSwipeActivity extends AppCompatActivity implements FlingCardListener.ActionDownInterface {
     public static MyAppAdapter myAppAdapter; //holds the app adapter
-    private ArrayList<DogProfile> pending; //list of all dogs from database pending to be swiped
-    private ArrayList<DogProfile> likedDogs; //list of all dogs liked from swiping
     private TextView noDogs; //displays when there are no dogs left
     public static ViewHolder viewHolder;
     private ArrayList<Data_TinderUI> al;
@@ -39,6 +39,12 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
         myAppAdapter.notifyDataSetChanged();
     }
 
+    private static void addDogsToAL(Set<Dog> dogs, ArrayList<Data_TinderUI> al) {
+        for (Dog dog : dogs) {
+            al.add(new Data_TinderUI(dog.getImage(), dog.getName() + "\n" + dog.getAge() + " " + dog.getSex()));
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +53,8 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
         //noDogs.setText("No More Dogs!");
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         al = new ArrayList<>();
-        al.add(new Data_TinderUI("http://i.dailymail.co.uk/i/pix/2016/06/17/09/3562F5B200000578-3646283-image-m-30_1466150632154.jpg", "Mika, 3 years \nMy name is Mika and I love playing with my blue ducky, taking walks, and living life!"));
-        al.add(new Data_TinderUI("https://i.ytimg.com/vi/opKg3fyqWt4/hqdefault.jpg", "Ko, 5 months\nMy name is Ko and I am an excited puppy ready for action!"));
-        al.add(new Data_TinderUI("http://images.meredith.com/content/dam/bhg/Images/2012/11/28/405944_10150676681556019_1918501130_n.jpg.rendition.largest.ss.jpg", "Max, 2 years \nMy name is Max and I am a shy guy who loves to cuddle and take walks on a crisp Sunday afternoon!"));
+        Set<Dog> dogs = new DADAPI(this).getNextDogs(0);
+        addDogsToAL(dogs, al);
 
         myAppAdapter = new MyAppAdapter(al, DogSwipeActivity.this);
         flingContainer.setAdapter(myAppAdapter);
@@ -113,37 +118,7 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_dog_swipe, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        int compare = R.id.action_logout;
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            LoginManager.getInstance().logOut();
-            Intent intent = new Intent(DogSwipeActivity.this, LoginActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_likeddogs) {
-            Intent intent = new Intent(DogSwipeActivity.this, LikedDogsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_home) {
-            Intent intent = new Intent(DogSwipeActivity.this, DogSwipeActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onActionDownPerform() {

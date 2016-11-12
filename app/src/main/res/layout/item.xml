@@ -89,7 +89,7 @@
         android:layout_height="150dp"
         android:alpha="0"
 
-        android:background="@drawable/like" />
+        android:background="@drawable/greenlikepaw" />
 
     <View
         android:id="@+id/item_swipe_right_indicator"
@@ -99,6 +99,6 @@
         android:alpha="0"
 
 
-        android:background="@drawable/nope" />
+        android:background="@drawable/reddislikepaw" />
 
 </FrameLayout>

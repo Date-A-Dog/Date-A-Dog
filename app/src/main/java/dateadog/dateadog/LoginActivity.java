@@ -1,5 +1,7 @@
 package dateadog.dateadog;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.logging.Handler;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,8 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         mTextDetails = (TextView)findViewById(R.id.text_details);
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
-
-
         /**
          * Registers a callback from the FB login button
          */
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginButton.setVisibility(View.GONE);
                 Profile profile = Profile.getCurrentProfile();
                 mTextDetails.setText("Welcome!");
-                Intent next = new Intent(LoginActivity.this, DogSwipeActivity.class);
+                Intent next = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(next);
                 next.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         if (facebookIsLoggedIn()) {
             fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
             authenticateAPI();
-            Intent intent = new Intent(LoginActivity.this, DogSwipeActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
     }
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Authenticates the app with the API using the POST method and a custom HTML header
-     * Also, uses the volley library
+     * Also, uses the volley library.
      */
     private void authenticateAPI() {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -190,10 +190,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 Log.v("Reponse = ", "It did something with response" + response.toString());
                 System.out.println(response.toString());
-
                 //implment gson
                 Gson gson = new Gson();
-                //Type listType = new TypeToken<List<Pet>(){}.getType();
+                Type listType = new TypeToken<List<String>>(){}.getType();
                 //List<String> yourList = new Gson().fromJson(response.get("doggies"), listType);
             }
         }, new Response.ErrorListener() {

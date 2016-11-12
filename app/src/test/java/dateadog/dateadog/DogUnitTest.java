@@ -8,17 +8,17 @@ import static org.junit.Assert.*;
 
 /**
  * This class contains a set of test cases that can be used to test the
- * implementation of the DogProfile class.
+ * implementation of the {@code Dog} class.
  */
-public class DogProfileUnitTest {
+public class DogUnitTest {
 
-    private DogProfile dog1;
-    private DogProfile dog2 = null;
+    private Dog dog1;
+    private Dog dog2 = null;
 
     @Before
     public void setUp() throws Exception {
         // setting up new DogProfile
-        dog1 = new DogProfile(1,"Akita", "5", null, null, "Grey" , "Cosette", "M", true );
+        dog1 = new Dog(1,"Akita", "5", 0, null, "Grey" , "Cosette", "M", true );
     }
 
     @Test
@@ -28,7 +28,5 @@ public class DogProfileUnitTest {
         assertEquals(dog2, null);
         assertNotEquals(dog1, null);
     }
-
-
 
 }

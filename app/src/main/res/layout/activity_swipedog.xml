@@ -27,7 +27,6 @@
             android:textSize="40sp"
 
             android:layout_height="354dp"
-            android:layout_centerInParent="true"
             />
 
     </FrameLayout>

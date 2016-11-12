@@ -8,11 +8,14 @@
 // dateRequests - an array of requests to be added as rows to table
 //          
 updateTable = function(tableId, dateRequests) {
-  var table = document.getElementById(tableId);
+  var tableOuter = document.getElementById(tableId);
+  var table = tableOuter.getElementsByTagName('tbody')[0];
 
   // remove all record rows from table
-  while(table.rows.length > 1) {
-    table.deleteRow(1);
+  if(table.rows != null){
+    while(table.rows.length > 1) {
+      table.deleteRow(1);
+    }
   }
 
   // iterate through each request in array
@@ -41,10 +44,38 @@ updateTable = function(tableId, dateRequests) {
       // append new cell
       row.append(cell);
     }
-    // append new row
+	//temp buttons
+	var buttoncell = document.createElement('td');
+	var approve = document.createElement('button');
+	var decline = document.createElement('button');
+	var undo = document.createElement('button');
+	approve.setAttribute("type", "button");
+	decline.setAttribute("type", "button");
+	undo.setAttribute("type", "button");
+	approve.setAttribute("class", "request-buttons btn btn-success btn-sm");
+	decline.setAttribute("class", "request-buttons btn btn-warning btn-sm");
+	undo.setAttribute("class", "request-buttons btn btn-secondary btn-sm");
+	approve.innerHTML = "Approve";
+	decline.innerHTML = "Decline";
+	undo.innerHTML = "Undo";
+	approve.setAttribute("onclick", "updateRequest(this)");
+	decline.setAttribute("onclick", "updateRequest(this)");
+	undo.setAttribute("onclick", "updateRequest(this)");
+	buttoncell.appendChild(approve);
+	buttoncell.appendChild(decline);
+	buttoncell.appendChild(undo);
+	row.append(buttoncell);
+	
+	//chevron element of each row
+	//var chevcell = document.createElement('td');
+	//var chevron = document.createElement('i');
+	//$('i').addClass("indicator glyphicon glyphicon-chevron-up pull-right");
+	//chevcell.appendChild(chevron);
+	//row.append(chevcell);
+    
+	// append new row
     table.append(row);
   }
 
 };
 
-exports.updateTable;

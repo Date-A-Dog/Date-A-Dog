@@ -4,28 +4,49 @@
 // var DogProfile = require("./dogprofile");
 // var DateRequest = require("./daterequest");
 /*******************************************/
-
+/*
 // **Function temporarily inplace until we ca pull data from our data base.**
 //
 // Reads mock data JSON file located in the given path.
 // This is an asyinc function and takes a callback function
 // as the second parameter
 //
-// function fetchRequests(path, callback) {
-//   var httpRequest = new XMLHttpRequest();
-//   httpRequest.onreadystatechange = function() {
-//   	if (httpRequest.readyState === 4 && httpRequest.status === 200) {
-//   	  var data = JSON.parse(httpRequest.responseText);
-//   		if (callback) {
-//         // pass filtered array to callback
-//         callback(filterDateRequestProperties(data));
-//       }
-//   	}
-//  };
+ function fetchRequests(path, callback) {
+   var httpRequest = new XMLHttpRequest();
+   httpRequest.onreadystatechange = function() {
+   	if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+   	  var data = JSON.parse(httpRequest.responseText);
+   		if (callback) {
+         // pass filtered array to callback
+         callback(filterDateRequestProperties(data));
+       }
+   	}
+  };
 
-//  httpRequest.open('GET', path);
-//  httpRequest.send();
-// };
+  httpRequest.open('GET', path);
+  httpRequest.send();
+ };
+*/
+
+/**** GOOD FUNCTION - use this once database calls are ready ****/
+function fetchRequests(path, callback) {
+  var httpRequest = new XMLHttpRequest();
+  httpRequest.onreadystatechange = function() {
+    if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+      var data = JSON.parse(httpRequest.responseText);
+      if (callback) {
+        // pass filtered array to callback
+        console.log(data);
+        callback(filterDateRequestProperties(data));
+      }
+    }
+  };
+
+  httpRequest.open('POST', '/api/getShelterRequests');
+  httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABAJKJ2TdW9LK0gKFMaMPuMFlDKCQUYwxHBbYzPGe210ZAmxSJpFqN5L2XxjJVEWfZBmgw47LZCwgqj6Pf7W98Nk0XWei5lyIpqhN1MZBeE0yjNYeIZAJIFRlkRJyH9BFazVvODLHKE1n8xtMZBbPfCsEukunkKBS5dgCAWYzUKe");
+  httpRequest.send(JSON.stringify());
+};
 
 
 
@@ -63,27 +84,44 @@
 // return:
 //   An unordered array containing date requests with limited properties
 //
-function fetchRequests(path, callback) {
-  var httpRequest = new XMLHttpRequest();
-  httpRequest.onreadystatechange = function() {
-    if (httpRequest.readyState === 4 && httpRequest.status === 200) {
-      var data = JSON.parse(httpRequest.responseText);
-      if (callback) {
-        // pass filtered array to callback
-        console.log(data);
-        callback(filterDateRequestProperties(data));
-      }
-    }
-  };
+function filterDateRequestProperties(data) {
+  var filteredArray = [];
 
-  httpRequest.open('POST', /api/getHugosRequest);
-  httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABAIqQxGjcfUTpkqp8KBUm3DZBjrOZBfhUoAE1QAM4RyZCZAf5s5L0Hh6sZAAyIywRg3TrJsNEGWfFks2UlYYuhYXbnbIePPtUZCW1ZClZChYouwMZBAHmD9djQRvPgTITI6Hr1tFJHcbyghL2Vm7gVGgmrmx9G69caUwZDZD");
-  xmlhttp.send(JSON.stringify({shelter_id: "WA214"}));
-  httpRequest.send();
+  // parse data into array of dateRequests objects. Here we
+  // extract the desired fields to build each dateRequest
+  for (var i = 0; i < data.length; i++) {
+    var r = data[i];
+    //
+    var address = Address(r.user.street,
+                          r.user.city,
+                          r.user.state,
+                          r.user.zip);
+
+    // parse daterProfile into object
+    var dater = DaterProfile (r.user.fname,
+                              r.user.lName,
+                              r.user.email,
+                              r.user.phone,
+                              address);
+    // parse dogProfile inot object
+    var dog = DogProfile(r.dog.id,
+                         r.dog.name,
+                         r.dog.sex,
+                         r.dog.media.photos[1].pn);
+    // build dateRequest from parsed data
+    var parsedRequest = DateRequest(r.request.id,
+                                    dog, dater,
+                                    r.request.epoch,
+                                    r.request.status);
+    // add new request
+    filteredArray.push(parsedRequest);
+  }
+
+  return filteredArray;
 };
 
-function filterDateRequestProperties(data) {
+
+/*function filterDateRequestProperties(data) {
   var filteredArray = [];
 
   // parse data into array of dateRequests objects. Here we
@@ -111,6 +149,5 @@ function filterDateRequestProperties(data) {
   }
 
   return filteredArray;
-};
+}; */
 
-module.exports = filterDateRequestProperties;

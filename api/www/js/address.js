@@ -14,4 +14,3 @@ var Address = function(street, city, state, zipcode) {
   return address;
 };
 
-module.exports = Address;

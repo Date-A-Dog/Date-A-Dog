@@ -49,6 +49,7 @@ var Shelter = function(_id, _testingMockData) {
              // call async method to load dateRequext data
       fetchRequests('./mockData/dateRequestData.json', function(data) {
         //return data here
+		
         dateRequests = data;
         callback();
       });
@@ -201,4 +202,3 @@ var Shelter = function(_id, _testingMockData) {
   return shelter;
 };
 
-module.exports = Shelter;

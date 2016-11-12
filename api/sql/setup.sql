@@ -1,5 +1,12 @@
-DROP DATABASE IF EXISTS dateadog;
-CREATE DATABASE dateadog;
+-- DROP DATABASE IF EXISTS dateadog;
+DROP TABLE doggies;
+DROP TABLE shelters;
+DROP TABLE users;
+DROP TABLE requests;
+DROP TABLE judged;
+DROP INDEX user_requests;
+DROP INDEX shelter_requests;
+-- CREATE DATABASE dateadog;
 GRANT ALL PRIVILEGES ON DATABASE dateadog to dadadmin;
 
 \c dateadog;

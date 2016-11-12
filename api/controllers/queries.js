@@ -45,7 +45,7 @@ function getNextDogs(req, res, next) {
                                    AND d.dog->>\'zip\' = $2) \
                ORDER BY d.id ASC \
                LIMIT $3';
-  db.any(query, [req.user.id, req.body.zip, req.body.count])
+  db.any(query, [req.user.id, '98105', '20'])
     .then(function (data) {
       console.log(data);
       res.status(200).json(data);
@@ -55,6 +55,52 @@ function getNextDogs(req, res, next) {
     });
 }
 
+function getDogHistory(req, res, next) {
+  var query = 'SELECT d.dog, j.status \
+               FROM doggies d JOIN judged j ON d.id = j.dogId \
+               WHERE j.userId = $1 \
+               ORDER BY d.id ASC';
+  db.any(query, [req.user.id])
+    .then(function (data) {
+      res.status(200).json(data);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function getShelterRequests(req, res, next) {
+  console.log('getShelterRequests called');
+  var query = 'SELECT json_build_object(\'id\', r.id, \
+                                        \'epoch\', r.epoch, \
+                                        \'status\', r.status) AS request, \
+                      d.dog AS dog, \
+                      s.shelter AS shelter, \
+                      json_build_object(\'id\', u.id, \
+                                        \'fname\', u.fname, \
+                                        \'lname\', u.lname, \
+                                        \'street\', u.street, \
+                                        \'city\', u.city, \
+                                        \'state\', u.state, \
+                                        \'zip\', u.zip, \
+                                        \'phone\', u.phone) AS user \
+               FROM requests r \
+               JOIN doggies d ON d.id = r.dogId \
+               JOIN shelters s ON s.id = r.shelterId \
+               JOIN users u ON  u.id = r.userId \
+               JOIN users v ON v.shelterId = r.shelterId \
+               WHERE v.id = $1';
+  db.any(query, [req.user.id])
+    .then(function(data) {
+      res.status(200).json(data)
+    })
+    .catch(function(err) {
+      return next(err);
+    });
+}
+
+
+
 module.exports = {
   // Rest API specific queries
   login: login,
@@ -63,7 +109,7 @@ module.exports = {
   // getLikedDogs: getLikedDogs,
   // getDislikedDogs: getDislikedDogs,
   // judgeDog: judgeDog,
-  // getShelterRequests: getShelterRequests,
+  getShelterRequests: getShelterRequests,
   // getShelterRequestsDemo: getShelterRequestsDemo,
   // getShelter: getShelter,
   // updateRequestStatus: updateRequestStatus,

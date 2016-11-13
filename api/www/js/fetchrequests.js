@@ -44,7 +44,7 @@ function fetchRequests(path, callback) {
 
   httpRequest.open('POST', '/api/getShelterRequests');
   httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABAD7IRQxADvwgiGtE5rvDHB1uZAYSZAcylASYNaZA5SOyskOy8w7MLpQaoShpnJcbCnvlAFOgWDoH5RFbNr8u86HefW4qn22XEKNUOmVQQ6j7bFfbz0RZAjZAMNx9j8o6gxToC9elvzp7BZATa9eZB1DjmTATVCx6kCK6FIMH4tr");
+  httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABANOHFZA1qNKLsVJHBZCZBhh8z5hPJt1Tfwdxfwd4gEKcSLEUJvoeJjxu0VaMzZBu0qIvByp3CtHfcsyZB7N72mZBBH03U99V3U1RkVXWqDVplNyvsfcyMqi4aZAK8rhoyQNgQr1BRZCI87p1ZBgOmTRoI7IJPXMcoJVknGVKOCdFY");
   httpRequest.send(JSON.stringify());
 };
 
@@ -86,16 +86,16 @@ function fetchRequests(path, callback) {
 //
 function filterDateRequestProperties(data) {
   var filteredArray = [];
-
   // parse data into array of dateRequests objects. Here we
   // extract the desired fields to build each dateRequest
   for (var i = 0; i < data.length; i++) {
-    var r = data[i];
-    //
+    var r = data[i];   // current result
+
+    // parse user's address
     var address = Address(r.user.street,
                           r.user.city,
                           r.user.state,
-                          r.user.zip);
+                          98195);//r.user.zip);
 
     // parse daterProfile into object
     var dater = DaterProfile (r.user.fname,
@@ -111,7 +111,7 @@ function filterDateRequestProperties(data) {
     // build dateRequest from parsed data
     var parsedRequest = DateRequest(r.request.id,
                                     dog, dater,
-                                    r.request.epoch,
+                                    formatEpoch(r.request.epoch), 
                                     r.request.status);
     // add new request
     filteredArray.push(parsedRequest);
@@ -119,6 +119,23 @@ function filterDateRequestProperties(data) {
 
   return filteredArray;
 };
+
+
+// Formats epoch and returns a human readable date:time
+function formatEpoch(epoch) {
+  var d = new Date(epoch * 1000);
+  var month = d.getMonth() + 1; // account for offset 0-11
+  var day = d.getDate();
+  var year = d.getFullYear();
+  var hr =  "" + d.getHours();
+  var min = "" + d.getMinutes();
+  hr = (hr.length < 2) ? "0" + hr: hr;  
+  min = (min.length < 2) ? "0" + min: min;
+  var time = hr + ":" + min + ":" + "00";
+
+  var formatDate = month + "/" + day + "/" + year + " at " + time; 
+  return formatDate;
+}
 
 
 /*function filterDateRequestProperties(data) {

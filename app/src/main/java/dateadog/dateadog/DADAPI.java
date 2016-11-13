@@ -55,8 +55,11 @@ public class DADAPI {
 
     private static String PETFINDER_API_KEY = "d025e514d458e4366c42ea3006fd31b3";
     private static String PETFINDER_URL_BASE = "http://api.petfinder.com/pet.find&format=json&animal=dog&output=full&count=100?key=" + PETFINDER_API_KEY;
-    private static String DAD_SERVER_URL_BASE = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/getNextDogs";
+    private static String DAD_SERVER_URL_BASE = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/";
+    private static String FIND_DOGS_END_POINT = "getNextDogs";
+    private static String JUDGE__DOG_ENDPOINT = "judgeDog";
     private static String DAD_SERVER_URL_BASE_DEMO = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/getNextDogsDemo";
+
     private User user;
     private int zipCode;
     private int lastOffset;
@@ -109,7 +112,7 @@ public class DADAPI {
         RequestQueue queue = Volley.newRequestQueue(context);
         addDogsFromJSON("", result);
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,
-                                                               DAD_SERVER_URL_BASE,
+                                                               DAD_SERVER_URL_BASE + FIND_DOGS_END_POINT,
                                                                new JSONObject(),
                                                                new Response.Listener<JSONObject>() {
             @Override
@@ -146,14 +149,14 @@ public class DADAPI {
         // return filterSeenDogs(result);
     }
 
-    private void judgeDog(Dog dog, boolean like) {
+    public void judgeDog(Dog dog, boolean like) {
         JSONObject dogLike = new JSONObject();
         try {
             dogLike.put("id", dog.getDogId());
             dogLike.put("liked", like);
-            //PAUL TO DO CHANGE ThE ENDPOINT FOR JUDGE DOG
+            dogLike.put("epoch", System.currentTimeMillis());
             JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,
-                                                                   DAD_SERVER_URL_BASE_DEMO,
+                                                                   DAD_SERVER_URL_BASE + JUDGE__DOG_ENDPOINT,
                                                                    dogLike,
                                                                    new Response.Listener<JSONObject>() {
                 @Override

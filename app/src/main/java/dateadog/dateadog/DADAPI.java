@@ -31,6 +31,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
 import com.facebook.login.LoginManager;
 import static dateadog.dateadog.LoginActivity.getUserLoginToken;
 
@@ -58,6 +59,7 @@ public class DADAPI {
     private static String DAD_SERVER_URL_BASE = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/";
     private static String FIND_DOGS_END_POINT = "getNextDogs";
     private static String JUDGE__DOG_ENDPOINT = "judgeDog";
+    private static String GET_LIKED_DOGS_ENDPOINT = "getLikedDogs";
     private static String DAD_SERVER_URL_BASE_DEMO = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/getNextDogsDemo";
 
     private User user;
@@ -92,6 +94,17 @@ public class DADAPI {
             petfinderURL = new URL(PETFINDER_URL_BASE + "&location=" + zipCode + "&offset=" + lastOffset);
         } catch (MalformedURLException e) {
             Log.e(TAG, e.getMessage());
+        }
+    }
+
+    private void addDogsFromJSONList(String data, List<Dog> result) {
+        try {
+            JSONArray dogs = (JSONArray) new JSONTokener(Constants.DATA).nextValue();
+            for (int i = 0; i < dogs.length(); i++) {
+                result.add(new Dog((JSONObject) dogs.get(i)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -190,6 +203,45 @@ public class DADAPI {
             e.printStackTrace();
         }
 
+    }
+
+    //returns a list of liked dogs
+    public List<Dog> getLikedDogs() {
+        final List<Dog> likedDogs = new ArrayList<Dog>();
+        RequestQueue queue = Volley.newRequestQueue(context);
+        addDogsFromJSONList("", likedDogs);
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,
+                                                               DAD_SERVER_URL_BASE + GET_LIKED_DOGS_ENDPOINT,
+                                                               new JSONObject(),
+                                                               new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v("Response = ", "It did something with response" + response.toString());
+                        addDogsFromJSONList(response.toString(), likedDogs);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error == null) {
+                    Log.v("Null error", "it died with a null error");
+                } else if (error.getMessage() != null) {
+                    // Log.v("Error message", error.getMessage());
+                } else {
+                    Log.v("All are null", "");
+                }
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("access_token",getUserLoginToken());
+                return params;
+            }
+        };
+        Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
+        return likedDogs;
     }
 
     private void createDogsListFromJSON(String json) {

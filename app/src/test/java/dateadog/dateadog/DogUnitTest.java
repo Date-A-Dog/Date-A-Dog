@@ -2,7 +2,8 @@ package dateadog.dateadog;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import java.util.List;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -18,7 +19,9 @@ public class DogUnitTest {
     @Before
     public void setUp() throws Exception {
         // setting up new DogProfile
-        dog1 = new Dog(1,"Akita", "5", 0, null, "Grey" , "Cosette", "M", true );
+        List<String> breeds = new ArrayList<String>();
+        breeds.add("Akita");
+        dog1 = new Dog(1,breeds, "5", 0, null, "Grey" , "Cosette", "M", true );
     }
 
     @Test

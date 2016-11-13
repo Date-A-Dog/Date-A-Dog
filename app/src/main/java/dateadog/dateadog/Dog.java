@@ -24,6 +24,10 @@ public class Dog {
     /** Where the dog is located */
     private String city;
 
+    public long getDogId() {
+        return dogId;
+    }
+
     public String getImage() {
         return image;
     }
@@ -102,18 +106,20 @@ public class Dog {
 
     //Returns a list of breeds of dog in a string form of: Breed 1, Breed 2, Breed 3
     public String getStringBreeds() {
+        String res = "";
         if (breeds == null) {
             return "Breed of Dog is Unknown.";
-        }
-        if (breeds.size() == 0) {
-            return "Unknown Breeds: Mixed Dog";
-        }
-        String res = breeds.get(0);
-        if (breeds.size() == 1) {
-            return res;
-        }
-        for (int i = 1; i < breeds.size(); i++) {
-            res += ", " + breeds.get(i);
+        } else { //breeds cannot be null in here
+            if (breeds.size() == 0) {
+                return "Unknown Breeds: Mixed Dog";
+            } else if (breeds.size() == 1) {
+                return breeds.get(0);
+            } else {
+                res = breeds.get(0);
+                for (int i = 1; i < breeds.size(); i++) {
+                    res += ", " + breeds.get(i);
+                }
+            }
         }
         return res;
     }
@@ -141,8 +147,10 @@ public class Dog {
     public String analyzeName(String initName) {
         if (initName.toLowerCase().contains("foster")) {
             return "Dog(s) Intended for Foster Care (No Name)";
-        } else if (initName.toLowerCase().contains("Adoption")) {
+        } else if (initName.toLowerCase().contains("adoption")) {
             return "Dog(s)intented for adoption (No Name)";
+        } else if (initName.toLowerCase().contains("donations")) {
+            return "Dog(s) Needing Donations (No Name)";
         } else {
             return initName;
         }

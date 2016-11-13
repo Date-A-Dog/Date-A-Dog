@@ -31,6 +31,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.facebook.login.LoginManager;
+import static dateadog.dateadog.LoginActivity.getUserLoginToken;
 
 /**
  * {@code DADAPI} interfaces with the Date-A-Dog server and the Petfinder API to retrieve and
@@ -54,7 +56,7 @@ public class DADAPI {
     private static String PETFINDER_API_KEY = "d025e514d458e4366c42ea3006fd31b3";
     private static String PETFINDER_URL_BASE = "http://api.petfinder.com/pet.find&format=json&animal=dog&output=full&count=100?key=" + PETFINDER_API_KEY;
     private static String DAD_SERVER_URL_BASE = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/getNextDogs";
-
+    private static String DAD_SERVER_URL_BASE_DEMO = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/getNextDogsDemo";
     private User user;
     private int zipCode;
     private int lastOffset;
@@ -105,11 +107,11 @@ public class DADAPI {
         final Set<Dog> result = new LinkedHashSet<>();
 
         RequestQueue queue = Volley.newRequestQueue(context);
-
-        String host = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com";
-        String url = host + "/api/getNextDogsDemo";
         addDogsFromJSON("", result);
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(), new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,
+                                                               DAD_SERVER_URL_BASE,
+                                                               new JSONObject(),
+                                                               new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -132,6 +134,8 @@ public class DADAPI {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("access_token",getUserLoginToken());
                 return params;
             }
         };
@@ -143,6 +147,45 @@ public class DADAPI {
     }
 
     private void judgeDog(Dog dog, boolean like) {
+        JSONObject dogLike = new JSONObject();
+        try {
+            dogLike.put("id", dog.getDogId());
+            dogLike.put("liked", like);
+            //PAUL TO DO CHANGE ThE ENDPOINT FOR JUDGE DOG
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,
+                                                                   DAD_SERVER_URL_BASE_DEMO,
+                                                                   dogLike,
+                                                                   new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    Log.v("Response = ", "It did something with response" + response.toString());
+                    //addDogsFromJSON(response.toString(), result);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error == null) {
+                        Log.v("Null error", "it died with a null error");
+                    } else if (error.getMessage() != null) {
+                        // Log.v("Error message", error.getMessage());
+                    } else {
+                        Log.v("All are null", "");
+                    }
+                }
+            }) {
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("access_token",getUserLoginToken());
+                    return params;
+                }
+            };
+            Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -151,11 +194,12 @@ public class DADAPI {
     }
 
     public void likeDog(Dog dog) {
+        judgeDog(dog, true);
 
     }
 
     public void dislikeDog(Dog dog) {
-
+        judgeDog(dog, false);
     }
 
     public Set<DateRequest> getRequests() {

@@ -40,6 +40,8 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
     private ArrayList<Data_TinderUI> al;
     private SwipeFlingAdapterView flingContainer;
     private OnFragmentInteractionListener mListener;
+    private DADAPI DogManager;
+
 
     public static void removeBackground() {
         viewHolder.background.setVisibility(View.GONE);
@@ -47,7 +49,6 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
     }
 
     private static void addDogsToAL(Set<Dog> dogs, ArrayList<Data_TinderUI> al) {
-
         for (Dog dog : dogs) {
             String Breeds = dog.getStringBreeds();
             String SizeDog = dog.getSizeStringDog();
@@ -78,8 +79,9 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DogManager = new DADAPI(getActivity());
         al = new ArrayList<>();
-        Set<Dog> dogs = new DADAPI(getActivity()).getNextDogs(0);
+        Set<Dog> dogs = DogManager.getNextDogs(0);
         addDogsToAL(dogs, al);
     }
 
@@ -99,6 +101,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
             }
 
             @Override
+            //this is the reject swipe
             public void onLeftCardExit(Object dataObject) {
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();
@@ -109,6 +112,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
             }
 
             @Override
+            //this is the like a dog swipe
             public void onRightCardExit(Object dataObject) {
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();

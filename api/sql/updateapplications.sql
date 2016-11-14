@@ -37,7 +37,7 @@ UPDATE users
 SET email = 'scoobydoo@snoopdogg.com',
     fname = 'Amarpal',
     lname = 'Singh',
-    street = 'Your Momma\'s House',
+    street = 'Your Momma''s House',
     city = 'Playboy Mansion',
     state = 'CA',
     phone = '(775) 246-7077',

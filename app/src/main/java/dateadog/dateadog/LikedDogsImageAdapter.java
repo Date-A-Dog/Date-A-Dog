@@ -30,7 +30,7 @@ public class LikedDogsImageAdapter extends BaseAdapter {
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        new DADAPI(context).getNextDogs(0);
+        new DADAPI(context).getDogs();
         ImageView imageView;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes

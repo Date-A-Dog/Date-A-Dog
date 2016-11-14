@@ -48,7 +48,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         myAppAdapter.notifyDataSetChanged();
     }
 
-    private static void addDogsToAL(Set<Dog> dogs, ArrayList<Data_TinderUI> al) {
+    private static void addDogsToAL(List<Dog> dogs, ArrayList<Data_TinderUI> al) {
         for (Dog dog : dogs) {
             String Breeds = dog.getStringBreeds();
             String SizeDog = dog.getSizeStringDog();
@@ -56,7 +56,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
                                  dog.getAge() + "\nSex: " + dog.getSex() +
                                  "\nBreeds: " + Breeds + "\nSize of Dog: " + SizeDog +
                                  "\nDog Location: " + dog.getCity();
-            al.add(new Data_TinderUI(dog.getImage(), profileInfo));
+            al.add(new Data_TinderUI(dog.getImage(), dog.getDogId(), profileInfo));
         }
     }
 
@@ -81,8 +81,9 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         super.onCreate(savedInstanceState);
         DogManager = new DADAPI(getActivity());
         al = new ArrayList<>();
-        Set<Dog> dogs = DogManager.getNextDogs(0);
-        addDogsToAL(dogs, al);
+        DogManager.getDogs();
+        List<Dog> doggies = DogManager.getDogs();
+        addDogsToAL(doggies, al);
     }
 
     @Override
@@ -103,22 +104,30 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
             @Override
             //this is the reject swipe
             public void onLeftCardExit(Object dataObject) {
+                Data_TinderUI dogProfile = al.get(0);
+                //DogManager.judgeDog(dogProfile.getDogId(), false);
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();
                 if (al.size() == 0) {
-                    noDogs.setText("No More Dogs.\nRefresh Page Soon!");
-                    noDogs.setTextColor(Color.BLUE);
+                    //Set<Dog> dogs = DogManager.getDogs();
+                    //addDogsToAL(dogs, al);
+                    //noDogs.setText("No More Dogs.\nRefresh Page Soon!");
+                    //noDogs.setTextColor(Color.BLUE);
                 }
             }
 
             @Override
             //this is the like a dog swipe
             public void onRightCardExit(Object dataObject) {
+                Data_TinderUI dogProfile = al.get(0);
+                //DogManager.judgeDog(dogProfile.getDogId(), true);
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();
                 if (al.size() == 0) {
-                    noDogs.setText("No More Dogs.\nRefresh Page Soon!");
-                    noDogs.setTextColor(Color.BLUE);
+                    //Set<Dog> dogs = DogManager.getDogs();
+                    //addDogsToAL(dogs, al);
+                    //noDogs.setText("No More Dogs.\nRefresh Page Soon!");
+                    //noDogs.setTextColor(Color.BLUE);
                 }
             }
 

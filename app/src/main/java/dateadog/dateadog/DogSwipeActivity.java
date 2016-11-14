@@ -41,7 +41,7 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
 
     private static void addDogsToAL(Set<Dog> dogs, ArrayList<Data_TinderUI> al) {
         for (Dog dog : dogs) {
-            al.add(new Data_TinderUI(dog.getImage(), dog.getName() + "\n" + dog.getAge() + " " + dog.getSex()));
+            al.add(new Data_TinderUI(dog.getImage(), dog.getDogId(), dog.getName() + "\n" + dog.getAge() + " " + dog.getSex()));
         }
     }
 
@@ -53,8 +53,8 @@ public class DogSwipeActivity extends AppCompatActivity implements FlingCardList
         //noDogs.setText("No More Dogs!");
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         al = new ArrayList<>();
-        Set<Dog> dogs = new DADAPI(this).getNextDogs(0);
-        addDogsToAL(dogs, al);
+        //Set<Dog> dogs = new DADAPI(this).getNextDogs();
+        //addDogsToAL(dogs, al);
 
         myAppAdapter = new MyAppAdapter(al, DogSwipeActivity.this);
         flingContainer.setAdapter(myAppAdapter);

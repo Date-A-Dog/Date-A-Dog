@@ -41,7 +41,7 @@ import static dateadog.dateadog.LoginActivity.getUserLoginToken;
  */
 public class DADAPI {
 
-
+    List<Dog> dogs;
     private static final String TAG = DADAPI.class.getName();
 
     /*
@@ -69,7 +69,9 @@ public class DADAPI {
     private Context context;
 
     public DADAPI(Context context) {
+
         this.context = context;
+        this.dogs = new ArrayList<>();
     }
 
     public void setUser(User user) {
@@ -80,7 +82,13 @@ public class DADAPI {
         JSONObject obj = new JSONObject();
         // execute method and handle any error responses.
     }
-
+    public List<Dog> getDogs() {
+        List<Dog> finalL = new ArrayList<>();
+        for (int i = 0; i < dogs.size(); i++) {
+            finalL.add(dogs.get(i));
+        }
+        return finalL;
+    }
     private Set<Dog> filterSeenDogs(Set<Dog> result) {
         // backend.getSeenDogs(I) | filter result
         return null;
@@ -97,6 +105,7 @@ public class DADAPI {
         }
     }
 
+
     private void addDogsFromJSONList(String data, List<Dog> result) {
         try {
             JSONArray dogs = (JSONArray) new JSONTokener(Constants.DATA).nextValue();
@@ -108,31 +117,51 @@ public class DADAPI {
         }
     }
 
-    private void addDogsFromJSON(String data, Set<Dog> result) {
+    private void addDogsFromJSON(JSONArray data, Set<Dog> result) {
         try {
-            JSONArray dogs = (JSONArray) new JSONTokener(Constants.DATA).nextValue();
-            for (int i = 0; i < dogs.length(); i++) {
-                result.add(new Dog((JSONObject) dogs.get(i)));
+            int length = data.length();
+            for (int i = 0; i < data.length() / 50; i++) {
+                result.add(new Dog((JSONObject) data.get(i)));
             }
         } catch (JSONException e) {
+            Log.v("Error in FromJSON", "");
             e.printStackTrace();
         }
     }
 
-    public Set<Dog> getNextDogs(int zipCode) {
-        final Set<Dog> result = new LinkedHashSet<>();
+    private void setDogParam(List<Dog> doggies) {
+        for (int i = 0; i < doggies.size(); i++) {
+            dogs.add(doggies.get(i));
+        }
+    }
+    private void getNextDogs(int zipCode) {
+        JSONObject login = new JSONObject();
+        try {
+            login.put("count", 20);
+            login.put("zip", 98105);
+        } catch (JSONException e) {
+            Log.v("Error in add zip", "");
+        }
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        addDogsFromJSON("", result);
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,
+        JsonObjectToArrayRequest jsObjRequest = new JsonObjectToArrayRequest(Request.Method.POST,
                                                                DAD_SERVER_URL_BASE + FIND_DOGS_END_POINT,
-                                                               new JSONObject(),
-                                                               new Response.Listener<JSONObject>() {
+                                                               login,
+                                                               new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONArray response) {
+                List<Dog> doggies = new ArrayList<>();
+                Log.v("Response = ", "It did something with response");
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        doggies.add(new Dog((JSONObject) response.get(i)));
+                    }
+                } catch (JSONException e) {
+                    Log.v("Error in response", "");
+                }
+                setDogParam(doggies);
 
-                Log.v("Response = ", "It did something with response" + response.toString());
-                addDogsFromJSON(response.toString(), result);
+                //addDogsFromJSON(response, result);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -140,7 +169,7 @@ public class DADAPI {
                 if (error == null) {
                     Log.v("Null error", "it died with a null error");
                 } else if (error.getMessage() != null) {
-                    // Log.v("Error message", error.getMessage());
+                    Log.v("Error in getNextDogs", error.getMessage());
                 } else {
                     Log.v("All are null", "");
                 }
@@ -150,22 +179,30 @@ public class DADAPI {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Content-Type","application/json");
                 params.put("access_token",getUserLoginToken());
                 return params;
             }
+            /**
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("count","20");
+                params.put("zip", "98105");
+                return params;
+            }
+            */
         };
         Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
 
-        return result;
 
         // return filterSeenDogs(result);
     }
 
-    public void judgeDog(Dog dog, boolean like) {
+    public void judgeDog(long dogId, boolean like) {
         JSONObject dogLike = new JSONObject();
         try {
-            dogLike.put("id", dog.getDogId());
+            dogLike.put("id", dogId);
             dogLike.put("liked", like);
             dogLike.put("epoch", System.currentTimeMillis());
             JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,
@@ -184,7 +221,7 @@ public class DADAPI {
                     if (error == null) {
                         Log.v("Null error", "it died with a null error");
                     } else if (error.getMessage() != null) {
-                        // Log.v("Error message", error.getMessage());
+                        Log.v("Error message JudgeDog", error.getMessage());
                     } else {
                         Log.v("All are null", "");
                     }
@@ -200,13 +237,14 @@ public class DADAPI {
             };
             Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
         } catch (JSONException e) {
+            Log.v("Error in judge dog", "");
             e.printStackTrace();
         }
 
     }
 
     //returns a list of liked dogs
-    public List<Dog> getLikedDogs() {
+    private List<Dog> getLikedDogs() {
         final List<Dog> likedDogs = new ArrayList<Dog>();
         RequestQueue queue = Volley.newRequestQueue(context);
         addDogsFromJSONList("", likedDogs);
@@ -225,7 +263,7 @@ public class DADAPI {
                 if (error == null) {
                     Log.v("Null error", "it died with a null error");
                 } else if (error.getMessage() != null) {
-                    // Log.v("Error message", error.getMessage());
+                    // Log.v("Error message Liked Dogs", error.getMessage());
                 } else {
                     Log.v("All are null", "");
                 }
@@ -248,13 +286,13 @@ public class DADAPI {
 
     }
 
-    public void likeDog(Dog dog) {
-        judgeDog(dog, true);
+    public void likeDog(long dogId) {
+        judgeDog(dogId, true);
 
     }
 
-    public void dislikeDog(Dog dog) {
-        judgeDog(dog, false);
+    public void dislikeDog(long dogId) {
+        judgeDog(dogId, false);
     }
 
     public Set<DateRequest> getRequests() {
@@ -266,3 +304,4 @@ public class DADAPI {
     }
 
 }
+

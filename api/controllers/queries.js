@@ -185,6 +185,19 @@ function requestDate(req, res, next) {
       });
 }
 
+function updateRequestStatus(req, res, next) {
+  var query = 'UPDATE requests \
+               SET status = $1 \
+               WHERE id = $2';
+  db.none(query, [req.body.status, req.body.id])
+    .then(function () {
+      res.sendStatus(200);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
 function updateUserApplication(req, res, next) {
     var query = 'UPDATE users \
                  SET email = $1, \
@@ -345,6 +358,19 @@ function requestDateDemo(req, res, next) {
       .catch(function(err) {
           return next(err);
       });
+}
+
+function updateRequestStatusDemo(req, res, next) {
+  var query = 'UPDATE requests \
+               SET status = $1 \
+               WHERE id = $2';
+  db.none(query, [req.body.status, req.body.id])
+    .then(function () {
+      res.sendStatus(200);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
 }
 
 function updateUserApplicationDemo(req, res, next) {

@@ -206,8 +206,8 @@ function updateUserApplication(req, res, next) {
                      street = $4, \
                      city = $5, \
                      state = $6, \
-                     phone = $7 \
-                     zip = $8 \
+                     phone = $7, \
+                     zip = $8, \
                  WHERE id = $9';
     db.none(query, [req.body.email, req.body.fname, req.body.lname,
                     req.body.street, req.body.city, req.body.state,
@@ -381,8 +381,8 @@ function updateUserApplicationDemo(req, res, next) {
                      street = $4, \
                      city = $5, \
                      state = $6, \
-                     phone = $7 \
-                     zip = $8 \
+                     phone = $7, \
+                     zip = $8, \
                  WHERE id = $9';
     db.none(query, [req.body.email, req.body.fname, req.body.lname,
                     req.body.street, req.body.city, req.body.state,

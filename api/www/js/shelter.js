@@ -92,7 +92,9 @@ var Shelter = function(_id, _testingMockData) {
   // status for the specified requestId - careful to update
   // the current screen to reflect changes 
   shelter.updateRequestStatus = function(requestId, newStatus) {
-
+    updateStatus(requestId, newStatus); 
+    console.log("updated ReqId: " + requestId + " to Satus: " + newStatus);
+    
   };
 
 

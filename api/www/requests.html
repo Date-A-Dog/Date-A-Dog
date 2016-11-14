@@ -51,7 +51,8 @@
 
 		jQuery(function() { 
 	          jQuery( "#accordion" ).accordion({
-                        collapsible: true
+                        collapsible: true,
+                        active: false
                  });
 		});
 		var siteUrl = '/'; 
@@ -71,11 +72,22 @@
 							"<h3>When: "+ r.dateTime + "</h3>"+
 							"</div> " + 
 							"<div class=\"accordionEle\"> " + 
-							 "<p> Requester: <strong>"  + r.daterProfile.fName +" " + r.daterProfile.lName +"</strong> " +
-							 "Zipcode: <strong>"+r.daterProfile.address.zipcode+"</strong></p>" +  
-							 "<p>Date requested with: </p>" +
+							 "<p>" +
+                                                         "<h3> Requester Details </h3><br>" + 
+                                                         "Name:  <strong>"  + r.daterProfile.fName +" " + r.daterProfile.lName +"</strong><br>" +
+                                                         "Phone: <strong>" + r.daterProfile.phone + "</strong><br>" +
+                                                         "Email: <strong>" + r.daterProfile.email + "</strong><br>" +
+                                                         "Street: <strong>" + r.daterProfile.address.street + "</strong><br>" +
+                                                         "City: <strong>" + r.daterProfile.address.city + "</strong><br>" +
+                                                         "State: <strong>" + r.daterProfile.address.state + "</strong><br>" + 
+							 "Zipcode: <strong>"+r.daterProfile.address.zipcode+"</strong>"+ 
+                                                         "</p>" + 
+                                                         "<h3>Date requested with: </h3><br>" +
 							 "<p><img class=\"accordion-img\" src=\""+ r.dogProfile.photoURL +"\" alt=\"dog image\">  " + 
-							 "<strong>"+r.dogProfile.name+"</strong> </p> " +
+							 "<strong>"+r.dogProfile.name+"</strong> </p>" +
+                                                         "Age: <strong>" + r.dogProfile.age + "</strong><br>" +
+                                                         "Sex: <strong>" + r.dogProfile.sex + "</strong><br>" +
+                                                         "Dog Id: <strong>" + r.dogProfile.id + "</strong><br>" + 
 							 "<p class=\"request-button-container\"> " + 
 							 // buttons
 							 "<button id =\"A" + r.id + "\" class=\"request-buttons btn btn-success btn-lg\" onclick=\"aproveRequest(" + r.id + ")\"> Approve</button>" +
@@ -99,16 +111,19 @@
 
 		function aproveRequest(reqId){ 
 		  updateButtons(reqId, "approve");
+                  shelter.updateRequestStatus(reqId, "A");
 		  alert("Approving request: " + reqId);
 		}
 
 		function denyRequest(reqId){   
 		  updateButtons(reqId, "deny");
+                  shelter.updateRequestStatus(reqId, "D");
 		  alert("Denying request: " + reqId);
 		}
 
 		function undoRequest(reqId){  
 		 updateButtons(reqId, "undo");
+                 shelter.updateRequestStatus(reqId, "P");
 		 alert("Undoing request: " + reqId);
 		}
 

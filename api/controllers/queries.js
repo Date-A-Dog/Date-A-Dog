@@ -118,7 +118,8 @@ function getShelterRequests(req, res, next) {
                JOIN shelters s ON s.id = r.shelterId \
                JOIN users u ON  u.id = r.userId \
                JOIN users v ON v.shelterId = r.shelterId \
-               WHERE v.id = $1';
+               WHERE v.id = $1 \
+               ORDER BY r.epoch ASC';
   db.any(query, [req.user.id])
     .then(function(data) {
       res.status(200).json(data)
@@ -319,7 +320,8 @@ function getShelterRequestsDemo(req, res, next) {
                JOIN doggies d ON d.id = r.dogId \
                JOIN shelters s ON s.id = r.shelterId \
                JOIN users u ON  u.id = r.userId \
-               WHERE r.shelterId = $1';
+               WHERE r.shelterId = $1 \
+               ORDER BY r.epoch ASC';
   db.any(query, ['WA214'])
     .then(function(data) {
       res.status(200).json(data)

@@ -42,10 +42,24 @@ function fetchRequests(path, callback) {
     }
   };
 
-  httpRequest.open('POST', '/api/getShelterRequests');
+  httpRequest.open('POST', '/api/getShelterRequestsDemo');
   httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABANOHFZA1qNKLsVJHBZCZBhh8z5hPJt1Tfwdxfwd4gEKcSLEUJvoeJjxu0VaMzZBu0qIvByp3CtHfcsyZB7N72mZBBH03U99V3U1RkVXWqDVplNyvsfcyMqi4aZAK8rhoyQNgQr1BRZCI87p1ZBgOmTRoI7IJPXMcoJVknGVKOCdFY");
+//  httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABANOHFZA1qNKLsVJHBZCZBhh8z5hPJt1Tfwdxfwd4gEKcSLEUJvoeJjxu0VaMzZBu0qIvByp3CtHfcsyZB7N72mZBBH03U99V3U1RkVXWqDVplNyvsfcyMqi4aZAK8rhoyQNgQr1BRZCI87p1ZBgOmTRoI7IJPXMcoJVknGVKOCdFY");
   httpRequest.send(JSON.stringify());
+};
+
+
+function updateStatus(reqId, newStatus) {
+  var httpRequest = new XMLHttpRequest();
+  httpRequest.onreadystatechange = function() {
+    if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+      console.log("updateStatus response: " +  httpRequest.responseText);
+    }
+  };
+
+  httpRequest.open('POST', '/api/updateRequestStatusDemo');
+  httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  httpRequest.send(JSON.stringify({"id": reqId, "status": newStatus}));
 };
 
 
@@ -74,6 +88,7 @@ function fetchRequests(path, callback) {
 //       "id": 14553,
 //       "name": "Chewbacca",
 //       "sex": "M",
+//       "age:": "Adult",
 //       "photoURL": "somephotourl.com"
 //     }
 //  }
@@ -95,7 +110,7 @@ function filterDateRequestProperties(data) {
     var address = Address(r.user.street,
                           r.user.city,
                           r.user.state,
-                          98195);//r.user.zip);
+                          r.user.zip);
 
     // parse daterProfile into object
     var dater = DaterProfile (r.user.fname,
@@ -107,6 +122,7 @@ function filterDateRequestProperties(data) {
     var dog = DogProfile(r.dog.id,
                          r.dog.name,
                          r.dog.sex,
+                         r.dog.age,
                          r.dog.media.photos[1].pn);
     // build dateRequest from parsed data
     var parsedRequest = DateRequest(r.request.id,

@@ -4,7 +4,7 @@
  * by using its accessor methods.
  *
  */
-var DogProfile = function(dogId, name, sex, photoURL) {
+var DogProfile = function(dogId, name, sex, age, photoURL) {
   // object profile properties
   var profile = {};
 
@@ -12,6 +12,7 @@ var DogProfile = function(dogId, name, sex, photoURL) {
   profile.id       = dogId;
   profile.name     = name;
   profile.sex      = sex;
+  profile.age      = age;
   profile.photoURL = photoURL;
 
   // log entry

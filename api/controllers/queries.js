@@ -54,7 +54,7 @@ function getNextDogs(req, res, next) {
 }
 
 function getDogHistory(req, res, next) {
-  var query = 'SELECT d.dog, j.status \
+  var query = 'SELECT d.dog, j.liked \
                FROM doggies d JOIN judged j ON d.id = j.dogId \
                WHERE j.userId = $1 \
                ORDER BY d.epoch DESC';
@@ -255,7 +255,7 @@ function getNextDogsDemo(req, res, next) {
 }
 
 function getDogHistoryDemo(req, res, next) {
-  var query = 'SELECT d.dog, j.status \
+  var query = 'SELECT d.dog, j.liked \
                FROM doggies d JOIN judged j ON d.id = j.dogId \
                WHERE j.userId = $1 \
                ORDER BY d.epoch DESC';

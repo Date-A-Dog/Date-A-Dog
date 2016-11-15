@@ -40,8 +40,8 @@ function getNextDogs(req, res, next) {
                WHERE NOT EXISTS (SELECT j.dogId \
                                  FROM judged j \
                                  WHERE d.id = j.dogId \
-                                   AND j.userId = $1 \
-                                   AND d.dog->>\'zip\' = $2) \
+                                 AND j.userId = $1) \
+               AND d.dog->>\'zip\' = $2 \
                ORDER BY d.id ASC \
                LIMIT $3';
   db.any(query, [req.user.id, req.body.zip, req.body.count])
@@ -241,8 +241,8 @@ function getNextDogsDemo(req, res, next) {
                WHERE NOT EXISTS (SELECT j.dogId \
                                  FROM judged j \
                                  WHERE d.id = j.dogId \
-                                   AND j.userId = $1 \
-                                   AND d.dog->>\'zip\' = $2) \
+                                 AND j.userId = $1) \
+               AND d.dog->>\'zip\' = $2 \
                ORDER BY d.id ASC \
                LIMIT $3';
   db.any(query, ['119889308491710', req.body.zip, req.body.count])

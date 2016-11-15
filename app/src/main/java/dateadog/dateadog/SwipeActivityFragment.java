@@ -8,26 +8,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.graphics.Color;
-
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import dateadog.dateadog.tindercard.FlingCardListener;
 import dateadog.dateadog.tindercard.SwipeFlingAdapterView;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -39,6 +32,7 @@ import java.util.Set;
  * create an instance of this fragment.
  */
 public class SwipeActivityFragment extends Fragment implements FlingCardListener.ActionDownInterface{
+    private static final String DOGS_TO_SPAWN = "40"; //how many dogs to spawn every time we run out of doggies
     public static MyAppAdapter myAppAdapter; //holds the app adapter
     private TextView noDogs; //displays when there are no dogs left
     public static ViewHolder viewHolder;
@@ -54,6 +48,8 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         myAppAdapter.notifyDataSetChanged();
     }
 
+    //adds the Dog object values for the view to the view list
+    //takes in Dog list and UI list as parameters to transfer necessary attributes
     private static void addDogsToAL(List<Dog> dogs, ArrayList<Data_TinderUI> al) {
         for (Dog dog : dogs) {
             String Breeds = dog.getStringBreeds();
@@ -66,7 +62,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         }
     }
     private void getDoggies() {
-        DogManager.getNextDogs("20", "98105", new VolleyResponseListener() {
+        DogManager.getNextDogs("1000", "98105", new VolleyResponseListener() {
             @Override
             public void onSuccess(JSONArray result) {
                 try {
@@ -128,13 +124,11 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
             //this is the reject swipe
             public void onLeftCardExit(Object dataObject) {
                 Data_TinderUI dogProfile = al.get(0);
-                //DogManager.judgeDog(dogProfile.getDogId(), false);
+                DogManager.judgeDog(dogProfile.getDogId(), false);
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();
                 if (al.size() == 0) {
                     getDoggies();
-                    //Set<Dog> dogs = DogManager.getDogs();
-                    //addDogsToAL(dogs, al);
                     //noDogs.setText("No More Dogs.\nRefresh Page Soon!");
                     //noDogs.setTextColor(Color.BLUE);
                 }
@@ -144,13 +138,11 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
             //this is the like a dog swipe
             public void onRightCardExit(Object dataObject) {
                 Data_TinderUI dogProfile = al.get(0);
-                //DogManager.judgeDog(dogProfile.getDogId(), true);
+                DogManager.judgeDog(dogProfile.getDogId(), true);
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();
                 if (al.size() == 0) {
                     getDoggies();
-                    //Set<Dog> dogs = DogManager.getDogs();
-                    //addDogsToAL(dogs, al);
                     //noDogs.setText("No More Dogs.\nRefresh Page Soon!");
                     //noDogs.setTextColor(Color.BLUE);
                 }

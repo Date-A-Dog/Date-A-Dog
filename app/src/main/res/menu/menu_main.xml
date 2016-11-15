@@ -4,8 +4,10 @@
     tools:context="dateadog.dateadog.MainActivity">
     <item
         android:id="@+id/action_log_out"
-        android:title="@string/action_log_out"
-        app:showAsAction="always" />
+        android:orderInCategory="100"
+        android:title="Log Out"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_help"
         android:title="@string/action_help"

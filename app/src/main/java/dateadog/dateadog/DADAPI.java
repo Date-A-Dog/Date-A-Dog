@@ -1,238 +1,163 @@
+/****************************************
+ * Copyright (c) 2016 Date-A-Dog.       *
+ * All rights reserved.                 *
+ ***************************************/
+
 package dateadog.dateadog;
 
-import android.content.Context;
-import android.util.Log;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
+
+import org.apache.commons.io.IOUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.net.MalformedURLException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.ArrayList;
-import static dateadog.dateadog.LoginActivity.getUserLoginToken;
 
-/**
- * {@code DADAPI} interfaces with the Date-A-Dog server and the Petfinder API to retrieve and
- * update information about the user and dogs available to them.
- */
 public class DADAPI {
-    private static String PETFINDER_API_KEY = "d025e514d458e4366c42ea3006fd31b3";
-    private static String PETFINDER_URL_BASE = "http://api.petfinder.com/pet.find&format=json&animal=dog&output=full&count=100?key=" + PETFINDER_API_KEY;
+
+    /** Holds the sole instance of this class. */
+    private static DADAPI instance;
+    /** URLs for server endpoints. */
     private static String DAD_SERVER_URL_BASE = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/";
-    private static String FIND_DOGS_END_POINT = "getNextDogs";
-    private static String JUDGE_DOG_ENDPOINT = "judgeDog";
-    private static String GET_LIKED_DOGS_ENDPOINT = "getLikedDogs";
-    private static String DAD_SERVER_URL_BASE_DEMO = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/getNextDogsDemo";
+    private static String GET_NEXT_DOGS_URL = DAD_SERVER_URL_BASE + "getNextDogs";
+    private static String JUDGE_DOG_URL = DAD_SERVER_URL_BASE + "judgeDog";
+    private static String GET_LIKED_DOGS_URL = DAD_SERVER_URL_BASE + "getLikedDogs";
 
-    private static final String TAG = DADAPI.class.getName();
-    private User user;
-    private int zipCode;
-    private int lastOffset;
-    private URL petfinderURL;
-    private Context context;
-    private RequestQueue queue;
-
-    /*This is the constructor fo the DADAPI class*/
-    public DADAPI(Context context) {
-        this.context = context;
-        queue = Volley.newRequestQueue(context);
+    /**
+     * Constructs an instance of the DADAPI class.
+     */
+    private DADAPI() {
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    /**
+     * Returns an instance of the {@code DADAPI} class.
+     *
+     * @return an instance of the {@code DADAPI} class
+     */
+    public static DADAPI getInstance() {
+        if (instance == null) {
+            instance = new DADAPI();
+        }
+        return instance;
     }
 
-    private Set<Dog> filterSeenDogs(Set<Dog> result) {
-        // backend.getSeenDogs(I) | filter result
-        return null;
-    }
-
-    public void setLocation(int zipCode) {
-        this.zipCode = zipCode;
-        this.lastOffset = 0;
-
+    /**
+     * Makes a POST request (with authentication) to the given URL with the given {@code jsonBody}
+     * as the body of the POST request. Returns the JSON response as a {@code String} or {@code null}
+     * if some error occurred.
+     *
+     * @param url the URL to make a POST request to
+     * @param jsonBody the JSON body of the POST request
+     * @return the JSON response from the DAD server, or {@code null} if some error occurred
+     */
+    public JSONTokener makeDADRequest(String url, JSONObject jsonBody) {
         try {
-            petfinderURL = new URL(PETFINDER_URL_BASE + "&location=" + zipCode + "&offset=" + lastOffset);
-        } catch (MalformedURLException e) {
-            Log.e(TAG, e.getMessage());
+            // Initialize an HTTP connection to the server.
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            // Add the user's Facebook login token to the request header.
+            connection.setRequestProperty("access_token", AccessToken.getCurrentAccessToken().toString());
+            connection.setRequestProperty("Content-Type", "application/json");
+            // Send the request body.
+            OutputStream output = connection.getOutputStream();
+            output.write(jsonBody.toString().getBytes());
+            // Get and return the response.
+            InputStream response = connection.getInputStream();
+            String responseText = IOUtils.toString(response);
+            return new JSONTokener(responseText);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
     /**
-     * Method is called when dogs are to be retrieved
-     * @param count how many dogs we want to be returned
-     * @param zip where the dogs we get should be located
-     * @param listener to be able to receive data in the activity/fragment we so desire
+     * Makes a DAD server request at the given URL, parses the response as a JSON
+     * array of dogs and returns a set containing these dogs.
+     *
+     * @param url a DAD endpoint that returns a JSON array of dogs
+     * @return a set of dogs retrieved from the given URL
      */
-    public void getNextDogs(String count, String zip, final VolleyResponseListener listener) {
-        JSONObject login = new JSONObject();
+    private Set<Dog> getDogsAtUrl(String url) {
+        Set<Dog> result = new HashSet<>();
+
+        JSONObject parameters = new JSONObject();
+        JSONTokener response = makeDADRequest(url, parameters);
         try {
-            login.put("count", count);
-            login.put("zip", zip);
+            JSONArray dogsArray = (JSONArray) response.nextValue();
+            for (int i = 0; i < dogsArray.length(); i++) {
+                result.add(new Dog(dogsArray.getJSONObject(i)));
+            }
         } catch (JSONException e) {
-            Log.v("Error in JSON", "For zip and count");
-        }
-        JsonObjectToArrayRequest jsObjRequest = new JsonObjectToArrayRequest(Request.Method.POST,
-                                                               DAD_SERVER_URL_BASE + FIND_DOGS_END_POINT,
-                                                               login,
-                                                               new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                Log.v("Response = ", "It did something with response");
-                listener.onSuccess(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error == null) {
-                    Log.v("Null error", "it died with a null error");
-                } else if (error.getMessage() != null) {
-                    Log.v("Error in getNextDogs", error.getMessage());
-                } else {
-                    Log.v("All are null", "");
-                }
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                //params.put("Content-Type","application/json");
-                params.put("Content-Type","application/json");
-                String pass = AccessToken.getCurrentAccessToken().getToken();
-                params.put("access_token", pass);
-                return params;
-            }
-        };
-        Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
-    }
-
-    /**
-     * Method for judging a dog on whether it is liked or disliked from swipe activity
-     * @param dogId the unique identifier that identifies a dog
-     * @param like whether "true" we like the dog or "false" we dislike the dog
-     */
-    public void judgeDog(long dogId, boolean like) {
-        JSONObject dogLike = new JSONObject();
-        try {
-            dogLike.put("id", dogId);
-            dogLike.put("liked", like);
-            dogLike.put("epoch", System.currentTimeMillis());
-            JsonObjectToStringRequest jsObjRequest = new JsonObjectToStringRequest(Request.Method.POST,
-                                                                   DAD_SERVER_URL_BASE + JUDGE_DOG_ENDPOINT,
-                                                                   dogLike,
-                                                                   new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    //we don't do anything with the OK response
-                    Log.v("Response = ", "It did something with judge dog response" + response.toString());
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (error == null) {
-                        Log.v("Null error", "it died with a null error");
-                    } else if (error.getMessage() != null) {
-                        Log.v("Error message JudgeDog", error.getMessage());
-                    } else {
-                        Log.v("All are null", "");
-                    }
-                }
-            }) {
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("Content-Type","application/json");
-                    params.put("access_token",getUserLoginToken());
-                    return params;
-                }
-            };
-            Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
-        } catch (JSONException e) {
-            Log.v("Error in judge dog", "");
             e.printStackTrace();
         }
 
+        return result;
     }
 
-    //returns a list of liked dogs
-    public void getLikedDogs(final VolleyResponseListener listener) {
-        JsonObjectToArrayRequest jsObjRequest = new JsonObjectToArrayRequest(Request.Method.POST,
-                                                                DAD_SERVER_URL_BASE + GET_LIKED_DOGS_ENDPOINT,
-                                                                        null,
-                                                                  new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.v("Response = ", "It did something with response");
-                        listener.onSuccess(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error == null) {
-                    Log.v("Null error", "it died with a null error");
-                } else if (error.getMessage() != null) {
-                    Log.v("Error in getNextDogs", error.getMessage());
-                } else {
-                    Log.v("All are null", "");
-                }
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/json");
-                String pass = AccessToken.getCurrentAccessToken().getToken();
-                params.put("access_token", pass);
-                return params;
-            }
-        };
-        Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
+    /**
+     * Returns a set of dogs that the user has not yet judged.
+     *
+     * @return a set of dogs that the user has not yet judged
+     */
+    public Set<Dog> getNextDogs() {
+        return getDogsAtUrl(GET_NEXT_DOGS_URL);
     }
 
-    private void createDogsListFromJSON(String json) {
-
+    /**
+     * Returns a set of dogs that the user has liked.
+     *
+     * @return a set of dogs that the user has liked
+     */
+    public Set<Dog> getLikedDogs() {
+        return getDogsAtUrl(GET_LIKED_DOGS_URL);
     }
 
-    public void likeDog(long dogId) {
+    /**
+     * Marks the dog with the given {@code dogId} as liked or disliked.
+     *
+     * @param dogId the id of the dog to judge
+     * @param like true if the dog should be marked as liked, false otherwise
+     */
+    public void judgeDog(int dogId, boolean like) {
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("id", dogId);
+            parameters.put("liked", like);
+            parameters.put("epoch", System.currentTimeMillis());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        makeDADRequest(JUDGE_DOG_URL, parameters);
+    }
+
+    /**
+     * Marks the dog with the given {@code dogId} as liked.
+     *
+     * @param dogId the id of the dog to like
+     */
+    public void likeDog(int dogId) {
         judgeDog(dogId, true);
-
     }
 
-    public void dislikeDog(long dogId) {
+    /**
+     * Marks the dog with the given {@code dogId} as disliked.
+     *
+     * @param dogId the id of the dog to dislike
+     */
+    public void dislikeDog(int dogId) {
         judgeDog(dogId, false);
     }
 
-    public Set<DateRequest> getRequests() {
-        return null;
-    }
-
-    public void requestDate(Dog dog, Form form) {
-
-    }
-
-    public interface VolleyCallback{
-        void onSuccess(JSONArray response);
-        //void OnSuccess(JSONObject string);
-    }
-
 }
-

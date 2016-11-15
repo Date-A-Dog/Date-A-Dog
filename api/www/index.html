@@ -12,8 +12,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	<script src="js/fbinit.js"></script>
-	<script src="js/fblogin.js"></script>
 </head>
 <body id="dad">
 	<nav class="navbar navbar-inverse">
@@ -36,7 +34,38 @@
 <h1><center><font size = "5" color = "green">Log in using shelter Facebook information to view date
 	requests.</font></center></h1>
 
-<center><div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false"
-			 data-auto-logout-link="true"></div></center>
+<p><a href="#" onClick="logInWithFacebook()">Log In with the JavaScript SDK</a></p>
+
+<script>
+  logInWithFacebook = function() {
+    FB.login(function(response) {
+      if (response.authResponse) {
+        alert('You are logged in &amp; cookie set!');
+        // Now you can redirect the user or do an AJAX request to
+        // a PHP script that grabs the signed request from the cookie.
+        window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/requests.html";
+        console.dir(response);
+      } else {
+        alert('User cancelled login or did not fully authorize.');
+      }
+    });
+    return false;
+  };
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: '1105437202885536',
+      cookie: true, // This is important, it's not enabled by default
+      version: 'v2.2'
+    });
+  };
+
+  (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
 
 </body>

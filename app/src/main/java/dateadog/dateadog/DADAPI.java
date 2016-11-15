@@ -129,7 +129,7 @@ public class DADAPI {
      * @param dogId the id of the dog to judge
      * @param like true if the dog should be marked as liked, false otherwise
      */
-    public void judgeDog(int dogId, boolean like) {
+    public void judgeDog(long dogId, boolean like) {
         JSONObject parameters = new JSONObject();
         try {
             parameters.put("id", dogId);
@@ -147,7 +147,7 @@ public class DADAPI {
      *
      * @param dogId the id of the dog to like
      */
-    public void likeDog(int dogId) {
+    public void likeDog(long dogId) {
         judgeDog(dogId, true);
     }
 
@@ -156,7 +156,7 @@ public class DADAPI {
      *
      * @param dogId the id of the dog to dislike
      */
-    public void dislikeDog(int dogId) {
+    public void dislikeDog(long dogId) {
         judgeDog(dogId, false);
     }
 

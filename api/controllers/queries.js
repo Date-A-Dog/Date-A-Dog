@@ -60,7 +60,7 @@ function getDogHistory(req, res, next) {
                ORDER BY d.epoch DESC';
   db.any(query, [req.user.id])
     .then(function (data) {
-      res.status(200).json({history: data});
+      res.status(200).json(data);
     })
     .catch(function (err) {
       return next(err);
@@ -75,7 +75,7 @@ function getLikedDogs(req, res, next) {
                ORDER BY j.epoch DESC';
   db.any(query, [req.user.id, 'TRUE'])
     .then(function (data) {
-      res.status(200).json({history: data});
+      res.status(200).json(data);
     })
     .catch(function (err) {
       return next(err);
@@ -90,7 +90,7 @@ function getDislikedDogs(req, res, next) {
                ORDER BY j.epoch DESC';
   db.any(query, [req.user.id, 'FALSE'])
     .then(function (data) {
-      res.status(200).json({history: data});
+      res.status(200).json(data);
     })
     .catch(function (err) {
       return next(err);
@@ -135,7 +135,7 @@ function getShelter(req, res, next) {
                WHERE s = $1';
   db.one(query, [req.body.shelterId])
     .then(function(shelter) {
-      res.status(200).json(JSON.stringify(shelter));
+      res.status(200).json(shelter);
     })
     .catch(function(err) {
       return next(err);
@@ -148,7 +148,7 @@ function getShelterDemo(req, res, next) {
                WHERE s = $1';
   db.one(query, ['WA214'])
     .then(function(shelter) {
-      res.status(200).json(JSON.stringify(shelter));
+      res.status(200).json(shelter);
     })
     .catch(function(err) {
       return next(err);
@@ -261,7 +261,7 @@ function getDogHistoryDemo(req, res, next) {
                ORDER BY d.epoch DESC';
   db.any(query, ['119889308491710'])
     .then(function (data) {
-      res.status(200).json({history: data});
+      res.status(200).json(data);
     })
     .catch(function (err) {
       return next(err);
@@ -276,7 +276,7 @@ function getLikedDogsDemo(req, res, next) {
                ORDER BY j.epoch DESC';
   db.any(query, ['119889308491710', 'TRUE'])
     .then(function (data) {
-      res.status(200).json({history: data});
+      res.status(200).json(data);
     })
     .catch(function (err) {
       return next(err);
@@ -291,7 +291,7 @@ function getDislikedDogsDemo(req, res, next) {
                ORDER BY j.epoch DESC';
   db.any(query, ['119889308491710', 'FALSE'])
     .then(function (data) {
-      res.status(200).json({history: data});
+      res.status(200).json(data);
     })
     .catch(function (err) {
       return next(err);

@@ -16,7 +16,7 @@ import java.io.UnsupportedEncodingException;
  * Created by Amanda on 11/13/16.
  */
 
-public class JsonObjectToArrayRequest extends JsonRequest<JSONArray> {
+public class JsonObjectToStringRequest extends JsonRequest<String> {
 
     /**
      * Creates a new request.
@@ -24,7 +24,7 @@ public class JsonObjectToArrayRequest extends JsonRequest<JSONArray> {
      * @param listener Listener to receive the JSON response
      * @param errorListener Error listener, or null to ignore errors.
      */
-    public JsonObjectToArrayRequest(String url, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
+    public JsonObjectToArrayRequest(String url, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(Method.GET, url, null, listener, errorListener);
     }
 
@@ -38,22 +38,20 @@ public class JsonObjectToArrayRequest extends JsonRequest<JSONArray> {
      * @param errorListener Error listener, or null to ignore errors.
      */
     public JsonObjectToArrayRequest(int method, String url, JSONObject jsonRequest,
-                            Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
+                            Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
                 errorListener);
     }
 
     @Override
-    protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
+    protected Response<String> parseNetworkResponse(NetworkResponse response) {
         try {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
-            return Response.success(new JSONArray(jsonString),
+            return Response.success(new String(jsonString),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
-        } catch (JSONException je) {
-            return Response.error(new ParseError(je));
         }
     }
 }

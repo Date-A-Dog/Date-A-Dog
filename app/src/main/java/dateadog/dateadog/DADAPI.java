@@ -33,6 +33,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
 import com.facebook.login.LoginManager;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static dateadog.dateadog.LoginActivity.getUserLoginToken;
 
 /**
@@ -44,15 +46,7 @@ public class DADAPI {
     List<Dog> dogs;
     private static final String TAG = DADAPI.class.getName();
 
-    /*
-    private static DADAPI instance = null;
-    public static DADAPI getInstance() {
-        if (instance == null) {
-            instance = new DADAPI();
-        }
-        return instance;
-    }
-    */
+
 
     private static String PETFINDER_API_KEY = "d025e514d458e4366c42ea3006fd31b3";
     private static String PETFINDER_URL_BASE = "http://api.petfinder.com/pet.find&format=json&animal=dog&output=full&count=100?key=" + PETFINDER_API_KEY;
@@ -78,17 +72,8 @@ public class DADAPI {
         this.user = user;
     }
 
-    public void seenDog(Dog dog) {
-        JSONObject obj = new JSONObject();
-        // execute method and handle any error responses.
-    }
-    public List<Dog> getDogs() {
-        List<Dog> finalL = new ArrayList<>();
-        for (int i = 0; i < dogs.size(); i++) {
-            finalL.add(dogs.get(i));
-        }
-        return finalL;
-    }
+
+
     private Set<Dog> filterSeenDogs(Set<Dog> result) {
         // backend.getSeenDogs(I) | filter result
         return null;
@@ -134,32 +119,24 @@ public class DADAPI {
             dogs.add(doggies.get(i));
         }
     }
-    private void getNextDogs(int zipCode) {
+    public void getNextDogs(String count, String zip, final VolleyResponseListener listener) {
         JSONObject login = new JSONObject();
         try {
-            login.put("count", 20);
-            login.put("zip", 98105);
+            login.put("count", count);
+            login.put("zip", zip);
         } catch (JSONException e) {
             Log.v("Error in add zip", "");
         }
 
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectToArrayRequest jsObjRequest = new JsonObjectToArrayRequest(Request.Method.POST,
-                                                               DAD_SERVER_URL_BASE + FIND_DOGS_END_POINT,
+                                                               "http://35.160.226.75:3000/api/getNextDogs",
                                                                login,
                                                                new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                List<Dog> doggies = new ArrayList<>();
                 Log.v("Response = ", "It did something with response");
-                try {
-                    for (int i = 0; i < response.length(); i++) {
-                        doggies.add(new Dog((JSONObject) response.get(i)));
-                    }
-                } catch (JSONException e) {
-                    Log.v("Error in response", "");
-                }
-                setDogParam(doggies);
+                listener.onSuccess(response);
 
                 //addDogsFromJSON(response, result);
             }
@@ -179,10 +156,13 @@ public class DADAPI {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type","application/json");
                 params.put("Content-Type","application/json");
-                params.put("access_token",getUserLoginToken());
+                String pass = AccessToken.getCurrentAccessToken().getToken();
+                params.put("access_token", pass);
                 return params;
             }
+
             /**
             @Override
             protected Map<String,String> getParams(){
@@ -192,6 +172,7 @@ public class DADAPI {
                 return params;
             }
             */
+
         };
         Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
 
@@ -301,6 +282,11 @@ public class DADAPI {
 
     public void requestDate(Dog dog, Form form) {
 
+    }
+
+    public interface VolleyCallback{
+        void onSuccess(JSONArray response);
+        //void OnSuccess(JSONObject string);
     }
 
 }

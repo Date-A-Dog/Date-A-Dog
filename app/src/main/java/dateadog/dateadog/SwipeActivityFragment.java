@@ -17,6 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import dateadog.dateadog.tindercard.FlingCardListener;
 import dateadog.dateadog.tindercard.SwipeFlingAdapterView;
 
@@ -37,7 +42,8 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
     public static MyAppAdapter myAppAdapter; //holds the app adapter
     private TextView noDogs; //displays when there are no dogs left
     public static ViewHolder viewHolder;
-    private ArrayList<Data_TinderUI> al;
+    private ArrayList<Data_TinderUI> al; //the gui form of all dogs
+    private static List<Dog> pendingDogs; //the actual dog objects of all the pending dogs ot be swiped
     private SwipeFlingAdapterView flingContainer;
     private OnFragmentInteractionListener mListener;
     private DADAPI DogManager;
@@ -59,7 +65,23 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
             al.add(new Data_TinderUI(dog.getImage(), dog.getDogId(), profileInfo));
         }
     }
-
+    private void getDoggies() {
+        DogManager.getNextDogs("20", "98105", new VolleyResponseListener() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                try {
+                    JSONArray doggies = (JSONArray) result; //cast the response to a json array
+                    for (int i = 0; i < ((JSONArray) result).length(); i++) {
+                        pendingDogs.add(new Dog((JSONObject) doggies.get(i)));
+                    }
+                    addDogsToAL(pendingDogs, al);
+                    myAppAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.e("Error on succ", e.getMessage(), e);
+                }
+            }
+        });
+    }
     public SwipeActivityFragment() {
         // Required empty public constructor
     }
@@ -76,14 +98,15 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DogManager = new DADAPI(getActivity());
-        al = new ArrayList<>();
-        DogManager.getDogs();
-        List<Dog> doggies = DogManager.getDogs();
-        addDogsToAL(doggies, al);
+        al = new ArrayList<Data_TinderUI>();
+        pendingDogs = new ArrayList<Dog>();
+        getDoggies();
     }
 
     @Override
@@ -109,6 +132,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();
                 if (al.size() == 0) {
+                    getDoggies();
                     //Set<Dog> dogs = DogManager.getDogs();
                     //addDogsToAL(dogs, al);
                     //noDogs.setText("No More Dogs.\nRefresh Page Soon!");
@@ -124,6 +148,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
                 al.remove(0);
                 myAppAdapter.notifyDataSetChanged();
                 if (al.size() == 0) {
+                    getDoggies();
                     //Set<Dog> dogs = DogManager.getDogs();
                     //addDogsToAL(dogs, al);
                     //noDogs.setText("No More Dogs.\nRefresh Page Soon!");

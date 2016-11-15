@@ -159,10 +159,7 @@ function judgeDog(req, res, next) {
   var query = 'INSERT INTO judged (userId, dogId, epoch, liked) \
                VALUES ($1, $2, $3, $4) \
                ON CONFLICT (userId, dogId) \
-               DO UPDATE judged \
-               SET epoch = $3, liked = $4 \
-                  WHERE userId = $1 \
-                  AND dogId = $2';
+               DO UPDATE SET epoch = $3, liked = $4';
   db.none(query, [req.user.id, req.body.id, req.body.epoch, req.body.liked])
     .then(function () {
       res.sendStatus(200);
@@ -336,10 +333,7 @@ function judgeDogDemo(req, res, next) {
   var query = 'INSERT INTO judged (userId, dogId, epoch, liked) \
                VALUES ($1, $2, $3, $4) \
                ON CONFLICT (userId, dogId) \
-               DO UPDATE judged \
-               SET epoch = $3, liked = $4 \
-                  WHERE userId = $1 \
-                  AND dogId = $2';
+               DO UPDATE SET epoch = $3, liked = $4';
   db.none(query, ['119889308491710', req.body.id, req.body.epoch, req.body.liked])
     .then(function () {
       res.sendStatus(200);

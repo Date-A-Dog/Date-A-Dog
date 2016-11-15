@@ -13,14 +13,15 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import dateadog.dateadog.tindercard.FlingCardListener;
 import dateadog.dateadog.tindercard.SwipeFlingAdapterView;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -63,22 +64,12 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         }
     }
     private void getDoggies() {
-        DogManager.getNextDogs(DOGS_TO_SPAWN, ZIP, new VolleyResponseListener() {
-            @Override
-            public void onSuccess(JSONArray result) {
-                try {
-                    JSONArray doggies = (JSONArray) result; //cast the response to a json array
-                    for (int i = 0; i < ((JSONArray) result).length(); i++) {
-                        pendingDogs.add(new Dog((JSONObject) doggies.get(i)));
-                    }
-                    addDogsToAL(pendingDogs, al);
-                    myAppAdapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    Log.e("Error on succ", e.getMessage(), e);
-                }
-            }
-        });
+        Set<Dog> dogs = DogManager.getNextDogs();
+        pendingDogs.addAll(dogs);
+        addDogsToAL(pendingDogs, al);
+        myAppAdapter.notifyDataSetChanged();
     }
+
     public SwipeActivityFragment() {
         // Required empty public constructor
     }
@@ -100,20 +91,19 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DogManager = new DADAPI(getActivity());
+        DogManager = DADAPI.getInstance();
         al = new ArrayList<Data_TinderUI>();
         pendingDogs = new ArrayList<Dog>();
-        getDoggies();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getDoggies(); //refresh doggies
         View v = inflater.inflate(R.layout.fragment_swipe_activity, container, false);
         noDogs = (TextView)v.findViewById(R.id.textnodogs);
         flingContainer = (SwipeFlingAdapterView)v.findViewById(R.id.framefrag);
         myAppAdapter = new MyAppAdapter(al, getActivity());
+        getDoggies(); //refresh doggies
         flingContainer.setAdapter(myAppAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override

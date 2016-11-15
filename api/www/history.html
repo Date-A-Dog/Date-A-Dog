@@ -100,7 +100,8 @@
 
 			for (var i = 0; i < requestsList.length; i++) {
 				var r = requestsList[i];
-                                var newDiv = "<div class=\"accordionTitle\"><h3> Dog Name: " + r.dogProfile.name + "</h3>"+
+                                var imgName = (r.status == "A") ? "check_icon.png": "x_icon.png";
+                                var newDiv = "<div class=\"accordionTitle\"><img src=" + imgName +" width=\"30\" height=\"38\"><h3> Dog Name: " + r.dogProfile.name + "</h3>"+
                                                         "<h3>Dater: " + r.daterProfile.fName +" " + r.daterProfile.lName + "</h3>"+
                                                         "<h3>When: "+ r.dateTime + "</h3>"+
                                                         "</div> " + 

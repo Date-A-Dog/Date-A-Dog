@@ -57,7 +57,7 @@ function getDogHistory(req, res, next) {
   var query = 'SELECT d.dog, j.liked \
                FROM doggies d JOIN judged j ON d.id = j.dogId \
                WHERE j.userId = $1 \
-               ORDER BY d.epoch DESC';
+               ORDER BY j.epoch DESC';
   db.any(query, [req.user.id])
     .then(function (data) {
       res.status(200).json(data);
@@ -258,7 +258,7 @@ function getDogHistoryDemo(req, res, next) {
   var query = 'SELECT d.dog, j.liked \
                FROM doggies d JOIN judged j ON d.id = j.dogId \
                WHERE j.userId = $1 \
-               ORDER BY d.epoch DESC';
+               ORDER BY j.epoch DESC';
   db.any(query, ['119889308491710'])
     .then(function (data) {
       res.status(200).json(data);

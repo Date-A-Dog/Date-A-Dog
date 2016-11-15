@@ -24,7 +24,7 @@ public class JsonObjectToStringRequest extends JsonRequest<String> {
      * @param listener Listener to receive the JSON response
      * @param errorListener Error listener, or null to ignore errors.
      */
-    public JsonObjectToArrayRequest(String url, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    public JsonObjectToStringRequest(String url, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(Method.GET, url, null, listener, errorListener);
     }
 
@@ -32,13 +32,13 @@ public class JsonObjectToStringRequest extends JsonRequest<String> {
      * Creates a new request.
      * @param method the HTTP method to use
      * @param url URL to fetch the JSON from
-     * @param jsonRequest A {@link JSONArray} to post with the request. Null is allowed and
+     * @param jsonRequest A {@link String} to post with the request. Null is allowed and
      *   indicates no parameters will be posted along with request.
      * @param listener Listener to receive the JSON response
      * @param errorListener Error listener, or null to ignore errors.
      */
-    public JsonObjectToArrayRequest(int method, String url, JSONObject jsonRequest,
-                            Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    public JsonObjectToStringRequest(int method, String url, JSONObject jsonRequest,
+                                    Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
                 errorListener);
     }

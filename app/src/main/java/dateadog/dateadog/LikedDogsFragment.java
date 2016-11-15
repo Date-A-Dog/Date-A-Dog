@@ -29,6 +29,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static dateadog.dateadog.R.attr.height;
 import static dateadog.dateadog.R.id.top;
@@ -95,26 +96,15 @@ public class LikedDogsFragment extends Fragment {
     }
 
     private void getLikedDoggies(final LinearLayout layout) {
-        DogManager.getLikedDogs(new VolleyResponseListener() {
-            @Override
-            public void onSuccess(JSONArray result) {
-                try {
-                    JSONArray doggies = (JSONArray) result; //cast the response to a json array
-                    for (int i = 0; i < doggies.length(); i++) {
-                        likedDogs.add(new Dog((JSONObject) doggies.get(i)));
-                    }
-                    setLayoutScreen(likedDogs, layout);
-                } catch (JSONException e) {
-                    Log.e("Error on succ", e.getMessage(), e);
-                }
-            }
-        });
+        Set<Dog> dogs = DogManager.getLikedDogs();
+        likedDogs.addAll(dogs);
+        setLayoutScreen(likedDogs, layout);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DogManager = new DADAPI(getActivity());
+        DogManager = DADAPI.getInstance();
         likedDogs = new ArrayList<>();
     }
 

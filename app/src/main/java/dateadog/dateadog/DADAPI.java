@@ -5,6 +5,8 @@
 
 package dateadog.dateadog;
 
+import android.util.Log;
+
 import com.facebook.AccessToken;
 
 import org.apache.commons.io.IOUtils;
@@ -25,6 +27,8 @@ public class DADAPI {
 
     /** Holds the sole instance of this class. */
     private static DADAPI instance;
+    /** Used to identify this class in logging messages. */
+    private static String TAG = DADAPI.class.getName();
     /** URLs for server endpoints. */
     private static String DAD_SERVER_URL_BASE = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/";
     private static String GET_NEXT_DOGS_URL = DAD_SERVER_URL_BASE + "getNextDogs";
@@ -58,8 +62,9 @@ public class DADAPI {
      * @param jsonBody the JSON body of the POST request
      * @return the JSON response from the DAD server, or {@code null} if some error occurred
      */
-    public JSONTokener makeDADRequest(String url, JSONObject jsonBody) {
+    public JSONTokener makeRequest(String url, JSONObject jsonBody) {
         try {
+            if (true) return new JSONTokener(Constants.DATA);
             // Initialize an HTTP connection to the server.
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("POST");
@@ -77,6 +82,7 @@ public class DADAPI {
             return new JSONTokener(responseText);
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e(TAG, "Request to DAD server failed.\nURL: " + url + "\nBody: " + jsonBody.toString());
             return null;
         }
     }
@@ -92,7 +98,7 @@ public class DADAPI {
         Set<Dog> result = new HashSet<>();
 
         JSONObject parameters = new JSONObject();
-        JSONTokener response = makeDADRequest(url, parameters);
+        JSONTokener response = makeRequest(url, parameters);
         try {
             JSONArray dogsArray = (JSONArray) response.nextValue();
             for (int i = 0; i < dogsArray.length(); i++) {
@@ -139,7 +145,7 @@ public class DADAPI {
             e.printStackTrace();
             return;
         }
-        makeDADRequest(JUDGE_DOG_URL, parameters);
+        makeRequest(JUDGE_DOG_URL, parameters);
     }
 
     /**

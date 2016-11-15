@@ -8,8 +8,6 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
-
 @RunWith(AndroidJUnit4.class)
 public class DADAPITest {
     @Test
@@ -17,8 +15,8 @@ public class DADAPITest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        DADAPI api = DADAPI.getInstance(appContext);
-        System.out.println(api.makeDADRequest("http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/getNextDogsDemo", new JSONObject()));
+        DADAPI api = DADAPI.getInstance();
+        System.out.println(api.makeRequest("http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/getNextDogsDemo", new JSONObject()));
     }
 
     @Test
@@ -26,7 +24,7 @@ public class DADAPITest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        DADAPI api = DADAPI.getInstance(appContext);
+        DADAPI api = DADAPI.getInstance();
         System.out.println(api.getNextDogs());
 
     }

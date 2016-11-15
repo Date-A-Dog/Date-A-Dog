@@ -10,9 +10,9 @@
  * and methods to query and update server data.
  *
  */
-var Shelter = function(_id, _testingMockData) {
+var Shelter = function(_token, _testingMockData) {
 
-  if (arguments < 1 || _id === undefined) {
+  if (arguments < 1 || _token === undefined) {
     throw Error("shelterId is required when constructing Shelter object.");
   }
 
@@ -20,7 +20,7 @@ var Shelter = function(_id, _testingMockData) {
   /** Te array where all date requests for this shelter are stored*/
   var dateRequests = null; 
   /** The shelter id - determinded by petfinder.com */
-  var id = _id;
+  var token = _token;
   /** Determines if we are testing - defaults to false if no second arg given */
   var testingMockData = _testingMockData || false;
   /**object to which all functinality is attached */
@@ -47,7 +47,7 @@ var Shelter = function(_id, _testingMockData) {
       dateRequests = filterDateRequestProperties(jsonContent);
     } else {
              // call async method to load dateRequext data
-      fetchRequests('./mockData/dateRequestData.json', function(data) {
+      fetchRequests(token, function(data) {
         //return data here
 		
         dateRequests = data;
@@ -92,8 +92,8 @@ var Shelter = function(_id, _testingMockData) {
   // status for the specified requestId - careful to update
   // the current screen to reflect changes 
   shelter.updateRequestStatus = function(requestId, newStatus) {
-    updateStatus(requestId, newStatus); 
-    console.log("updated ReqId: " + requestId + " to Satus: " + newStatus);
+    updateStatus(token, requestId, newStatus); 
+    console.log("updated ReqId: " + requestId + " to Status: " + newStatus);
     
   };
 

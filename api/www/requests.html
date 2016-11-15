@@ -93,9 +93,10 @@
           FB.logout();
           window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html"; 
         };
-
+        
+        var shelter;
         function loadData(fbResponse) {
-		var shelter = Shelter("WA141");
+		shelter = Shelter(fbResponse.authResponse.accessToken);
 		shelter.updateDateRequests(function(){ 
 
 			var requestsList = shelter.getPendingRequests();

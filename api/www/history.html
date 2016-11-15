@@ -26,6 +26,37 @@
 	<script src="js/updatetable.js"></script>
  </head>
 <body id="dad">
+
+  <script> 
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: '1105437202885536',
+        cookie: true, // This is important, it's not enabled by default
+        version: 'v2.2'
+      });
+    
+      FB.getLoginStatus(function (response) {
+        if (response.status === 'connected') {
+      	console.log("Logged in as" + response.authResponse.accessToken);
+        loadData(response);
+        
+        } else {
+          // log in again code
+          console.log("Expired token");
+      	  window.location.href = "http://localhost:3000/index.html";
+        }
+
+     });
+   };
+
+     (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -35,7 +66,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="requests.html">Requests</a></li>
 				<li><a href="history.html">History</a></li>
-				<li><a href="index.html">Logout</a></li>
+				<li><a href="index.html" onclick="logout()">Logout</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -56,8 +87,12 @@
                   });
 		});
 		var siteUrl = '/'; 
+          function logout() {
+            FB.logout();
+            window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html"; 
+          };
+          function loadData(fbResponse) {
 
-		// only load data when refresh is done fetching
 		var shelter = Shelter("WA141");
 		shelter.updateDateRequests(function(){ 
 
@@ -101,7 +136,7 @@
  
 		});
 
-
+           };  // end of loadData()
 
         function undoRequest(reqId){  
           var undoButton = document.getElementById("U" + reqId);

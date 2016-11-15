@@ -29,7 +29,7 @@
 */
 
 /**** GOOD FUNCTION - use this once database calls are ready ****/
-function fetchRequests(path, callback) {
+function fetchRequests(token, callback) {
   var httpRequest = new XMLHttpRequest();
   httpRequest.onreadystatechange = function() {
     if (httpRequest.readyState === 4 && httpRequest.status === 200) {
@@ -42,14 +42,14 @@ function fetchRequests(path, callback) {
     }
   };
 
-  httpRequest.open('POST', '/api/getShelterRequestsDemo');
+  httpRequest.open('POST', '/api/getShelterRequests');
   httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-//  httpRequest.setRequestHeader("access_token", "EAAPtY6fMq6ABANOHFZA1qNKLsVJHBZCZBhh8z5hPJt1Tfwdxfwd4gEKcSLEUJvoeJjxu0VaMzZBu0qIvByp3CtHfcsyZB7N72mZBBH03U99V3U1RkVXWqDVplNyvsfcyMqi4aZAK8rhoyQNgQr1BRZCI87p1ZBgOmTRoI7IJPXMcoJVknGVKOCdFY");
+  httpRequest.setRequestHeader("access_token", token);
   httpRequest.send(JSON.stringify());
 };
 
 
-function updateStatus(reqId, newStatus) {
+function updateStatus(token, reqId, newStatus) {
   var httpRequest = new XMLHttpRequest();
   httpRequest.onreadystatechange = function() {
     if (httpRequest.readyState === 4 && httpRequest.status === 200) {
@@ -57,8 +57,9 @@ function updateStatus(reqId, newStatus) {
     }
   };
 
-  httpRequest.open('POST', '/api/updateRequestStatusDemo');
+  httpRequest.open('POST', '/api/updateRequestStatus');
   httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  httpRequest.setRequestHeader("access_token", token);
   httpRequest.send(JSON.stringify({"id": reqId, "status": newStatus}));
 };
 

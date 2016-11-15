@@ -43,7 +43,7 @@
         } else {
           // log in again code
           console.log("Expired token");
-      	  window.location.href = "http://localhost:3000/index.html";
+          logout();
         }
 
      });
@@ -91,9 +91,9 @@
             FB.logout();
             window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html"; 
           };
+          var shelter;         
           function loadData(fbResponse) {
-
-		var shelter = Shelter("WA141");
+		shelter = Shelter(fbResponse.authResponse.accessToken);
 		shelter.updateDateRequests(function(){ 
 
 			var requestsList = shelter.getHistoryRequests();
@@ -141,7 +141,7 @@
         function undoRequest(reqId){  
           var undoButton = document.getElementById("U" + reqId);
           undoButton.disabled = true;
-          updateStatus(reqId, "P");
+          shelter.updateRequestStatus(reqId, "P");
           alert("Undoing request: " + reqId);
         };
 	</script>

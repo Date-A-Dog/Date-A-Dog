@@ -36,15 +36,14 @@ function login(req, res, next) {
 
 function getNextDogs(req, res, next) {
   var query = 'SELECT d.dog \
-               FROM doggies d JOIN shelters s ON d.dog->>\'shelterId\' = s.id \
+               FROM doggies d \
                WHERE NOT EXISTS (SELECT j.dogId \
                                  FROM judged j \
                                  WHERE d.id = j.dogId \
                                  AND j.userId = $1) \
-               AND d.dog->>\'zip\' = $2 \
                ORDER BY d.id ASC \
-               LIMIT $3';
-  db.any(query, [req.user.id, req.body.zip, req.body.count])
+               LIMIT $2';
+  db.any(query, [req.user.id, req.body.count])
     .then(function (data) {
       res.status(200).json(data);
     })
@@ -237,15 +236,14 @@ function loginDemo(req, res, next) {
 
 function getNextDogsDemo(req, res, next) {
   var query = 'SELECT d.dog \
-               FROM doggies d JOIN shelters s ON d.dog->>\'shelterId\' = s.id \
+               FROM doggies d \
                WHERE NOT EXISTS (SELECT j.dogId \
                                  FROM judged j \
                                  WHERE d.id = j.dogId \
                                  AND j.userId = $1) \
-               AND d.dog->>\'zip\' = $2 \
                ORDER BY d.id ASC \
-               LIMIT $3';
-  db.any(query, ['119889308491710', req.body.zip, req.body.count])
+               LIMIT $2';
+  db.any(query, ['119889308491710', req.body.count])
     .then(function (data) {
       res.status(200).json(data);
     })

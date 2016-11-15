@@ -32,7 +32,8 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class SwipeActivityFragment extends Fragment implements FlingCardListener.ActionDownInterface{
-    private static final String DOGS_TO_SPAWN = "40"; //how many dogs to spawn every time we run out of doggies
+    private static final String DOGS_TO_SPAWN = "10"; //how many dogs to spawn every time we run out of doggies
+    private static final String ZIP = "98105"; //zip code specified: to do maybe user can enter later
     public static MyAppAdapter myAppAdapter; //holds the app adapter
     private TextView noDogs; //displays when there are no dogs left
     public static ViewHolder viewHolder;
@@ -62,7 +63,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         }
     }
     private void getDoggies() {
-        DogManager.getNextDogs("1000", "98105", new VolleyResponseListener() {
+        DogManager.getNextDogs(DOGS_TO_SPAWN, ZIP, new VolleyResponseListener() {
             @Override
             public void onSuccess(JSONArray result) {
                 try {
@@ -108,7 +109,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        getDoggies(); //refresh doggies
         View v = inflater.inflate(R.layout.fragment_swipe_activity, container, false);
         noDogs = (TextView)v.findViewById(R.id.textnodogs);
         flingContainer = (SwipeFlingAdapterView)v.findViewById(R.id.framefrag);
@@ -259,8 +260,6 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
                 viewHolder.background.setBackgroundColor(Color.BLUE);
                 viewHolder.cardImage = (ImageView) rowView.findViewById(R.id.cardImage);
                 viewHolder.cardImage.setBackgroundColor(Color.BLUE);
-                //viewHolder.cardImage.setMinimumHeight(50);
-                //viewHolder.cardImage.setMaxHeight(50);
                 rowView.setTag(viewHolder);
 
             } else {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/likeDogsFrag"
     tools:context="dateadog.dateadog.LikedDogsFragment">
 
     <ScrollView
@@ -12,36 +13,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="255dp"
-                app:srcCompat="@drawable/hans"
-                android:id="@+id/imageView"
-                android:adjustViewBounds="true" />
-
-            <TextView
-                android:text="Hans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView"
-                android:gravity="center"
-                android:paddingBottom="30dp" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="163dp"
-                app:srcCompat="@drawable/sprocket"
-                android:id="@+id/imageView2"
-                android:adjustViewBounds="true" />
-
-            <TextView
-                android:text="Sprocket"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView2"
-                android:gravity="center" />
+            android:layout_height="wrap_content"
+            android:id="@+id/dogLikeLayout">
         </LinearLayout>
     </ScrollView>
 

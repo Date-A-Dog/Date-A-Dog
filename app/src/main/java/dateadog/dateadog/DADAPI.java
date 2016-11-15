@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -45,10 +46,12 @@ public class DADAPI {
     private int lastOffset;
     private URL petfinderURL;
     private Context context;
+    private RequestQueue queue;
 
     /*This is the constructor fo the DADAPI class*/
     public DADAPI(Context context) {
         this.context = context;
+        queue = Volley.newRequestQueue(context);
     }
 
     public void setUser(User user) {
@@ -71,6 +74,12 @@ public class DADAPI {
         }
     }
 
+    /**
+     * Method is called when dogs are to be retrieved
+     * @param count how many dogs we want to be returned
+     * @param zip where the dogs we get should be located
+     * @param listener to be able to receive data in the activity/fragment we so desire
+     */
     public void getNextDogs(String count, String zip, final VolleyResponseListener listener) {
         JSONObject login = new JSONObject();
         try {
@@ -79,8 +88,6 @@ public class DADAPI {
         } catch (JSONException e) {
             Log.v("Error in JSON", "For zip and count");
         }
-
-        RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectToArrayRequest jsObjRequest = new JsonObjectToArrayRequest(Request.Method.POST,
                                                                DAD_SERVER_URL_BASE + FIND_DOGS_END_POINT,
                                                                login,
@@ -114,11 +121,13 @@ public class DADAPI {
             }
         };
         Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
-
-
-        // return filterSeenDogs(result);
     }
 
+    /**
+     * Method for judging a dog on whether it is liked or disliked from swipe activity
+     * @param dogId the unique identifier that identifies a dog
+     * @param like whether "true" we like the dog or "false" we dislike the dog
+     */
     public void judgeDog(long dogId, boolean like) {
         JSONObject dogLike = new JSONObject();
         try {
@@ -164,18 +173,15 @@ public class DADAPI {
     }
 
     //returns a list of liked dogs
-    private List<Dog> getLikedDogs() {
-        final List<Dog> likedDogs = new ArrayList<Dog>();
-        RequestQueue queue = Volley.newRequestQueue(context);
-        //addDogsFromJSONList("", likedDogs);
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,
-                                                               DAD_SERVER_URL_BASE + GET_LIKED_DOGS_ENDPOINT,
-                                                               new JSONObject(),
-                                                               new Response.Listener<JSONObject>() {
+    public void getLikedDogs(final VolleyResponseListener listener) {
+        JsonObjectToArrayRequest jsObjRequest = new JsonObjectToArrayRequest(Request.Method.POST,
+                                                                DAD_SERVER_URL_BASE + GET_LIKED_DOGS_ENDPOINT,
+                                                                        null,
+                                                                  new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.v("Response = ", "It did something with response" + response.toString());
-                        //addDogsFromJSONList(response.toString(), likedDogs);
+                    public void onResponse(JSONArray response) {
+                        Log.v("Response = ", "It did something with response");
+                        listener.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -183,7 +189,7 @@ public class DADAPI {
                 if (error == null) {
                     Log.v("Null error", "it died with a null error");
                 } else if (error.getMessage() != null) {
-                    // Log.v("Error message Liked Dogs", error.getMessage());
+                    Log.v("Error in getNextDogs", error.getMessage());
                 } else {
                     Log.v("All are null", "");
                 }
@@ -193,13 +199,13 @@ public class DADAPI {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                params.put("access_token",getUserLoginToken());
+                params.put("Content-Type","application/json");
+                String pass = AccessToken.getCurrentAccessToken().getToken();
+                params.put("access_token", pass);
                 return params;
             }
         };
         Singleton.getInstance(context).addToRequestQueue(jsObjRequest);
-        return likedDogs;
     }
 
     private void createDogsListFromJSON(String json) {

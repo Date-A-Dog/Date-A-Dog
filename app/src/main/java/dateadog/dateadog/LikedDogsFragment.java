@@ -1,15 +1,37 @@
 package dateadog.dateadog;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import static dateadog.dateadog.R.attr.height;
+import static dateadog.dateadog.R.id.top;
 
 
 /**
@@ -21,9 +43,11 @@ import android.widget.Toast;
  * create an instance of this fragment.
  */
 public class LikedDogsFragment extends Fragment {
-
+    private static final int MAX_DOGS_SHOWN = 100;
     private OnFragmentInteractionListener mListener;
-
+    private List<Dog> likedDogs;
+    private DADAPI DogManager;
+    private LinearLayout layout;
     public LikedDogsFragment() {
         // Required empty public constructor
     }
@@ -41,9 +65,57 @@ public class LikedDogsFragment extends Fragment {
         return fragment;
     }
 
+    public void setLayoutScreen(List<Dog> likedDoggies, LinearLayout layout) {
+        int dogsToShow = Math.min(likedDoggies.size(), MAX_DOGS_SHOWN);
+        for (int i = 0; i < dogsToShow; i++) {
+            Dog currentDog = likedDoggies.get(i);
+            ImageView dogView = new ImageView(getActivity());
+            TextView dogText = new TextView(getActivity());
+            Drawable imageDog = LoadImageFromWebOperations(currentDog.getImage());
+            dogView.setImageDrawable(imageDog);
+            dogText.setText(currentDog.getName());
+            dogText.setGravity(Gravity.CENTER);
+            layout.addView(dogView);
+            layout.addView(dogText);
+        }
+    }
+
+    private static Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void getLikedDoggies(final LinearLayout layout) {
+        DogManager.getLikedDogs(new VolleyResponseListener() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                try {
+                    JSONArray doggies = (JSONArray) result; //cast the response to a json array
+                    for (int i = 0; i < doggies.length(); i++) {
+                        likedDogs.add(new Dog((JSONObject) doggies.get(i)));
+                    }
+                    setLayoutScreen(likedDogs, layout);
+                } catch (JSONException e) {
+                    Log.e("Error on succ", e.getMessage(), e);
+                }
+            }
+        });
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DogManager = new DADAPI(getActivity());
+        likedDogs = new ArrayList<>();
     }
 
     @Override
@@ -51,6 +123,15 @@ public class LikedDogsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_liked_dogs, container, false);
+        layout = (LinearLayout) rootView.findViewById(R.id.dogLikeLayout);
+        getLikedDoggies(layout);
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLikedDoggies(layout);
+                // this will be called whenever user click anywhere in Fragment
+            }
+        });
         return rootView;
     }
 

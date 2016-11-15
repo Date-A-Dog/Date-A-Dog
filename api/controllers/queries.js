@@ -71,7 +71,7 @@ function getLikedDogs(req, res, next) {
   var query = 'SELECT d.dog \
                FROM doggies d JOIN judged j ON d.id = j.dogId \
                WHERE j.userId = $1 \
-               AND j.status = $2 \
+               AND j.liked = $2 \
                ORDER BY j.epoch DESC';
   db.any(query, [req.user.id, 'TRUE'])
     .then(function (data) {
@@ -86,7 +86,7 @@ function getDislikedDogs(req, res, next) {
   var query = 'SELECT d.dog \
                FROM doggies d JOIN judged j ON d.id = j.dogId \
                WHERE j.userId = $1 \
-               AND j.status = $2 \
+               AND j.liked = $2 \
                ORDER BY j.epoch DESC';
   db.any(query, [req.user.id, 'FALSE'])
     .then(function (data) {
@@ -272,7 +272,7 @@ function getLikedDogsDemo(req, res, next) {
   var query = 'SELECT d.dog \
                FROM doggies d JOIN judged j ON d.id = j.dogId \
                WHERE j.userId = $1 \
-               AND j.status = $2 \
+               AND j.liked = $2 \
                ORDER BY j.epoch DESC';
   db.any(query, ['119889308491710', 'TRUE'])
     .then(function (data) {
@@ -287,7 +287,7 @@ function getDislikedDogsDemo(req, res, next) {
   var query = 'SELECT d.dog \
                FROM doggies d JOIN judged j ON d.id = j.dogId \
                WHERE j.userId = $1 \
-               AND j.status = $2 \
+               AND j.liked = $2 \
                ORDER BY j.epoch DESC';
   db.any(query, ['119889308491710', 'FALSE'])
     .then(function (data) {

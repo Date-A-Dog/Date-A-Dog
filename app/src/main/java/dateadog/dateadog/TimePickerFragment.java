@@ -25,7 +25,7 @@ public class TimePickerFragment extends DialogFragment  {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.fragment_time_picker2,null);
+                .inflate(R.layout.fragment_time_picker,null);
 
         timePicker = (TimePicker) v.findViewById(R.id.dialog_time_picker);
         return new android.support.v7.app.AlertDialog.Builder(getActivity())

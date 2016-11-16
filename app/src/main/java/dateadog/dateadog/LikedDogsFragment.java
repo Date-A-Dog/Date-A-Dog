@@ -1,38 +1,19 @@
 package dateadog.dateadog;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import static dateadog.dateadog.R.attr.height;
-import static dateadog.dateadog.R.id.top;
 
 
 /**
@@ -43,12 +24,14 @@ import static dateadog.dateadog.R.id.top;
  * Use the {@link LikedDogsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LikedDogsFragment extends Fragment {
+public class LikedDogsFragment extends Fragment implements AdapterView.OnItemClickListener {
     private static final int MAX_DOGS_SHOWN = 100;
     private OnFragmentInteractionListener mListener;
     private List<Dog> likedDogs;
     private DADAPI DogManager;
-    private LinearLayout layout;
+    ListView likedDogsListView;
+    LikedDogsListViewAdapter adapter;
+
     public LikedDogsFragment() {
         // Required empty public constructor
     }
@@ -66,50 +49,35 @@ public class LikedDogsFragment extends Fragment {
         return fragment;
     }
 
-    public void setLayoutScreen(List<Dog> likedDoggies, LinearLayout layout) {
-        int dogsToShow = Math.min(likedDoggies.size(), MAX_DOGS_SHOWN);
-        for (int i = 0; i < dogsToShow; i++) {
-            Dog currentDog = likedDoggies.get(i);
-            ImageView dogView = new ImageView(getActivity());
-            TextView dogText = new TextView(getActivity());
-            Drawable imageDog = LoadImageFromWebOperations(currentDog.getImage());
-            dogView.setImageDrawable(imageDog);
-            dogText.setText(currentDog.getName());
-            dogText.setGravity(Gravity.CENTER);
-            layout.addView(dogView);
-            layout.addView(dogText);
-        }
-    }
-
-    private static Drawable LoadImageFromWebOperations(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    private void getLikedDoggies(final LinearLayout layout) {
-        DogManager.getLikedDogs(new DADAPI.DataListener() {
-            @Override
-            public void onGotDogs(Set<Dog> dogs) {
-                likedDogs.addAll(dogs);
-                setLayoutScreen(likedDogs, layout);
-            }
-        });
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DogManager = DADAPI.getInstance(getContext().getApplicationContext());
         likedDogs = new ArrayList<>();
+        refreshLikedDogs();
+        // how to populate and updated likeDogs array? and then update adapter and UI controls???
+        // in onItemClick retrieve dog object and send intent to start dogprofileactivity
+        // then just test with server to make sure requests are being stored correctly
+    }
+
+    private void refreshLikedDogs() {
+        DogManager.getLikedDogs(new DADAPI.DataListener() {
+            @Override
+            public void onGotDogs(Set<Dog> dogs) {
+                System.out.println("Got " + dogs.size() + " dogs back!!!");
+                likedDogs.clear();
+                likedDogs.addAll(dogs);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Dog dog = (Dog) parent.getItemAtPosition(position);
+        Intent showDogProfile = new Intent(getContext(), DogProfileActivity.class);
+        showDogProfile.putExtra("Dog", dog);
+        startActivity(showDogProfile);
     }
 
     @Override
@@ -117,15 +85,12 @@ public class LikedDogsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_liked_dogs, container, false);
-        layout = (LinearLayout) rootView.findViewById(R.id.dogLikeLayout);
-        getLikedDoggies(layout);
-        rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getLikedDoggies(layout);
-                // this will be called whenever user click anywhere in Fragment
-            }
-        });
+
+        likedDogsListView = (ListView) rootView.findViewById(R.id.likedDogsListView);
+        adapter = new LikedDogsListViewAdapter(getContext(), R.layout.row, likedDogs);
+        likedDogsListView.setAdapter(adapter);
+        likedDogsListView.setOnItemClickListener(this);
+        refreshLikedDogs();
         return rootView;
     }
 

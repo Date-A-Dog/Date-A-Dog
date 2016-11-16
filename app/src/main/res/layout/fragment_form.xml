@@ -4,10 +4,16 @@
     android:layout_height="match_parent"
     tools:context="dateadog.dateadog.FormFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Add implmentation for the form view" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/formLayout">
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

@@ -32,7 +32,7 @@ public class DatePickerFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState){
 
         View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.fragment_date_picker2,null);
+                .inflate(R.layout.fragment_date_picker,null);
         datePicker = (DatePicker) v.findViewById(R.id.dialog_date_date_picker);
         return new android.support.v7.app.AlertDialog.Builder(getActivity())
                 .setView(v)

@@ -8,18 +8,18 @@ import static org.junit.Assert.*;
 
 /**
  * This class contains a set of test cases that can be used to test the
- * implementation of the ShelterProfile class.
+ * implementation of the Shelter class.
  */
-public class ShelterProfileUnitTest {
+public class ShelterUnitTest {
 
-    private ShelterProfile shelter1;
-    private ShelterProfile shelter2 = null;
+    private Shelter shelter1;
+    private Shelter shelter2 = null;
 
 
     @Before
     public void setUp() throws Exception {
-        // setting up new ShelterProfile
-        shelter1 = new ShelterProfile("3730","989", "Seattle", "WA", 98108, "2068972310" , "shelter1@gmail.com", "Seattle Shelter" );
+        // setting up new Shelter
+        shelter1 = new Shelter("3730","989", "Seattle", "WA", 98108, "2068972310" , "shelter1@gmail.com", "Seattle Shelter" );
 
     }
 
@@ -32,7 +32,7 @@ public class ShelterProfileUnitTest {
     }
 
     @Test
-    public void testgetShelterId() throws Exception {
+    public void testGetShelterId() throws Exception {
 
         // testing getShelterId which returns shelter Id
         assertEquals(shelter1.getShelterId(), "989");
@@ -40,7 +40,7 @@ public class ShelterProfileUnitTest {
     }
 
     @Test
-    public void testgetStreet() throws Exception {
+    public void testGetStreet() throws Exception {
 
         // testing getStreet which returns shelter street
         assertEquals(shelter1.getStreet(), "3730");
@@ -48,7 +48,7 @@ public class ShelterProfileUnitTest {
     }
 
     @Test
-    public void testgetCity() throws Exception {
+    public void testGetCity() throws Exception {
 
         // testing getCity which returns shelter's city
         assertEquals(shelter1.getCity(), "Seattle");
@@ -56,7 +56,7 @@ public class ShelterProfileUnitTest {
     }
 
     @Test
-    public void testgetState() throws Exception {
+    public void testGetState() throws Exception {
 
         // testing getState which returns shelter's state
         assertEquals(shelter1.getState(), "WA");
@@ -64,7 +64,7 @@ public class ShelterProfileUnitTest {
     }
 
     @Test
-    public void testgetZip() throws Exception {
+    public void testGetZip() throws Exception {
 
         // testing getZip which returns shelter's zip code
         assertEquals(shelter1.getZip(), 98108);
@@ -72,7 +72,7 @@ public class ShelterProfileUnitTest {
     }
 
     @Test
-    public void testgetPhone() throws Exception {
+    public void testGetPhone() throws Exception {
 
         // testing getPhone which returns shelter's phone number
         assertEquals(shelter1.getPhone(), "2068972310");
@@ -80,7 +80,7 @@ public class ShelterProfileUnitTest {
     }
 
     @Test
-    public void testgetEmail() throws Exception {
+    public void testGetEmail() throws Exception {
 
         // testing getEmail which returns shelter's email
         assertEquals(shelter1.getEmail(), "shelter1@gmail.com");
@@ -88,14 +88,11 @@ public class ShelterProfileUnitTest {
     }
 
     @Test
-    public void testgetName() throws Exception {
+    public void testGetName() throws Exception {
 
         // testing getName which returns shelter's name
         assertEquals(shelter1.getName(), "Seattle Shelter");
         assertNotEquals(shelter1.getName(), "New York Shelter");
     }
-
-
-
 
 }

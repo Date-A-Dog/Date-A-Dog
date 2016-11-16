@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_confirm_request2" />
+    <include layout="@layout/content_confirm_request" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

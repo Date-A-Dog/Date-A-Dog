@@ -1,9 +1,9 @@
 package dateadog.dateadog;
 
 /**
- * A {@code ShelterProfile} is a profile of a shelter.
+ * A {@code Shelter} is a profile of a shelter.
  */
-public class ShelterProfile {
+public class Shelter {
 
     private Address address;
     /** The shelter's phone number */
@@ -18,7 +18,7 @@ public class ShelterProfile {
     public boolean availability;
 
     /**
-     * Constructs and initializes a new {@code ShelterProfile} with the given data.
+     * Constructs and initializes a new {@code Shelter} with the given data.
      *
      * @param street the street of the shelter's address
      * @param shelterID the ID for this shelter
@@ -29,7 +29,7 @@ public class ShelterProfile {
      * @param email the email of the shelter
      * @param name the name of the shelter
      */
-    public ShelterProfile(String street, String shelterID, String city, String state, int zip, String phone, String email, String name){
+    public Shelter(String street, String shelterID, String city, String state, int zip, String phone, String email, String name){
         this.address = this.new Address(street, city ,state, zip);
         this.shelterId = shelterID;
         this.phone = phone;
@@ -38,9 +38,9 @@ public class ShelterProfile {
     }
 
     /**
-     * Returns a String that uniquely identifies this {@code ShelterProfile}
+     * Returns a String that uniquely identifies this {@code Shelter}
      *
-     * @return a String that uniquely identifies this {@code ShelterProfile}
+     * @return a String that uniquely identifies this {@code Shelter}
      */
     public String getShelterId() {
         return shelterId;

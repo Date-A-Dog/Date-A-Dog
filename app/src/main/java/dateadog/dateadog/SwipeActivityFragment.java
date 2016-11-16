@@ -64,10 +64,14 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         }
     }
     private void getDoggies() {
-        Set<Dog> dogs = DogManager.getNextDogs();
-        pendingDogs.addAll(dogs);
-        addDogsToAL(pendingDogs, al);
-        myAppAdapter.notifyDataSetChanged();
+        DogManager.getNextDogs(new DADAPI.DataListener() {
+            @Override
+            public void onGotDogs(Set<Dog> dogs) {
+                pendingDogs.addAll(dogs);
+                addDogsToAL(pendingDogs, al);
+                myAppAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public SwipeActivityFragment() {
@@ -91,7 +95,7 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DogManager = DADAPI.getInstance();
+        DogManager = DADAPI.getInstance(getContext().getApplicationContext());
         al = new ArrayList<Data_TinderUI>();
         pendingDogs = new ArrayList<Dog>();
     }

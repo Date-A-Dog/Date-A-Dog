@@ -96,15 +96,19 @@ public class LikedDogsFragment extends Fragment {
     }
 
     private void getLikedDoggies(final LinearLayout layout) {
-        Set<Dog> dogs = DogManager.getLikedDogs();
-        likedDogs.addAll(dogs);
-        setLayoutScreen(likedDogs, layout);
+        DogManager.getLikedDogs(new DADAPI.DataListener() {
+            @Override
+            public void onGotDogs(Set<Dog> dogs) {
+                likedDogs.addAll(dogs);
+                setLayoutScreen(likedDogs, layout);
+            }
+        });
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DogManager = DADAPI.getInstance();
+        DogManager = DADAPI.getInstance(getContext().getApplicationContext());
         likedDogs = new ArrayList<>();
     }
 

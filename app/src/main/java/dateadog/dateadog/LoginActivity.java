@@ -1,14 +1,9 @@
 package dateadog.dateadog;
 
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.logging.Handler;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.TextView;
 import android.view.View;
 
@@ -20,8 +15,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -36,11 +29,6 @@ import java.util.Map;
 import com.facebook.Profile;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginButton loginButton;
@@ -225,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
                 return params;
             }
         };
-        Singleton.getInstance(this).addToRequestQueue(jsObjRequest);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
     }
 
 

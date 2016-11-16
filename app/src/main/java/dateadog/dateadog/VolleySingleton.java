@@ -7,13 +7,13 @@ import android.util.LruCache;
 import com.android.volley.toolbox.Volley;
 import com.android.volley.Request;
 
-public class Singleton {
-    private static Singleton mInstance;
+public class VolleySingleton {
+    private static VolleySingleton mInstance;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mCtx;
 
-    private Singleton(Context context) {
+    private VolleySingleton(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
 
@@ -34,9 +34,9 @@ public class Singleton {
                 });
     }
 
-    public static synchronized Singleton getInstance(Context context) {
+    public static synchronized VolleySingleton getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new Singleton(context);
+            mInstance = new VolleySingleton(context);
         }
         return mInstance;
     }

@@ -1,9 +1,16 @@
 package dateadog.dateadog;
 
+import android.app.DatePickerDialog;
+import android.app.FragmentTransaction;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +31,16 @@ public class DogProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dog_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Button requestDateButton = (Button) findViewById(R.id.requestDateButton);
+        requestDateButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(DogProfileActivity.this).show();
+            }
+        });
+
         dog = (Dog) getIntent().getExtras().get("Dog");
         refreshUI();
     }

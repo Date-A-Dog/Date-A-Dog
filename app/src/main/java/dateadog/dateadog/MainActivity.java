@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         tabLayout.getTabAt(0).setText(R.string.find_dogs);
         tabLayout.getTabAt(1).setIcon(R.drawable.heart);
         tabLayout.getTabAt(1).setText(R.string.liked_dogs);
-        tabLayout.getTabAt(2).setIcon(R.drawable.form);
+        tabLayout.getTabAt(2).setIcon(R.drawable.md_form);
         tabLayout.getTabAt(2).setText(R.string.forms);
     }
 

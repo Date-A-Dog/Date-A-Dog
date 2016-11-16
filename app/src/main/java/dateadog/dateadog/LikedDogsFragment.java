@@ -55,9 +55,6 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
         DogManager = DADAPI.getInstance(getContext().getApplicationContext());
         likedDogs = new ArrayList<>();
         refreshLikedDogs();
-        // how to populate and updated likeDogs array? and then update adapter and UI controls???
-        // in onItemClick retrieve dog object and send intent to start dogprofileactivity
-        // then just test with server to make sure requests are being stored correctly
     }
 
     private void refreshLikedDogs() {
@@ -70,6 +67,12 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshLikedDogs();
     }
 
     @Override

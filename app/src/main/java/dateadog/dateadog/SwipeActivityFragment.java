@@ -54,8 +54,8 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
     //takes in Dog list and UI list as parameters to transfer necessary attributes
     private static void addDogsToAL(List<Dog> dogs, ArrayList<Data_TinderUI> al) {
         for (Dog dog : dogs) {
-            String Breeds = dog.getStringBreeds();
-            String SizeDog = dog.getSizeStringDog();
+            String Breeds = dog.getBreedsString();
+            String SizeDog = dog.getSize();
             String profileInfo = "Name: " + dog.getName() + "\nAge: " +
                                  dog.getAge() + "\nSex: " + dog.getSex() +
                                  "\nBreeds: " + Breeds + "\nSize of Dog: " + SizeDog +

@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.*;
 
 public class ConfirmRequestActivity extends AppCompatActivity implements DatePickerFragment.DateDialogListener,
         TimePickerFragment.TimeDialogListener {
@@ -24,7 +23,7 @@ public class ConfirmRequestActivity extends AppCompatActivity implements DatePic
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirm_request2);
+        setContentView(R.layout.activity_confirm_request);
         datePickerAlertDialog = (Button)findViewById(R.id.alert_dialog_date_picker);
         timePickerAlertDialog = (Button)findViewById(R.id.alert_dialog_time_picker);
 

@@ -5,8 +5,16 @@
 
 package dateadog.dateadog;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 
 import org.apache.commons.io.IOUtils;
@@ -20,9 +28,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+/**
+ * DADAPI communicates with the DAD server to retrieve and update data about dog profiles and users.
+ */
 public class DADAPI {
 
     /** Holds the sole instance of this class. */
@@ -35,98 +48,129 @@ public class DADAPI {
     private static String JUDGE_DOG_URL = DAD_SERVER_URL_BASE + "judgeDog";
     private static String GET_LIKED_DOGS_URL = DAD_SERVER_URL_BASE + "getLikedDogs";
 
+    private Context context;
+
     /**
-     * Constructs an instance of the DADAPI class.
+     * Constructs an instance of the DADAPI class with the given context.
+     *
+     * @param context the application context in which this class will be used
      */
-    private DADAPI() {
+    public DADAPI(Context context) {
+        this.context = context;
     }
 
     /**
      * Returns an instance of the {@code DADAPI} class.
      *
+     * @param context the application context in which this class will be used
      * @return an instance of the {@code DADAPI} class
      */
-    public static DADAPI getInstance() {
+    public static DADAPI getInstance(Context context) {
         if (instance == null) {
-            instance = new DADAPI();
+            instance = new DADAPI(context);
         }
         return instance;
     }
 
     /**
      * Makes a POST request (with authentication) to the given URL with the given {@code jsonBody}
-     * as the body of the POST request. Returns the JSON response as a {@code String} or {@code null}
-     * if some error occurred.
+     * as the body of the POST request. Returns the JSON response via the given
+     * {@code responseListener}.
      *
      * @param url the URL to make a POST request to
      * @param jsonBody the JSON body of the POST request
-     * @return the JSON response from the DAD server, or {@code null} if some error occurred
+     * @param responseListener a response listener that will receive a callback with the response
+     *                         data, or null to ignore response data
      */
-    public JSONTokener makeRequest(String url, JSONObject jsonBody) {
-        try {
-            if (true) return new JSONTokener(Constants.DATA);
-            // Initialize an HTTP connection to the server.
-            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            // Add the user's Facebook login token to the request header.
-            connection.setRequestProperty("access_token", AccessToken.getCurrentAccessToken().toString());
-            connection.setRequestProperty("Content-Type", "application/json");
-            // Send the request body.
-            OutputStream output = connection.getOutputStream();
-            output.write(jsonBody.toString().getBytes());
-            // Get and return the response.
-            InputStream response = connection.getInputStream();
-            String responseText = IOUtils.toString(response);
-            return new JSONTokener(responseText);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, "Request to DAD server failed.\nURL: " + url + "\nBody: " + jsonBody.toString());
-            return null;
+    public void makeRequest(final String url, final JSONObject jsonBody, Response.Listener<String> responseListener) {
+        if (responseListener == null) {
+            // The caller would like not to receive response data. This can be done by setting an
+            // empty response listener.
+            responseListener = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {}
+            };
         }
+
+        RequestQueue queue = VolleySingleton.getInstance(context).getRequestQueue();
+        StringRequest request = new StringRequest(Request.Method.POST, url, responseListener,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        Log.e(TAG, "Request to DAD server failed.\nURL: " + url + "\nBody: " + jsonBody.toString());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            public byte[] getBody() {
+                return jsonBody.toString().getBytes();
+            }
+        };
+        queue.add(request);
+    }
+
+    /**
+     * Clients implement this interface to receive data from DADAPI requests.
+     */
+    public interface DataListener {
+        /**
+         * Called when the requested dogs have been retrieved.
+         *
+         * @param dogs the requested dogs
+         */
+        public void onGotDogs(Set<Dog> dogs);
     }
 
     /**
      * Makes a DAD server request at the given URL, parses the response as a JSON
-     * array of dogs and returns a set containing these dogs.
+     * array of dogs and returns a set containing these dogs via the given callback listener.
      *
      * @param url a DAD endpoint that returns a JSON array of dogs
-     * @return a set of dogs retrieved from the given URL
+     * @param dataListener a data listener that will receive a callback with the dogs
      */
-    private Set<Dog> getDogsAtUrl(String url) {
-        Set<Dog> result = new HashSet<>();
-
+    private void getDogsAtUrl(String url, final DataListener dataListener) {
         JSONObject parameters = new JSONObject();
-        JSONTokener response = makeRequest(url, parameters);
-        try {
-            JSONArray dogsArray = (JSONArray) response.nextValue();
-            for (int i = 0; i < dogsArray.length(); i++) {
-                result.add(new Dog(dogsArray.getJSONObject(i)));
+        // Add additional parameters such as location and count here.
+        makeRequest(url, parameters, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Set<Dog> result = new HashSet<>();
+                    JSONArray dogsArray = (JSONArray) new JSONTokener(response).nextValue();
+                    for (int i = 0; i < dogsArray.length(); i++) {
+                        result.add(new Dog(dogsArray.getJSONObject(i)));
+                    }
+                    dataListener.onGotDogs(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return result;
+        });
     }
 
     /**
-     * Returns a set of dogs that the user has not yet judged.
+     * Retrieves a set of dogs that the user has not yet judged.
      *
-     * @return a set of dogs that the user has not yet judged
+     * @param dataListener a data listener that will receive a callback with the dogs
      */
-    public Set<Dog> getNextDogs() {
-        return getDogsAtUrl(GET_NEXT_DOGS_URL);
+    public void getNextDogs(DataListener dataListener) {
+        getDogsAtUrl(GET_NEXT_DOGS_URL, dataListener);
     }
 
     /**
-     * Returns a set of dogs that the user has liked.
+     * Retrieves a set of dogs that the user has liked.
      *
-     * @return a set of dogs that the user has liked
+     * @param dataListener a data listener that will receive a callback with the dogs
      */
-    public Set<Dog> getLikedDogs() {
-        return getDogsAtUrl(GET_LIKED_DOGS_URL);
+    public void getLikedDogs(DataListener dataListener) {
+        getDogsAtUrl(GET_LIKED_DOGS_URL, dataListener);
     }
 
     /**
@@ -145,7 +189,7 @@ public class DADAPI {
             e.printStackTrace();
             return;
         }
-        makeRequest(JUDGE_DOG_URL, parameters);
+        makeRequest(JUDGE_DOG_URL, parameters, null);
     }
 
     /**

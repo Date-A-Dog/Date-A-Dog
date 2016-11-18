@@ -1,5 +1,6 @@
 body {
 	--bg-color: #E3EFC9;
+	--login-img-bg: #C6F7F3;
 	--darker-bg-color: #cdde92;
 	--text-color: #7a450f;
 	--title-color: #4c2b09;
@@ -12,8 +13,20 @@ body {
 	--nav-bg-color: var(--palest);
 	--nav-hover-color: var(--pale-title-color);
 	--site-title-color: var(--nav-text-color);
+
 	
 
+}
+
+html {
+	min-height: 100%;
+}
+
+.login-page {
+	background-color: var(--login-img-bg) !important;
+	background-image: url("../dog-bg.png") !important;
+	background-repeat: no-repeat !important;
+	background-position: right bottom !important;
 }
 
 /* For overriding bootstrap, use #dad id */
@@ -105,7 +118,7 @@ nav li a{
 	background-color: var(--bg-color);
 	margin: 0px;
 	padding: 0px;
-	background: var(--bg-color);
+	/*background: var(--bg-color);*/
 	color: var(--text-color);
 	font-family: var(--main-font);
 }

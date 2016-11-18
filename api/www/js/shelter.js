@@ -55,7 +55,7 @@ var Shelter = function(_token, _testingMockData) {
           if (callback) {
             // pass filtered array to callback
             console.log(data);
-            dateRequests = filterDateRequestProperties(data);
+            dateRequests = extractDateRequestProperties(data);
             callback();
           }
         }

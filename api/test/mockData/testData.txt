@@ -1,0 +1,296 @@
+[
+  {
+    "request": {
+      "id": 1,
+      "epoch": 1510992000,
+      "status": "P"
+    },
+    "dog": {
+      "id": "22406048",
+      "age": "Young",
+      "mix": "no",
+      "sex": "F",
+      "name": "Bobby",
+      "size": "L",
+      "media": {
+        "photos": {
+          "1": {
+            "t": "http://photos.petfinder.com/photos/pets/22406048/1/?bust=1430749565&width=50&-t.jpg",
+            "x": "http://photos.petfinder.com/photos/pets/22406048/1/?bust=1430749565&width=500&-x.jpg",
+            "pn": "http://photos.petfinder.com/photos/pets/22406048/1/?bust=1430749565&width=300&-pn.jpg",
+            "fpm": "http://photos.petfinder.com/photos/pets/22406048/1/?bust=1430749565&width=95&-fpm.jpg",
+            "pnt": "http://photos.petfinder.com/photos/pets/22406048/1/?bust=1430749565&width=60&-pnt.jpg"
+          }
+        }
+      },
+      "animal": "Dog",
+      "breeds": [
+        "German Shepherd Dog"
+      ],
+      "status": "A",
+      "contact": {
+        "fax": "www.washingtongsd.org",
+        "zip": "98104",
+        "city": "Seattle",
+        "email": "washingtonshepherds@yahoo.com",
+        "phone": "(206) 445-5151",
+        "state": "WA"
+      },
+      "options": [
+        "hasShots",
+        "altered",
+        "housetrained"
+      ],
+      "shelterId": "WA214",
+      "description": "Washington German Shepherd Rescue is always in need of dog beds and toys for our rescue dogs in new foster homes.\n\nWe accept new and used beds.  Dog beds from Costco, typically $29.99 in store, are economical and the perfect size for this large breed.  We also need dog toys for those rescue dogs that like to chew and play and have fun! We accept new and used toys.\n\nIf you would like to donate to the Washington German Shepherd Rescue, please visit our website and send us an email today!\n\nhttp://www.washingtongsd.org/\n\nAre you following us on Facebook? Our Facebook account is updated daily with information about our rescue dogs and volunteer opportunities!\n\nhttps://www.facebook.com/WashingtonGermanShepherdRescue"
+    },
+    "shelter": {
+      "id": "WA214",
+      "fax": "www.washingtongsd.org",
+      "zip": "98104",
+      "city": "Seattle",
+      "name": "Washington German Shepherd Rescue",
+      "email": "washingtonshepherds@yahoo.com",
+      "phone": "(206) 445-5151",
+      "state": "WA",
+      "country": "US",
+      "latitude": "47.604",
+      "longitude": "-122.326"
+    },
+    "user": {
+      "id": 119889308491710,
+      "email": "dateadog@gmail.com",
+      "fname": "Sally",
+      "lname": "Smith",
+      "street": "Paul G. Allen Center for Computer Science & Engineering (Cse)",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98195",
+      "phone": "(206) 543-1695"
+    }
+  },
+  {
+    "request": {
+      "id": 2,
+      "epoch": 1510995600,
+      "status": "P"
+    },
+    "dog": {
+      "id": "30329094",
+      "age": "Adult",
+      "mix": "yes",
+      "sex": "M",
+      "name": "Spencer",
+      "size": "S",
+      "media": {
+        "photos": {
+          "1": {
+            "t": "http://photos.petfinder.com/photos/pets/30329094/1/?bust=1411135788&width=50&-t.jpg",
+            "x": "http://photos.petfinder.com/photos/pets/30329094/1/?bust=1411135788&width=500&-x.jpg",
+            "pn": "http://photos.petfinder.com/photos/pets/30329094/1/?bust=1411135788&width=300&-pn.jpg",
+            "fpm": "http://photos.petfinder.com/photos/pets/30329094/1/?bust=1411135788&width=95&-fpm.jpg",
+            "pnt": "http://photos.petfinder.com/photos/pets/30329094/1/?bust=1411135788&width=60&-pnt.jpg"
+          },
+          "2": {
+            "t": "http://photos.petfinder.com/photos/pets/30329094/2/?bust=1411135789&width=50&-t.jpg",
+            "x": "http://photos.petfinder.com/photos/pets/30329094/2/?bust=1411135789&width=500&-x.jpg",
+            "pn": "http://photos.petfinder.com/photos/pets/30329094/2/?bust=1411135789&width=300&-pn.jpg",
+            "fpm": "http://photos.petfinder.com/photos/pets/30329094/2/?bust=1411135789&width=95&-fpm.jpg",
+            "pnt": "http://photos.petfinder.com/photos/pets/30329094/2/?bust=1411135789&width=60&-pnt.jpg"
+          },
+          "3": {
+            "t": "http://photos.petfinder.com/photos/pets/30329094/3/?bust=1411135789&width=50&-t.jpg",
+            "x": "http://photos.petfinder.com/photos/pets/30329094/3/?bust=1411135789&width=500&-x.jpg",
+            "pn": "http://photos.petfinder.com/photos/pets/30329094/3/?bust=1411135789&width=300&-pn.jpg",
+            "fpm": "http://photos.petfinder.com/photos/pets/30329094/3/?bust=1411135789&width=95&-fpm.jpg",
+            "pnt": "http://photos.petfinder.com/photos/pets/30329094/3/?bust=1411135789&width=60&-pnt.jpg"
+          }
+        }
+      },
+      "animal": "Dog",
+      "breeds": [
+        "Poodle"
+      ],
+      "status": "A",
+      "contact": {
+        "fax": "www.washingtongsd.org",
+        "zip": "98104",
+        "city": "Seattle",
+        "email": "washingtonshepherds@yahoo.com",
+        "phone": "(206) 445-5151",
+        "state": "WA"
+      },
+      "options": [
+        "hasShots",
+        "altered",
+        "housetrained"
+      ],
+      "shelterId": "WA214",
+      "description": "Spencer is the most devoted and happy poodle mix you will ever meet. He has not a care in the world. Spencer is living with other dogs and cats and gets along great with all of them. \n\nThe ideal home for Spencer would be someone who works from home or is retired. Although Spencer is 8 years of age, you would never know it. He is always ready for a walk or to play with his toys. He will also run around in the yard with the other dogs. He is extremely agile and will jump on the sofa or bed in two seconds flat before you even turn your head. \nSpencer is house broken and he is crate trained. However, he prefers not being crated and really wants to hang out with his person as much as possible. \nHe loves to lounge around the TV room and just hang out when you watch TV. He thinks he is a neck warmer. He is the perfect neck warmer. But he also enjoys bones and loves to sit quietly and chew on his smoked bone.\nHis ideal home would be someone in a house with a fenced yard. \nHe has been neutered, fully vaccinated, microchipped and just groomed! He weighs 13.6 lbs which a perfect weight. His adoption fee is $180\nSpencer would love a home where he can sit with his person all day long and go for walks. He loves to go for walks. He would also love someone who will sit with him and cuddle all day long as well.\n\n\n\nFENCED YARD REQUIRED FOR ANY OF OUR DOGS!!\n\nPlease fill out an application to meet me at http://www.washingtongsd.org/application.html   The adoption process includes completion of an adoption application, a vet check, a home visit and a lifetime adoption contract.PLEASE NOTE:The information contained within this biography is based on observations from the current foster home. In no way can we predict future behavior and or temperament as individual household dynamics vary greatly, and are impacted by the experience and leadership of those within the home.Adoptions are not done on a first come first serve basis. WA German Shepherd Rescue is the companion animal's advocate and will select the most suitably matched home for the dog's general needs and the unique needs of each individual dog in our care. We reserve the right to refuse service and adoption without explanation. PLEASE HELP STOP BREED SPECIFIC LEGISLATION"
+    },
+    "shelter": {
+      "id": "WA214",
+      "fax": "www.washingtongsd.org",
+      "zip": "98104",
+      "city": "Seattle",
+      "name": "Washington German Shepherd Rescue",
+      "email": "washingtonshepherds@yahoo.com",
+      "phone": "(206) 445-5151",
+      "state": "WA",
+      "country": "US",
+      "latitude": "47.604",
+      "longitude": "-122.326"
+    },
+    "user": {
+      "id": 10155407387966038,
+      "email": "cosy16@uw.edu",
+      "fname": "Amanda",
+      "lname": "Loh",
+      "street": "201 Bell Street",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98105",
+      "phone": "(206) 433-2567"
+    }
+  },
+  {
+    "request": {
+      "id": 3,
+      "epoch": 1510999200,
+      "status": "A"
+    },
+    "dog": {
+      "id": "31945123",
+      "age": "Young",
+      "mix": "no",
+      "sex": "F",
+      "name": "Cujo",
+      "size": "L",
+      "media": {
+        "photos": {
+          "1": {
+            "t": "http://photos.petfinder.com/photos/pets/31945123/1/?bust=1430749763&width=50&-t.jpg",
+            "x": "http://photos.petfinder.com/photos/pets/31945123/1/?bust=1430749763&width=500&-x.jpg",
+            "pn": "http://photos.petfinder.com/photos/pets/31945123/1/?bust=1430749763&width=300&-pn.jpg",
+            "fpm": "http://photos.petfinder.com/photos/pets/31945123/1/?bust=1430749763&width=95&-fpm.jpg",
+            "pnt": "http://photos.petfinder.com/photos/pets/31945123/1/?bust=1430749763&width=60&-pnt.jpg"
+          }
+        }
+      },
+      "animal": "Dog",
+      "breeds": [
+        "German Shepherd Dog"
+      ],
+      "status": "A",
+      "contact": {
+        "fax": "www.washingtongsd.org",
+        "zip": "98104",
+        "city": "Seattle",
+        "email": "washingtonshepherds@yahoo.com",
+        "phone": "(206) 445-5151",
+        "state": "WA"
+      },
+      "options": [
+        "hasShots",
+        "altered",
+        "housetrained"
+      ],
+      "shelterId": "WA214",
+      "description": "Would you like to help us transport rescue dogs from a shelter to a foster home?  We shuttle dogs locally as well as between eastern and western Washington and up and down the I-5 corridor from southern California to Seattle.  If you would like to be a transport volunteer, please visit our website and send us an email today!\n\nhttp://www.washingtongsd.org/\n\nAre you following us on Facebook?  Our Facebook account is updated daily with information about our rescue dogs and volunteer opportunities!\n\nhttps://www.facebook.com/WashingtonGermanShepherdRescue"
+    },
+    "shelter": {
+      "id": "WA214",
+      "fax": "www.washingtongsd.org",
+      "zip": "98104",
+      "city": "Seattle",
+      "name": "Washington German Shepherd Rescue",
+      "email": "washingtonshepherds@yahoo.com",
+      "phone": "(206) 445-5151",
+      "state": "WA",
+      "country": "US",
+      "latitude": "47.604",
+      "longitude": "-122.326"
+    },
+    "user": {
+      "id": 10154041783618192,
+      "email": "dogboy82@mindspring.com",
+      "fname": "Anuraag",
+      "lname": "Pokhrel",
+      "street": "123 Puppies Ave.",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98122",
+      "phone": "(206) 123-1234"
+    }
+  },
+  {
+    "request": {
+      "id": 4,
+      "epoch": 1511002800,
+      "status": "D"
+    },
+    "dog": {
+      "id": "32883666",
+      "age": "Young",
+      "mix": "no",
+      "sex": "F",
+      "name": "Lio",
+      "size": "L",
+      "media": {
+        "photos": {
+          "1": {
+            "t": "http://photos.petfinder.com/photos/pets/32883666/1/?bust=1438312054&width=50&-t.jpg",
+            "x": "http://photos.petfinder.com/photos/pets/32883666/1/?bust=1438312054&width=500&-x.jpg",
+            "pn": "http://photos.petfinder.com/photos/pets/32883666/1/?bust=1438312054&width=300&-pn.jpg",
+            "fpm": "http://photos.petfinder.com/photos/pets/32883666/1/?bust=1438312054&width=95&-fpm.jpg",
+            "pnt": "http://photos.petfinder.com/photos/pets/32883666/1/?bust=1438312054&width=60&-pnt.jpg"
+          }
+        }
+      },
+      "animal": "Dog",
+      "breeds": [
+        "German Shepherd Dog"
+      ],
+      "status": "A",
+      "contact": {
+        "fax": "www.washingtongsd.org",
+        "zip": "98104",
+        "city": "Seattle",
+        "email": "washingtonshepherds@yahoo.com",
+        "phone": "(206) 445-5151",
+        "state": "WA"
+      },
+      "options": [
+        "hasShots",
+        "altered",
+        "housetrained"
+      ],
+      "shelterId": "WA214",
+      "description": "A tragic fire destroys the family home.  An unexpected job loss destines a family to move from a house to an apartment.  A health issue forces major life changes.  In each of these scenarios, and countless others, a beloved family dog loses the only home that it has known.\n\nWashington German Shepherd Rescue can provide a safe and healing environment for these dogs by saving them from the stress and isolation of an animal shelter and an uncertain future.  But this is true only if there are enough foster families available to help.\n\nDo you, or someone you know, have the time and extra space in your home and in your heart to foster one of these special dogs?  Have you considered adopting a dog, perhaps a second dog, but do not want to commit to a 12-15 year lifespan? Fostering a German Shepherd could be right for you!\n\nGerman Shepherds long for companionship, enjoy exercise and are eager to learn. Foster homes can provide all of this and more by preparing the dog for his or her special new family. A soft bed to rest on; a gentle hand to provide comfort; a safe haven during an otherwise stressful period of their life. Fostering a displaced dog is both challenging and rewarding. Special people helping special dogs find their forever home.\n\nPlease email us directly at washingtonshepherds@yahoo.com for more information about this vital service of our rescue program.  Your help can make a tremendous difference in the lives of many dogs.\n\nRescue work is a great way to meet new people!  And our volunteers are invited to WGSR private events.\n\nAre you following us on Facebook? Our Facebook account is updated daily with information about our rescue dogs and volunteer opportunities!\n\nhttps://www.facebook.com/WashingtonGermanShepherdRescue"
+    },
+    "shelter": {
+      "id": "WA214",
+      "fax": "www.washingtongsd.org",
+      "zip": "98104",
+      "city": "Seattle",
+      "name": "Washington German Shepherd Rescue",
+      "email": "washingtonshepherds@yahoo.com",
+      "phone": "(206) 445-5151",
+      "state": "WA",
+      "country": "US",
+      "latitude": "47.604",
+      "longitude": "-122.326"
+    },
+    "user": {
+      "id": 10153811720940946,
+      "email": "scoobydoo@snoopdogg.com",
+      "fname": "Amarpal",
+      "lname": "Singh",
+      "street": "Your Momma's House",
+      "city": "Playboy Mansion",
+      "state": "CA",
+      "zip": "90024",
+      "phone": "(775) 246-7077"
+    }
+  }
+]

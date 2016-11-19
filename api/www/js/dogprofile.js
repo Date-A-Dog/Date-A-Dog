@@ -20,4 +20,9 @@ var DogProfile = function(dogId, name, sex, age, photoURL) {
   
   return profile;
 };
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+ module.exports = DogProfile;
+} else {
+  window.DogProfile = DogProfile;
+}
 

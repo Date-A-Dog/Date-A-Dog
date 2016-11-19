@@ -1,12 +1,13 @@
-
-/******* Comment out when not testing ***********************/
-// var fs = require("fs");
-// var filterDateRequestProperties = require("./fetchrequests");
-// var DaterProfile = require("./daterprofile");
-// var DogProfile = require("./dogprofile");
-// var DateRequest = require("./daterequest");
-// var Address = require("./address");
-/************************************************************/
+/*****Testing dependencies ***********************/
+//This block is only executed when testing inside node.js
+if (typeof require !== "undefined") {
+ var fs = require("fs");
+ var DaterProfile = require("./daterprofile");
+ var DogProfile = require("./dogprofile");
+ var DateRequest = require("./daterequest");
+ var Address = require("./address");
+}
+/************************************************/
 
 /**
  * shelter object represents a shelter session for the front
@@ -245,3 +246,10 @@ var Shelter = function(_token, _testingMockData) {
 
   return shelter;
 };
+
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+ module.exports = Shelter;
+} else {
+  window.Shelter = Shelter;
+}
+

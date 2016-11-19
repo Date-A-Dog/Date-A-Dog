@@ -16,4 +16,9 @@ var DaterProfile =function(fName,lName, email, phone, address) {
 
   return profile;
 }
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+ module.exports = DaterProfile;
+} else {
+  window.DaterProfile = DaterProfile;
+}
 

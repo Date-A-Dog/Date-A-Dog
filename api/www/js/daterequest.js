@@ -18,3 +18,10 @@ DateRequest = function(requestId, dogProfile, daterProfile, dateTime, status) {
 
   return request;
 };
+
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+ module.exports = DateRequest;
+} else {
+  window.DateRequest = DateRequest;
+}
+

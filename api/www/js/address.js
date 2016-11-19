@@ -14,3 +14,9 @@ var Address = function(street, city, state, zipcode) {
   return address;
 };
 
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+ module.exports = Address;
+} else {
+  window.Address = Address;
+}
+

@@ -4,19 +4,21 @@
  * by using its accessor methods.
  *
  */
-var DogProfile = function(dogId, name, sex, photoURL) {
+var DogProfile = function(dogId, name, sex, age, photoURL) {
   // object profile properties
   var profile = {};
 
-  // declare/init dog properties 
+  // declare/init dog properties
   profile.id       = dogId;
   profile.name     = name;
   profile.sex      = sex;
+  profile.age      = age;
   profile.photoURL = photoURL;
 
-  // log entry
-  console.log("DogProfile created: " + profile);
-  
   return profile;
 };
-
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+ module.exports = DogProfile;
+} else {
+  window.DogProfile = DogProfile;
+}

@@ -11,9 +11,10 @@ var DaterProfile =function(fName,lName, email, phone, address) {
   profile.phone = phone;
   profile.address = address;
 
-  // log entry
-  console.log("Dater profile object created: " + profile);
-
   return profile;
 }
-
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+ module.exports = DaterProfile;
+} else {
+  window.DaterProfile = DaterProfile;
+}

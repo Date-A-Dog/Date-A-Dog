@@ -9,8 +9,11 @@ var Address = function(street, city, state, zipcode) {
   address.city = city;
   address.state = state;
   address.zipcode = zipcode;
-  
-  console.log("Address object constructed: " + address);
   return address;
 };
 
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+ module.exports = Address;
+} else {
+  window.Address = Address;
+}

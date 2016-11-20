@@ -1,6 +1,7 @@
 package dateadog.dateadog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -20,9 +24,13 @@ import android.widget.Toast;
  * Use the {@link LikedDogsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LikedDogsFragment extends Fragment {
-
+public class LikedDogsFragment extends Fragment implements AdapterView.OnItemClickListener {
+    private static final int MAX_DOGS_SHOWN = 100;
     private OnFragmentInteractionListener mListener;
+    private List<Dog> likedDogs;
+    private DADAPI DogManager;
+    ListView likedDogsListView;
+    LikedDogsListViewAdapter adapter;
 
     public LikedDogsFragment() {
         // Required empty public constructor
@@ -44,6 +52,35 @@ public class LikedDogsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DogManager = DADAPI.getInstance(getContext().getApplicationContext());
+        likedDogs = new ArrayList<>();
+        refreshLikedDogs();
+    }
+
+    private void refreshLikedDogs() {
+        DogManager.getLikedDogs(new DADAPI.DataListener() {
+            @Override
+            public void onGotDogs(Set<Dog> dogs) {
+                System.out.println("Got " + dogs.size() + " dogs back!!!");
+                likedDogs.clear();
+                likedDogs.addAll(dogs);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshLikedDogs();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Dog dog = (Dog) parent.getItemAtPosition(position);
+        Intent showDogProfile = new Intent(getContext(), DogProfileActivity.class);
+        showDogProfile.putExtra("Dog", dog);
+        startActivity(showDogProfile);
     }
 
     @Override
@@ -51,6 +88,12 @@ public class LikedDogsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_liked_dogs, container, false);
+
+        likedDogsListView = (ListView) rootView.findViewById(R.id.likedDogsListView);
+        adapter = new LikedDogsListViewAdapter(getContext(), R.layout.row, likedDogs);
+        likedDogsListView.setAdapter(adapter);
+        likedDogsListView.setOnItemClickListener(this);
+        refreshLikedDogs();
         return rootView;
     }
 

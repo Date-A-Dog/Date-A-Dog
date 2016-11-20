@@ -21,10 +21,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.facebook.login.LoginManager;
 
-public class MainActivity extends AppCompatActivity implements LikedDogsFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements LikedDogsFragment.OnFragmentInteractionListener,
+                                                               SwipeActivityFragment.OnFragmentInteractionListener,
+                                                               FormFragment.OnFragmentInteractionListener{
 
     private static final String TAG = MainActivity.class.getName();
 
@@ -74,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         tabLayout.getTabAt(0).setText(R.string.find_dogs);
         tabLayout.getTabAt(1).setIcon(R.drawable.heart);
         tabLayout.getTabAt(1).setText(R.string.liked_dogs);
+        tabLayout.getTabAt(2).setIcon(R.drawable.md_form);
+        tabLayout.getTabAt(2).setText(R.string.forms);
     }
 
 
@@ -90,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         if (id == R.id.action_log_out) {
             LoginManager.getInstance().logOut();
             startActivity(new Intent(this, LoginActivity.class));
@@ -154,9 +156,11 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                return FindDogsFragment.newInstance();
+                return SwipeActivityFragment.newInstance();
             } else if (position == 1) {
                 return LikedDogsFragment.newInstance();
+            }else if (position == 2) {
+                return FormFragment.newInstance();
             } else {
                 return null;
                 // TODO: Handle invalid position index more gracefully.
@@ -166,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         @Override
         public int getCount() {
             // Show 2 total pages.
-            return 2;
+            return 3;
         }
     }
 }

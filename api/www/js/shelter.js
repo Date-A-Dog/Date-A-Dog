@@ -27,10 +27,11 @@ var Shelter = function(_token, _testingMockData) {
   var token = _token;
   /** Enumerator used to filter requests according to status */
   var filter = { pending: "pending", history: "history"};
-  /** Determines if we are testing - defaults to false if no second arg given */
-  var testingMockData = _testingMockData || false;
   /**object to which all functinality is attached */
   var shelter = {};
+
+  /** Determines if we are testing - defaults to false if no second arg given */
+  var testingMockData = _testingMockData || false;
 
   // This function makes XMLHttpRequest to back end API
   // server for date requests associated with the shelter token
@@ -67,9 +68,14 @@ var Shelter = function(_token, _testingMockData) {
       httpRequest.setRequestHeader("access_token", token);
       httpRequest.send(JSON.stringify());
 
-    } else {
+    } else {  // this is a test run
+      // Are we testing data from a specified testFile?
+      if (typeof shelter.testFile == "undefined") {
+        // set default mock data test file if one is not provided
+        shelter.testFile = "./test/mockData/testData.json";
+      }
       // read from mock data throgh synchronous call
-      var content = fs.readFileSync("./test/mockData/testData.txt");
+      var content = fs.readFileSync(shelter.testFile);
       var jsonContent = JSON.parse(content);
       dateRequests = extractDateRequestProperties(jsonContent);
     }
@@ -252,4 +258,3 @@ if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
 } else {
   window.Shelter = Shelter;
 }
-

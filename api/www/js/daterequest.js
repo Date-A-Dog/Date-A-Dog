@@ -5,7 +5,7 @@
  */
 DateRequest = function(requestId, dogProfile, daterProfile, dateTime, status) {
   var request = {};
-  
+
   //TODO: verify argument types {DogProfile, DaterProfile} before constructing
   request.id = requestId;
   request.dogProfile   = dogProfile;
@@ -13,9 +13,6 @@ DateRequest = function(requestId, dogProfile, daterProfile, dateTime, status) {
   request.dateTime     = dateTime;
   request.status       = status;
   
-  // log entry
-  console.log("Date request object created: " + request);
-
   return request;
 };
 
@@ -24,4 +21,3 @@ if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
 } else {
   window.DateRequest = DateRequest;
 }
-

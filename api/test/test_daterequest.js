@@ -1,11 +1,9 @@
 var expect  = require("chai").expect;
+var assert = require("assert");
 var DaterProfile = require("../www/js/daterequest");
 
 describe("Date Request", function() {
-
-  /** Sample request properties **/
-
-
+  /** Sample date request properties **/
   var REQUEST_ID = 238359;
   var STATUS = "P";
   var DATE = "11/12/2016";
@@ -30,20 +28,40 @@ describe("Date Request", function() {
 
 
 
-
+  /**
+  * Test constructor
+  */
   describe("DateRequest constructor", function() {
     it("Builds DateRequest object", function() {
-      var resultProfile = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS);
-      var expectedProfile = {
+      var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS);
+      var expectedDateRequest = {
         id: REQUEST_ID,
         dogProfile: DOG_PROFILE,
         daterProfile: DATER_PROFILE,
         dateTime: DATE,
         status: STATUS
       }
-
-      expect(resultProfile).to.deep.equal(expectedProfile);
-    }); 
+      expect(dr).to.deep.equal(expectedDateRequest);
+    });
   });
 
-});
+  describe("DateRequest Property Consistency", function() {
+    var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS);
+    it("0. requestId", function() {
+      assert(dr.id, REQUEST_ID);
+    });
+    it("1. dogProfile", function() {
+      expect(dr.dogProfile).to.deep.equal(DOG_PROFILE);
+    });
+    it("2. daterProfile", function() {
+      expect(dr.daterProfile).to.deep.equal(DATER_PROFILE);
+    });
+    it("3. dateTime", function() {
+      assert(dr.dateTime, DATE);
+    });
+    it("4. status", function() {
+      assert(dr.status, STATUS);
+    });
+  });
+
+}); // end of DateRequest test

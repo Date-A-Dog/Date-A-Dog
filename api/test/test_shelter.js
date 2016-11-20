@@ -1,5 +1,7 @@
 var assert = require("assert");
 var Shelter = require("../www/js/shelter");
+var extractDateRequestProperties = require("../www/js/shelter");
+var fs = require("fs");
 
 
 describe("Shelter", function() {
@@ -19,132 +21,137 @@ describe("Shelter", function() {
     });
     // test 2
     it("2. Exception when no parameters given", function() {
-      assert.throws(Shelter, Error);
+      assert.throws(function() {Shelter();}, Error);
     });
 
-  });
-
-  /** 
-  * Tests for getPendingRequests() method 
-  */
-  describe("Test getPendingRequests()", function() {
-    var shelter = Shelter(SHELTER_ID, true);
-
-    // test 0
-    it("0. Exception when calling before loading data.", function() {
-      assert.throws(shelter.getPendingRequests(), Error);
-    });
-
-    // load data and get history results before proceding with tests
-    shelter.updateDateRequests(); // no call back, this is sync
-    var results = shelter.getPendingRequests(); 
-
-    // test 1
-    it("1. Correct number of elemnents", function() {
-      // ensure data is loaded before asserting
-      assert.equal(1, results.length);
-      
-    });
-    // test 2
-    it("2. Correct status for each element", function() {
-      for (var i = 0; i < results.length; i++) {
-        assert.equal("P", results[i].status);
-      }      
-    });
   });
 
   /**
-  * Tests for getHistoryRequests() method 
+  * Tests for getPendingRequests() method
   */
-  describe("Test getHistoryRequests()", function() {
+  describe("Test getPendingRequests() when dateRequests > 0", function() {
     var shelter = Shelter(SHELTER_ID, true);
-    
     // test 0
     it("0. Exception when calling before loading data.", function() {
-      assert.throws(shelter.getHistoryRequests(), Error);
+      assert.throws(function() {shelter.getPendingRequests();}, Error);
     });
-
-    // load data and get history results before proceding with tests
-    shelter.updateDateRequests(); 
-    var results = shelter.getHistoryRequests(); 
-
     // test 1
     it("1. Correct number of elemnents", function() {
-      // ensure data is loaded before asserting    
-      assert.equal(2, results.length);
+      // load data and get history results before proceding with tests
+      shelter.updateDateRequests(); // no call back, this is sync
+      var results = shelter.getPendingRequests();
+      // ensure data is loaded before asserting
+      assert.equal(results.length, 2);
+
     });
     // test 2
     it("2. Correct status for each element", function() {
+      // load data and get history results before proceding with tests
+      //shelter.updateDateRequests(); // no call back, this is sync
+      var results = shelter.getPendingRequests();
+      for (var i = 0; i < results.length; i++) {
+        assert.equal(results[i].status, "P");
+      }
+    });
+
+  });
+
+  /**
+  * Tests for getHistoryRequests() method
+  */
+  describe("Test getHistoryRequests() when dateRequests > 0 ", function() {
+    var shelter = Shelter(SHELTER_ID, true);
+
+    // test 0
+    it("0. Exception when calling before loading data.", function() {
+      assert.throws(function(){shelter.getHistoryRequests();}, Error);
+    });
+    // test 1
+    it("1. Correct number of elemnents", function() {
+      // load data and get history results before proceding with tests
+      shelter.updateDateRequests();
+      var results = shelter.getHistoryRequests();
+      assert.equal(results.length, 2);
+    });
+    // test 2
+    it("2. Correct status for each element", function() {
+      // load data and get history results before proceding with tests
+      shelter.updateDateRequests();
+      var results = shelter.getHistoryRequests();
       var allValidHistoryStatus = true;
+
       for (var i = 0; i < results.length; i++) {
         var status = results[i].status;
         if (status != "A" && status != "D") {
           // contains other status then history
           allValidHistoryStatus = false;
         }
-        assert.notEqual("P", status);
-        assert.equal(true, allValidHistoryStatus);
-      }      
+        assert.notEqual(status, "P");
+        assert.equal(allValidHistoryStatus,true);
+      }
     });
-      
   });
 
-  /** 
-  * Tests for getDateRequest() method 
-  */
-  describe("Test getDateRequests()", function() {
+  describe("Test getPendingRequests() when dateRequests == 0 ", function() {
     var shelter = Shelter(SHELTER_ID, true);
+    // set testFile to mock date with no requests
+    shelter.testFile = "./test/mockData/testData_empty.json";
     // test 0
     it("0. Exception when calling before loading data.", function() {
-      assert.throws(shelter.getDateRequests(), Error);
+      assert.throws(function() {shelter.getPendingRequests();}, Error);
     });
-
-    // load data and get history results before proceding with tests
-    shelter.updateDateRequests(); 
-    var results = shelter.getDateRequests(); 
-    
     // test 1
-    it("1. Correct number of elemnents", function() {
-      // ensure data is loaded before asserting    
-      assert.equal(3, results.length);
+    it("1. results array is not null", function() {
+      // load data and get pending results
+      shelter.updateDateRequests();
+      var results = shelter.getPendingRequests();
+      assert.notEqual(results, null);
+    });
+    // test 2
+    it("2. results array is not undefined", function() {
+      // load data and get pending results
+      shelter.updateDateRequests();
+      var results = shelter.getPendingRequests();
+      assert.notEqual(results, undefined);
+    });
+    // test 3
+    it("3. number of results == 0", function() {
+      // load data and get pending results
+      shelter.updateDateRequests();
+      var results = shelter.getPendingRequests();
+      assert.equal(results.length, 0);
     });
   });
 
-  /**
-  * Tests for getDateRequestById() method
-  */
-  // TODO: implement testing
-   describe("Test getDateRequestById()", function() {
-     // test 0
-     it("0. Exception when calling before loading data", function() {
-      var shelter = Shelter(SHELTER_ID, true);
-      // We pass a function since to enable callimg with parameters
-       assert.throws(function() {shelter.getDateRequestById(89686);}, Error);
-     });
-     var shelter = Shelter(SHELTER_ID, true);
-     // load data before proceding with tests
-     shelter.updateDateRequests();
+  describe("Test getHistoryRequests() when dateRequests == 0", function() {
+    var shelter = Shelter(SHELTER_ID, true);
+    // set testFile to mock date with no requests
+    shelter.testFile = "./test/mockData/testData_empty.json";
+    // test 0
+    it("0. Exception when calling before loading data.", function() {
+      assert.throws(function() {shelter.getHistoryRequests();}, Error);
+    });
+    // test 1
+    it("1. results array is not null", function() {
+      // load data and get pending results
+      shelter.updateDateRequests();
+      var results = shelter.getHistoryRequests();
+      assert.notEqual(results, null);
+    });
+    // test 2
+    it("2. results array is not undefined", function() {
+      // load data and get pending results
+      shelter.updateDateRequests();
+      var results = shelter.getHistoryRequests();
+      assert.notEqual(results, undefined);
+    });
+    // test 3
+    it("3. number of results == 0", function() {
+      // load data and get pending results
+      shelter.updateDateRequests();
+      var results = shelter.getHistoryRequests();
+      assert.equal(results.length, 0);
+    });
+  });
 
-     // test 1
-     it("1. Existing requestId", function() {
-      var result = shelter.getDateRequestById(187327);
-      assert.notEqual(result, undefined);
-      assert.equal(result.daterProfile.fName, "John");
-      assert.equal(result.daterProfile.phone, "281-330-8004");
-      assert.equal(result.daterProfile.fax, undefined);
-      assert.equal(result.daterProfile.address.street, "124 N Elmo St");
-
-      assert.equal(result.dogProfile.id, 14553000);
-     });
-     // test 2
-     it ("2. Non-existing requestId", function() {
-
-     });
-     // test 3
-     it ("3. Searching on empty dateRequests", function() {
-
-     });
-   });
-
-
-}); // end of shlelter test
+}); // end of shelter test

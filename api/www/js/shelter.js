@@ -18,19 +18,20 @@ if (typeof require !== "undefined") {
 var Shelter = function(_token, _testingMockData) {
 
   if (arguments < 1 || _token === undefined) {
-    throw Error("User token is required when constructing Shelter object.");
+    throw new Error("User token is required when constructing Shelter object.");
   }
 
   /** Te array where all date requests for this shelter are stored*/
-  var dateRequests = null;
+  var dateRequests = undefined;
   /** The shelter id - determinded by petfinder.com */
   var token = _token;
   /** Enumerator used to filter requests according to status */
   var filter = { pending: "pending", history: "history"};
-  /** Determines if we are testing - defaults to false if no second arg given */
-  var testingMockData = _testingMockData || false;
   /**object to which all functinality is attached */
   var shelter = {};
+
+  /** Determines if we are testing - defaults to false if no second arg given */
+  var testingMockData = _testingMockData || false;
 
   // This function makes XMLHttpRequest to back end API
   // server for date requests associated with the shelter token
@@ -67,9 +68,14 @@ var Shelter = function(_token, _testingMockData) {
       httpRequest.setRequestHeader("access_token", token);
       httpRequest.send(JSON.stringify());
 
-    } else {
+    } else {  // this is a test run
+      // Are we testing data from a specified testFile?
+      if (shelter.testFile == undefined) {
+        // set default mock data test file if one is not provided
+        shelter.testFile = "./test/mockData/testData.json";
+      }
       // read from mock data throgh synchronous call
-      var content = fs.readFileSync("./test/mockData/testData.txt");
+      var content = fs.readFileSync(shelter.testFile);
       var jsonContent = JSON.parse(content);
       dateRequests = extractDateRequestProperties(jsonContent);
     }
@@ -84,8 +90,8 @@ var Shelter = function(_token, _testingMockData) {
   //   if called before shelter data is fetched.
   //
   shelter.getPendingRequests = function() {
-    if (dateRequests == null){
-      throw Error("Calling getPendingRequests() before fetching shelter data.");
+    if (dateRequests === undefined){
+      throw new Error("Calling getPendingRequests() before fetching shelter data.");
     }
     // return fileterd date requests
     return filterDateRequests(filter.pending);
@@ -100,8 +106,8 @@ var Shelter = function(_token, _testingMockData) {
   //   null if called before shelter data is fetched.
   //
   shelter.getHistoryRequests = function() {
-    if (dateRequests == null){
-      throw Error("Calling getHistoryRequests() before fetching shelter data.");
+    if (dateRequests === undefined){
+      throw new Error("Calling getHistoryRequests() before fetching shelter data.");
     }
     // return fileterd date requests
     return filterDateRequests(filter.history);
@@ -252,4 +258,3 @@ if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
 } else {
   window.Shelter = Shelter;
 }
-

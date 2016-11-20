@@ -223,7 +223,7 @@ function updateUser(req, res, next) {
                      city = $5, \
                      state = $6, \
                      phone = $7, \
-                     zip = $8, \
+                     zip = $8 \
                  WHERE id = $9';
     db.none(query, [req.body.email, req.body.fname, req.body.lname,
                     req.body.street, req.body.city, req.body.state,
@@ -396,7 +396,7 @@ function updateUserDemo(req, res, next) {
                      city = $5, \
                      state = $6, \
                      phone = $7, \
-                     zip = $8, \
+                     zip = $8 \
                  WHERE id = $9';
     db.none(query, [req.body.email, req.body.fname, req.body.lname,
                     req.body.street, req.body.city, req.body.state,

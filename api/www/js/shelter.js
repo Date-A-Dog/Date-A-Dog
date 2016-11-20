@@ -16,7 +16,7 @@ if (typeof require !== "undefined") {
  *
  */
 var Shelter = function(_token, _testingMockData) {
-
+  
   if (arguments < 1 || _token === undefined) {
     throw new Error("User token is required when constructing Shelter object.");
   }

@@ -27,7 +27,25 @@ function login(req, res, next) {
                ON CONFLICT DO NOTHING';
   db.none(query, [req.user.id, req.user.first_name, req.user.last_name])
     .then(function() {
-      res.status(200).json(req.user);
+      query = 'SELECT json_build_object(\'id\', u.id, \
+                                        \'email\', u.email, \
+                                        \'fname\', u.fname, \
+                                        \'lname\', u.lname, \
+                                        \'street\', u.street, \
+                                        \'city\', u.city, \
+                                        \'zip\', u.zip, \
+                                        \'phone\', u.phone, \
+                                        \'shelterid\', u.shelterid \
+                                      ) as user \
+               FROM users u \
+               WHERE u.id = $1';
+       db.one(query, [req.user.id])
+         .then(function (data) {
+           res.status(200).json(data.user)
+         })
+         .catch(function (err) {
+           return next(err);
+         });
     })
     .catch(function(err) {
       return next(err);

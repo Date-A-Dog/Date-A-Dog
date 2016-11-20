@@ -19,7 +19,7 @@ router.post("/getShelterRequests", auth.isAuthenticated, db.getShelterRequests);
 router.post("/judgeDog", auth.isAuthenticated, db.judgeDog);
 router.post("/requestDate", auth.isAuthenticated, db.requestDate);
 router.post("/updateRequestStatus", auth.isAuthenticated, db.updateRequestStatus);
-router.post("/updateUserApplication", auth.isAuthenticated, db.updateUserApplication);
+router.post("/updateUser", auth.isAuthenticated, db.updateUser);
 
 // Demo endpoints
 router.post("/loginDemo", db.loginDemo);
@@ -32,6 +32,6 @@ router.post("/getShelterRequestsDemo", db.getShelterRequestsDemo);
 router.post("/judgeDogDemo", db.judgeDogDemo);
 router.post("/requestDateDemo", db.requestDateDemo);
 router.post("/updateRequestStatusDemo", db.updateRequestStatusDemo);
-router.post("/updateUserApplicationDemo", db.updateUserApplicationDemo);
+router.post("/updateUserDemo", db.updateUserDemo);
 
 module.exports = router;

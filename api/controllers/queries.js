@@ -214,7 +214,7 @@ function updateRequestStatus(req, res, next) {
     });
 }
 
-function updateUserApplication(req, res, next) {
+function updateUser(req, res, next) {
     var query = 'UPDATE users \
                  SET email = $1, \
                      fname = $2, \
@@ -387,7 +387,7 @@ function updateRequestStatusDemo(req, res, next) {
     });
 }
 
-function updateUserApplicationDemo(req, res, next) {
+function updateUserDemo(req, res, next) {
     var query = 'UPDATE users \
                  SET email = $1, \
                      fname = $2, \
@@ -421,7 +421,7 @@ module.exports = {
   judgeDog: judgeDog,
   requestDate: requestDate,
   updateRequestStatus: updateRequestStatus,
-  updateUserApplication: updateUserApplication,
+  updateUser: updateUser,
 
   // Rest API Demo specific queries
   loginDemo: loginDemo,
@@ -434,5 +434,5 @@ module.exports = {
   judgeDogDemo: judgeDogDemo,
   requestDateDemo: requestDateDemo,
   updateRequestStatusDemo: updateRequestStatusDemo,
-  updateUserApplicationDemo: updateUserApplicationDemo
+  updateUserDemo: updateUserDemo
 };

@@ -26,6 +26,7 @@ GRANT ALL PRIVILEGES ON TABLE shelters TO dadadmin;
 
 CREATE TABLE users (
   id bigint PRIMARY KEY, -- Facebook Id
+  email text,
   fname text,
   lname text,
   street text,
@@ -46,15 +47,16 @@ CREATE TABLE requests (
   status char(1) DEFAULT 'P',
   PRIMARY KEY (id),
   FOREIGN KEY (dogId) REFERENCES doggies (id),
-  FOREIGN KEY (userId) REFERENCES users (id)
+  FOREIGN KEY (userId) REFERENCES users (id),
+  UNIQUE (dogId, userId, epoch)
 );
 GRANT ALL PRIVILEGES ON TABLE requests TO dadadmin;
 
 CREATE TABLE judged (
   userId bigint,
   dogId bigint,
-  liked boolean DEFAULT null,
   epoch bigint NOT NULL,
+  liked boolean DEFAULT null,
   PRIMARY KEY(userId, dogId),
   FOREIGN KEY (userId) REFERENCES users (id),
   FOREIGN KEY (dogId) REFERENCES doggies (id)

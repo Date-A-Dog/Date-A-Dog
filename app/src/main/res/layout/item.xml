@@ -12,7 +12,8 @@
     <FrameLayout
         android:id="@+id/background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:alpha="0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,7 +90,7 @@
         android:layout_height="150dp"
         android:alpha="0"
 
-        android:background="@drawable/like" />
+        android:background="@drawable/green_like_paw" />
 
     <View
         android:id="@+id/item_swipe_right_indicator"
@@ -99,6 +100,6 @@
         android:alpha="0"
 
 
-        android:background="@drawable/nope" />
+        android:background="@drawable/red_dislike_paw" />
 
 </FrameLayout>

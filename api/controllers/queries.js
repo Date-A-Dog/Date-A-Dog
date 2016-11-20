@@ -18,199 +18,161 @@ var cn = {
 };
 var db = pgp(cn);
 
-// add query functions
-function getDogSummary(req, res, next) {
-    var query = 'SELECT d.dog_id, d.dog_name, d.age, d.sex, d.size, di.image_url, s.shelter_name \
-    FROM Dogs d \
-    JOIN DogImages di ON d.dog_id = di.dog_id \
-    JOIN Shelters s ON d.shelter_id = s.shelter_id \
-    WHERE d.dog_id = $1 \
-    AND di.image_id = $2 \
-    AND di.image_size = $3 \
-    LIMIT $4';
-    db.one(query, [req.body.dog_id, 1, 'pn', 1])
-        .then(function (data) {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    data: data,
-                    message: 'Retrieved Dog Summary'
-                });
-        })
-        .catch(function (err) {
-            return next(err);
-        });
+function login(req, res, next) {
+  // Find or create user in the database
+  console.log(req.user);
+  var query = 'INSERT INTO users (id, fname, lname) \
+               VALUES ($1, $2, $3) \
+               ON CONFLICT DO NOTHING';
+  db.none(query, [req.user.id, req.user.first_name, req.user.last_name])
+    .then(function() {
+      res.status(200).json(req.user);
+    })
+    .catch(function(err) {
+      return next(err);
+    });
 }
 
-function getDogDetail(req, res, next) {
-    var query = 'SELECT d.dog_id, d.dog_name, d.age, d.sex, d.size, d.breeds, d.description, \
-                di.image_url, s.shelter_name, s.shelter_id \
-                FROM Dogs d \
-                JOIN DogImages di ON d.dog_id = di.dog_id \
-                JOIN Shelters s ON d.shelter_id = s.shelter_id \
-                WHERE d.dog_id = $1 \
-                AND di.image_id = $2 \
-                AND di.image_size = $3 \
-                LIMIT $4';
-    db.one(query, [req.body.dog_id, 1, 'pn', 1])
-        .then(function (data) {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    data: data,
-                    message: 'Retrieved Dog Detail'
-                });
-        })
-        .catch(function (err) {
-            return next(err);
-        });
+function getNextDogs(req, res, next) {
+  var query = 'SELECT d.dog \
+               FROM doggies d JOIN shelters s ON d.dog->>\'shelterId\' = s.id \
+               WHERE NOT EXISTS (SELECT j.dogId \
+                                 FROM judged j \
+                                 WHERE d.id = j.dogId \
+                                   AND j.userId = $1 \
+                                   AND d.dog->>\'zip\' = $2) \
+               ORDER BY d.id ASC \
+               LIMIT $3';
+  db.any(query, [req.user.id, '98105', '20'])
+    .then(function (data) {
+      res.status(200).json(data);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
 }
 
-function getLikedDogs(req, res, next) {
-    var query = 'SELECT d.dog_id, d.dog_name, di.image_url \
-    FROM ViewedDogs vd \
-    JOIN Dogs d ON vd.dog_id = d.dog_id \
-    JOIN DogImages di ON vd.dog_id = di.dog_id \
-    WHERE vd.user_id = $1 \
-    AND vd.liked = $2 \
-    AND di.image_id = $3 \
-    AND di.image_size = $4 \
-    ORDER BY vd.liked_time DESC';
-
-    db.any(query, [req.user.id, 'TRUE', 1, 'fpm'])
-        .then(function (data) {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    data: data,
-                    message: 'Retrieved Liked Dog List'
-                });
-        })
-        .catch(function (err) {
-            return next(err);
-        });
+function getNextDogsDemo(req, res, next) {
+  var query = 'SELECT d.dog \
+               FROM doggies d JOIN shelters s ON d.dog->>\'shelterId\' = s.id \
+               WHERE NOT EXISTS (SELECT j.dogId \
+                                 FROM judged j \
+                                 WHERE d.id = j.dogId \
+                                   AND j.userId = $1 \
+                                   AND d.dog->>\'zip\' = $2) \
+               ORDER BY d.id ASC \
+               LIMIT $3';
+  db.any(query, ['119889308491710', '98105', '20'])
+    .then(function (data) {
+      res.status(200).json(data);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
 }
 
-function makeDateRequest(req, res, next) {
-    var query = 'INSERT INTO Request (dog_id, shelter_id, user_id, status, requested_date) \
-    VALUES ($1, $2, $3, $4, $5)';
-
-    db.none(query, [req.body.dog_id, req.body.shelter_id, req.user.id, 'A', req.body.date])
-        .then(function () {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    message: 'Added Date Request'
-                });
-        })
-        .catch(function (err) {
-            return next(err);
-        });
+function judgeDog(req, res, next) {
+  var query = 'INSERT INTO judged (userId, dogId, liked, epoch) \
+               VALUES ($1, $2, $3, $4) \
+               ON CONFLICT (userId, dogId) \
+               DO UPDATE SET liked = $3';
+  db.none(query, [req.user.id, req.body.id, req.body.liked, req.body.epoch])
+    .then(function () {
+      res.sendStatus(200);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
 }
 
-function updateUserApplication(req, res, next) {
-    var query = 'UPDATE Users \
-    SET full_name = $1, \
-        street = $2, \
-        city = $3, \
-        state = $4, \
-        zipcode = $5, \
-        phone = $6 \
-    WHERE user_id = $7';
-
-    db.none(query, [req.body.full_name, req.body.street, req.body.city, req.body.state,
-        req.body.zipcode, req.body.phone, req.user.id])
-        .then(function () {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    message: 'Added Date Request'
-                });
-        })
-        .catch(function (err) {
-            return next(err);
-        });
+function judgeDogDemo(req, res, next) {
+  var query = 'INSERT INTO judged (userId, dogId, liked, epoch) \
+               VALUES ($1, $2, $3, $4) \
+               ON CONFLICT (userId, dogId) \
+               DO UPDATE SET liked = $3, epoch = $4';
+  db.none(query, ['119889308491710', req.body.id, req.body.liked, req.body.epoch])
+    .then(function () {
+      res.sendStatus(200);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
 }
 
-function getUnreviewedRequestList(req, res, next) {
-    var query = 'SELECT r.req_id, r.dog_id, r.user_id, r.requested_date, \
-    u.full_name, d.dog_name \
-    FROM Request r \
-    JOIN Users u ON r.user_id = u.user_id \
-    JOIN Dogs d ON r.dog_id = d.dog_id \
-    WHERE r.shelter_id = $1 \
-    AND r.status = $2 \
-    ORDER BY r.requested_date ASC';
-
-    db.any(query, [req.body.shelter_id, req.body.status])
-        .then(function (data) {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    data: data,
-                    message: 'Retrieved Unreviewed Date Request List'
-                });
-        })
-        .catch(function (err) {
-            return next(err);
-        });
+function getShelterRequests(req, res, next) {
+  console.log('getShelterRequests called');
+  var query = 'SELECT json_build_object(\'id\', r.id, \
+                                        \'epoch\', r.epoch, \
+                                        \'status\', r.status) AS request, \
+                      d.dog AS dog, \
+                      s.shelter AS shelter, \
+                      json_build_object(\'id\', u.id, \
+                                        \'fname\', u.fname, \
+                                        \'lname\', u.lname, \
+                                        \'street\', u.street, \
+                                        \'city\', u.city, \
+                                        \'state\', u.state, \
+                                        \'zip\', u.zip, \
+                                        \'phone\', u.phone) AS user \
+               FROM requests r \
+               JOIN doggies d ON d.id = r.dogId \
+               JOIN shelters s ON s.id = r.shelterId \
+               JOIN users u ON  u.id = r.userId \
+               JOIN users v ON v.shelterId = r.shelterId \
+               WHERE v.id = $1';
+  db.any(query, [req.user.id])
+    .then(function(data) {
+      res.status(200).json(data)
+    })
+    .catch(function(err) {
+      return next(err);
+    });
 }
 
-function getReviewedDateHistory(req, res, next) {
-    var query = 'SELECT r.req_id, r.dog_id, r.user_id, r.requested_date, r.status, \
-        u.full_name, d.dog_name \
-    FROM Request r \
-    JOIN Users u ON r.user_id = u.user_id \
-    JOIN Dogs d ON r.dog_id = d.dog_id \
-    WHERE r.shelter_id = $1 \
-    AND r.status != $2 \
-    ORDER BY r.updated_time ASC';
-
-    db.any(query, [req.body.shelter_id, req.body.status])
-        .then(function (data) {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    data: data,
-                    message: 'Retrieved Reviewed Date Request List'
-                });
-        })
-        .catch(function (err) {
-            return next(err);
-        });
-}
-
-function updateDateRequestStatus(req, res, next) {
-    var query = 'UPDATE Request \
-    SET status = $1, \
-    updated_time = CURRENT_TIMESTAMP \
-    WHERE req_id = $2';
-
-    db.none(query, [req.body.status, req.body.req_id])
-        .then(function () {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    message: 'Updated Date Request Status'
-                });
-        })
-        .catch(function (err) {
-            return next(err);
-        });
+function getShelterRequestsDemo(req, res, next) {
+  console.log('getShelterRequests called');
+  var query = 'SELECT json_build_object(\'id\', r.id, \
+                                        \'epoch\', r.epoch, \
+                                        \'status\', r.status) AS request, \
+                      d.dog AS dog, \
+                      s.shelter AS shelter, \
+                      json_build_object(\'id\', u.id, \
+                                        \'fname\', u.fname, \
+                                        \'lname\', u.lname, \
+                                        \'street\', u.street, \
+                                        \'city\', u.city, \
+                                        \'state\', u.state, \
+                                        \'zip\', u.zip, \
+                                        \'phone\', u.phone) AS user \
+               FROM requests r \
+               JOIN doggies d ON d.id = r.dogId \
+               JOIN shelters s ON s.id = r.shelterId \
+               JOIN users u ON  u.id = r.userId \
+               WHERE r.shelterId = $1';
+  db.any(query, ['WA214'])
+    .then(function(data) {
+      res.status(200).json(data)
+    })
+    .catch(function(err) {
+      return next(err);
+    });
 }
 
 module.exports = {
   // Rest API specific queries
-  //getNextDogs: getNextDogs,
-  // judgeDog: judgeDog,
-    getDogSummary: getDogSummary,
-    getDogDetail: getDogDetail,
-    getLikedDogs: getLikedDogs,
-    getRequestHistory: getReviewedDateHistory,
-    getUnreviewedRequestList: getUnreviewedRequestList,
-    updateRequestStatus: updateDateRequestStatus,
-    updateUserApplication: updateUserApplication,
-    requestDate: makeDateRequest,
-   // Daemon specific queries
-  // updateDoggie: updateDoggie
+  login: login,
+  getNextDogs: getNextDogs,
+  getNextDogsDemo: getNextDogsDemo,
+  // getDogHistory: getDogHistory,
+  // getDogHistoryDemo: getDogHistoryDemo,
+  // getLikedDogs: getLikedDogs,
+  // getDislikedDogs: getDislikedDogs,
+  judgeDog: judgeDog,
+  judgeDogDemo: judgeDogDemo,
+  getShelterRequests: getShelterRequests,
+  getShelterRequestsDemo: getShelterRequestsDemo,
+  // getShelter: getShelter,
+  // updateRequestStatus: updateRequestStatus,
+  // requestDate: requestDate,
+  // updateUserApplication: updateUserApplication
 };

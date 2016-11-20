@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+	<meta charset="utf-8"/>
+	<title>Date a Dog</title>
+	<link rel="icon" href="sample.png">
+	
+	<link rel ="stylesheet" type="text/css" href="css/style.css" />
+	<link rel ="stylesheet" type="text/css" href="css/content-display.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/fbinit.js"></script>
+	<script src="js/fblogin.js"></script>
+	<script src="js/chevron.js"></script>
+	<script src="js/accordion.js"></script>
+	<script src="js/address.js"></script>
+	<script src="js/dogprofile.js"></script>
+	<script src="js/daterprofile.js"></script>
+	<script src="js/daterequest.js"></script>
+	<script src="js/fetchrequests.js"></script>
+	<script src="js/shelter.js"></script>
+	<script src="js/updatetable.js"></script>
+ </head>
+<body id="dad">
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">Date A Dog</a>
+			</div>
+			
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="requests.html">Requests</a></li>
+				<li><a href="history.html">History</a></li>
+				<li><a href="index.html">Logout</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<h1>Requests</h1>
+
+	<!-- For placement of requests -->
+	<div id="accordion">
+		
+	</div>
+	<!-- fills accordion with requests and available actions -->
+	<script type="text/javascript">
+
+		jQuery(function() { 
+			jQuery( "#accordion" ).accordion();
+		});
+		var siteUrl = '/'; 
+
+		//ExecuteOrDelayUntilScriptLoaded(retrieveListItems, "sp.js")
+		// only load data when refresh is done fetching
+		var shelter = Shelter("WA141");
+		shelter.updateDateRequests(function(){ 
+
+			var requestsList = shelter.getPendingRequests();
+
+			for (var i = 0; i < requestsList.length; i++) {
+				var r = requestsList[i];
+			 
+				var newDiv = "<div class=\"accordionTitle\"><h3> Dog Name: " + r.dogProfile.name + "</h3>"+
+							"<h3>Dater: " + r.daterProfile.fName +" " + r.daterProfile.lName + "</h3>"+
+							"<h3>When: "+ r.dateTime + "</h3>"+
+							"</div> " + 
+							"<div class=\"accordionEle\"> " + 
+							 "<p> Requester: <strong>"  + r.daterProfile.fName +" " + r.daterProfile.lName +"</strong> " +
+							 "Zipcode: <strong>"+r.daterProfile.address.zipcode+"</strong></p>" +  
+							 "<p>Date requested with: </p>" +
+							 "<p><img class=\"accordion-img\" src=\""+ r.dogProfile.photoURL +"\" alt=\"dog image\">  " + 
+							 "<strong>"+r.dogProfile.name+"</strong> </p> " +
+							 "<p class=\"request-button-container\"> " + 
+							 // buttons
+							 "<button id =\"A" + r.id + "\" class=\"request-buttons btn btn-success btn-lg\" onclick=\"aproveRequest(" + r.id + ")\"> Approve</button>" +
+							 "<button id =\"D" + r.id + "\" class=\"request-buttons btn btn-warning btn-lg\" onclick=\"denyRequest(" + r.id + ")\"> Deny</button>" +
+							 "<button id =\"U" + r.id + "\" class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + r.id + ")\"> Undo</button> " + 
+							 "</p>" +
+							 "</div>";
+				$("#accordion").append(newDiv);
+			}
+			$("#accordion").accordion("refresh");
+			$("#accordion").accordion();
+
+			jQuery( document ).ready(function() {
+				//alert( "document loaded" );
+			});
+ 
+		});
+
+
+
+
+		function aproveRequest(reqId){ 
+		  updateButtons(reqId, "approve");
+		  alert("Approving request: " + reqId);
+		}
+
+		function denyRequest(reqId){   
+		  updateButtons(reqId, "deny");
+		  alert("Denying request: " + reqId);
+		}
+
+		function undoRequest(reqId){  
+		 updateButtons(reqId, "undo");
+		 alert("Undoing request: " + reqId);
+		}
+
+		function updateButtons(reqId, clickedButton) {
+		  var buttonID_A = "A" + reqId;
+		  var buttonID_D = "D" + reqId;  
+		  var buttonID_U = "U" + reqId;
+		  //window.alert("Approving request: " + buttonID_A);
+			
+		  var approveButton = document.getElementById(buttonID_A);
+		  var denyButton = document.getElementById(buttonID_D);
+		  var undoButton = document.getElementById(buttonID_U);
+
+		  switch(clickedButton) {
+			case "approve": 
+			  approveButton.disabled = true;
+			  denyButton.disabled = false;
+			  undoButton.diabled = false;
+
+			break;
+			case "deny":
+			  approveButton.disabled = false;
+			  denyButton.disabled = true;
+			  undoButton.diabled = false;
+
+			break;
+			case "undo":
+			  approveButton.disabled = false;
+			  denyButton.disabled = false;
+			  undoButton.diabled = false;
+			break;
+		  }  
+		}
+	</script>
+ </body>

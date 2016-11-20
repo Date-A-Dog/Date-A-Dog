@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <h1 id='object'> Dater Profile</h1>
+  <link rel="stylesheet" type="text/css" href="../css/css/style.css" />
+</head>
+
+<body>
+  <button onclick="displayObject()"> Show Object properties</button>
+  <p id="email">??</p>
+  <p id="name">?</p>
+  <p id="phone">??</p>
+  <p id="address">??</p>
+  
+  <script src="../js/address.js"></script>
+  <script src="../js/daterprofile.js">  </script>
+ 
+  <script>
+   function displayObject(){
+
+    var address = Address("123 N Elmo St", "Seattle", "WA", "92104");
+    var dater = DaterProfile("John", "Doe", "John.doe@gmail.com", "281-330-8004", address);
+    
+    var emailElement = document.getElementById("email");
+    var fNameElement = document.getElementById("name");
+    var phoneElement   = document.getElementById("phone");
+    var addressElement = document.getElementById("address");
+     
+     emailElement.innerHTML = "Email: " + dater.email;
+     fNameElement.innerHTML = "Name: "  + dater.fName + " " + dater.lName;
+     phoneElement.innerHTML = "Phone: " + dater.phone;
+     addressElement.innerHTML = "Address: " + " \n" +
+                                 dater.address.street + "\n" +
+                                 dater.address.city + ", " +
+                                 dater.address.state + ". " +
+                                 dater.address.zipcode;
+     
+   }
+  </script>
+</body>
+
+</html>

@@ -1,38 +1,34 @@
 package dateadog.dateadog;
 
-import java.util.logging.Handler;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.TextView;
 import android.view.View;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.AccessTokenTracker;
 import java.util.HashMap;
 import java.util.Map;
 import com.facebook.Profile;
-import com.facebook.GraphRequest;
-
-
+import android.support.v7.app.AlertDialog;
+import android.content.DialogInterface;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginButton loginButton;
@@ -58,8 +54,6 @@ public class LoginActivity extends AppCompatActivity {
         mTextDetails = (TextView)findViewById(R.id.text_details);
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
-
-
         /**
          * Registers a callback from the FB login button
          */
@@ -73,10 +67,11 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onSuccess(LoginResult loginResult) {
+                fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
                 loginButton.setVisibility(View.GONE);
                 Profile profile = Profile.getCurrentProfile();
                 mTextDetails.setText("Welcome!");
-                Intent next = new Intent(LoginActivity.this, DogSwipeActivity.class);
+                Intent next = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(next);
                 next.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
@@ -95,17 +90,28 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onError(FacebookException e) {
-                info.setText("Error: Please check internet connection");
+                //info.setText("Error: Please check internet connection");
+                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                alertDialog.setTitle("Warning");
+                alertDialog.setMessage("Error: Please check internet connection");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         });
 
         // Allows the app to bypass the FB login if the user is already logged in
         if (facebookIsLoggedIn()) {
             fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
-            authenticateAPI();
-            Intent intent = new Intent(LoginActivity.this, DogSwipeActivity.class);
+            //authenticateAPI();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
+
     }
 
 
@@ -162,31 +168,39 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Authenticates the app with the API using the POST method and a custom HTML header
-     * Also, uses the volley library
+     * Also, uses the volley library.
      */
     private void authenticateAPI() {
         RequestQueue queue = Volley.newRequestQueue(this);
+        JSONObject login = new JSONObject();
+        try {
+            login.put("count", "20");
+            login.put("zip", "98105");
+        } catch (JSONException e) {
+            Log.v("Error in add zip", "");
+        }
 
         //TO DO: CHANGE THIS TO A URL FOR PAUL WANTS
-        String host = "http://localhost:3000";
+        String host = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com";
         String url = host + "/api/getNextDogs";
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        JsonObjectToArrayRequest jsObjRequest = new JsonObjectToArrayRequest(Request.Method.POST, url, login, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONObject response) {
-
-                Log.v("Reponse = ", "It did something with response" + response.toString());
+            public void onResponse(JSONArray response) {
+                Log.v("Entering onResponse", "");
+                System.err.println("Error I been here");
+                //Log.v("Reponse = ", "It did something with response" + response.toString());
                 System.out.println(response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error == null) {
-                    Log.v("Null error", "it died with a null error");
+                    ;
                 } else if (error.getMessage() != null){
-                    Log.v("Error message", error.getMessage());
+                    ;
                 } else {
-                    Log.v("All are null", "");
+                    ;
                 }
             }
         }){
@@ -199,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
                 return params;
             }
         };
-        Singleton.getInstance(this).addToRequestQueue(jsObjRequest);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
     }
 
 

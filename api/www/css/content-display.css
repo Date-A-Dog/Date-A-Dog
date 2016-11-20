@@ -1,0 +1,79 @@
+/* CSS for the display of content loaded through js on the Date-A-Dog website. */
+
+/* Variables for use throughout the document */
+body {
+	--bg-color: #E3EFC9;
+	--darker-bg-color: #cdde92;
+	--even-darker-bg-color: #76AD59;
+	--text-color: #7a450f;
+	--title-color: #4c2b09;
+	--accent-color: #f38630;
+	--pale-title-color: #C69D73;
+	--palest: #ffffff;
+	--main-font: "Verdana", sans-serif;
+	
+	--nav-text-color: var(--title-color);
+	--nav-bg-color: var(--palest);
+	--nav-hover-color: var(--pale-title-color);
+	--site-title-color: var(--nav-text-color);
+	
+	--table-outer-text-color: var(--title-color);
+	--table-outer-bg: var(--darker-bg-color);
+	--table-inner-text-color: var(--text-color);
+	--table-inner-bg: var(--palest);
+	/*--table-inner-selected-text-color(--title-color);
+	--table-inner-selected-bg(--even-darker-bg-color);*/
+}
+
+/* Requests display */
+#accordion {
+	background: var(--table-outer-bg);
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+/* request element */
+#accordion h3 {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+/* expanded request element */
+#accordion .accordionEle {
+	background: var(--table-inner-bg);
+	height: auto !important;
+	padding: 0.5em;
+}
+
+/* images for expanded request info */
+#accordion .accordion-img {
+	display:inline;
+	height: 6em;
+}
+
+#accordion p{
+	font-size: 1em;
+	text-align: left;
+}
+
+/* Request bars */
+#accordion .accordionTitle{
+	padding: 1em;
+	border-bottom: 1px solid var(--nav-text-color);
+}
+
+/* text in request bars */
+#accordion .accordionTitle h3{
+	text-align: center;
+	display: inline;
+	margin-right: 2em;
+}
+
+.request-buttons{
+	margin-left: 0.2em;
+	margin-right: 0.2em;
+}
+
+#accordion .request-button-container{
+	text-align: center;
+}

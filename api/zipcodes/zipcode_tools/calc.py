@@ -3,7 +3,6 @@
 
 import math
 
-
 def convert_degs_to_rads(deg):
     """convert degrees into radians"""
     return deg * (math.pi / 180.0)

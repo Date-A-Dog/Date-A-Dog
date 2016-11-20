@@ -6,7 +6,7 @@ within the requested area (based on the zipcode's center point).
 from calc import *
 from database import *
 from operator import itemgetter
-
+from decimal import *
 
 class FindZipcodes(object):
     # global database object.
@@ -18,9 +18,6 @@ class FindZipcodes(object):
         asserts verify that valid inputs are provided for zipcode and distance:
         non-negative numbers of the appropriate length.
         """
-        assert isinstance(zipcode, (int, long)) and isinstance(zipcode, (int, long, float))
-        assert zipcode > 0 and distance > 0 and len(str(zipcode)) == 5
-
         self.zipcode = zipcode
         self.distance = distance
 
@@ -38,9 +35,6 @@ class FindZipcodes(object):
         the 180th meridian--fine for US Zipcodes, but another application might require an adjustment.
         Returns a list of the bounding coordinates.
         """
-        assert isinstance(lat, float)
-        assert isinstance(lon, float)
-
         lat_radians = convert_degs_to_rads(lat)
         lon_radians = convert_degs_to_rads(lon)
         km = convert_miles_to_km(self.distance)
@@ -83,3 +77,4 @@ class FindZipcodes(object):
 
         # Strips out the ranking numbers and just passes back the zipcodes in order of proximity
         return [tup[0] for tup in distances]
+	

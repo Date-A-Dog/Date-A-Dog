@@ -6,11 +6,10 @@ only client of the code, but it would be unwise to do this when interacting with
 user inputs.
 """
 
-import sqlite3
-
+import psycopg2
 
 class Database:
-    def __init__(self, filepath, db_name):
+    def __init__(self, filepath):
         assert db_name != ""
         self.filepath = filepath  # may be left blank if not inserting data from a file.
         self.db_name = db_name
@@ -50,15 +49,13 @@ class Database:
         as a list of tuples (each representing selected fields for a single row).
         Here's another place with the potential for running out of memory.
         """
-        conn = sqlite3.connect(self.db_name)
+	conn = psycopg2.connect(database="dateadog", user="dadadmin", password="zOg8sUs87TOu", \ 
+		host="dad-postgres.clcyrikoceop.us-west-2.rds.amazonaws.com")
         c = conn.cursor()
         rows = []
-        try:
-            c.execute(query)
-            rows = c.fetchall()
-            conn.commit()
-        except sqlite3.Error as e:
-            print "Sqlite3 error: " + e.args[0]
-
+        c.execute(query)
+        rows = c.fetchall()
+        conn.commit()
+        c.close()
         conn.close()
         return rows

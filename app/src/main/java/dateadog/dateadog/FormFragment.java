@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Set;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,12 +26,9 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class FormFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
     private OnFragmentInteractionListener mListener;
-
     private LinearLayout layout;
+    private DADAPI DogManager;
 
     public FormFragment() {
         // Required empty public constructor
@@ -51,6 +50,7 @@ public class FormFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        DogManager = DADAPI.getInstance(getContext().getApplicationContext());
         super.onCreate(savedInstanceState);
 
     }
@@ -158,5 +158,20 @@ public class FormFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    //gets the form data from the Rest API
+    private void getFormData() {
+        DogManager.login(new DADAPI.DataListener() {
+            @Override
+            public void onGotDogs(Set<Dog> dogs) {
+
+            }
+
+            @Override
+            public void onGotForm(Form formData) {
+                //do something with the form data
+            }
+        });
     }
 }

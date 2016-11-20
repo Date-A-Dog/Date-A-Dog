@@ -71,6 +71,11 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
                 addDogsToAL(pendingDogs, al);
                 myAppAdapter.notifyDataSetChanged();
             }
+
+            @Override
+            public void onGotForm(Form formData) {
+
+            }
         });
     }
 

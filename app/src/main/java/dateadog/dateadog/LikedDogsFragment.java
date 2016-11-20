@@ -66,6 +66,11 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
                 likedDogs.addAll(dogs);
                 adapter.notifyDataSetChanged();
             }
+
+            @Override
+            public void onGotForm(Form formData) {
+
+            }
         });
     }
 

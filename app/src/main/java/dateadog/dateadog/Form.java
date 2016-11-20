@@ -1,11 +1,18 @@
 package dateadog.dateadog;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by aj on 11/11/16.
  */
 
 //info is all based on the Shelter adoption form
 public class Form {
+    private long id;
     private String firstName;
     private String lastName;
     private String address;
@@ -14,8 +21,39 @@ public class Form {
     private String state;
     private String zip;
     private String primaryPhone;
-    private String whyYouWantToDateADog; //why you want to date a dog
+    private String shelterID; //why you want to date a dog
 
+    public Form(long id, String firstName, String lastName, String address, String email, String city, String state, String zip, String primaryPhone) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.email = email;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.primaryPhone = primaryPhone;
+        this.shelterID = null;
+    }
+
+    public Form (JSONObject json) {
+        try {
+            id = json.getLong("id");
+            email = json.getString("email");
+            firstName = json.getString("fname");
+            lastName = json.getString("lname");
+            address = json.getString("street");
+            city = json.getString("city");
+            state = json.getString("state");
+            zip = json.getString("zip");
+            primaryPhone = json.getString("phone");
+            shelterID = json.getString("shelterid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public long getID() { return id; }
     public String getFirstName() {
         return firstName;
     }
@@ -48,8 +86,8 @@ public class Form {
         return primaryPhone;
     }
 
-    public String getWhyYouWantToDateADog() {
-        return whyYouWantToDateADog;
+    public String retuenShelterID() {
+        return shelterID;
     }
 
     public void setFirstName(String firstName) {
@@ -84,7 +122,4 @@ public class Form {
         this.primaryPhone = primaryPhone;
     }
 
-    public void setWhyYouWantToDateADog(String whyYouWantToDateADog) {
-        this.whyYouWantToDateADog = whyYouWantToDateADog;
-    }
 }

@@ -49,10 +49,9 @@ class Database:
         as a list of tuples (each representing selected fields for a single row).
         Here's another place with the potential for running out of memory.
         """
-	conn = psycopg2.connect(database="dateadog", user="dadadmin", password="zOg8sUs87TOu", \ 
-		host="dad-postgres.clcyrikoceop.us-west-2.rds.amazonaws.com")
+        conn = psycopg2.connect(database="dateadog", user="dadadmin", password="zOg8sUs87TOu",
+	        host="dad-postgres.clcyrikoceop.us-west-2.rds.amazonaws.com")
         c = conn.cursor()
-        rows = []
         c.execute(query)
         rows = c.fetchall()
         conn.commit()

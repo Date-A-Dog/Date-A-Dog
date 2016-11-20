@@ -10,7 +10,7 @@ from operator import itemgetter
 
 class FindZipcodes(object):
     # global database object.
-    db = Database("", "zipcodes.db")
+    db = Database("")
 
     def __init__(self, zipcode, distance):
         """zipcode: center point of search region

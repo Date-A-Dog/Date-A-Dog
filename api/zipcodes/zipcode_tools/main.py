@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from find_zipcodes import *
 
 """To search, here's what you do!

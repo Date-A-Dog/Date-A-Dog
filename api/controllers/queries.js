@@ -159,19 +159,6 @@ function getShelter(req, res, next) {
     });
 }
 
-function getShelterDemo(req, res, next) {
-  var query = 'SELECT * \
-               FROM shelters s \
-               WHERE s = $1';
-  db.one(query, ['WA214'])
-    .then(function(shelter) {
-      res.status(200).json(shelter);
-    })
-    .catch(function(err) {
-      return next(err);
-    });
-}
-
 function judgeDog(req, res, next) {
   var query = 'INSERT INTO judged (userId, dogId, epoch, liked) \
                VALUES ($1, $2, $3, $4) \

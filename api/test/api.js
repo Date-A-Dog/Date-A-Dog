@@ -1,11 +1,13 @@
 var chai = require('chai');
 var chaiHttp = require('chai-http');
+var chaiThings = require('chai-things');
 var server = require('../app');
 var should = chai.should();
-// var expect  = chai.expect;
+var expect  = chai.expect;
 // var request = require("request");
 
 chai.use(chaiHttp);
+chai.use(chaiThings);
 
 describe("Date-a-Dog Server Rest API Tests", function() {
   describe("Test endpoint /api/login", function() {
@@ -28,61 +30,51 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.body.should.be.a('object');
     });
 
-    // Check id
     it('id is correct', function() {
       res.body.should.have.property('id');
       res.body.id.should.equal(119889308491710);
     });
 
-    // Check fname
     it('fname is correct', function() {
       res.body.should.have.property('fname');
       res.body.fname.should.equal('Sally');
     });
 
-    // Check lname
     it('lname is correct', function() {
       res.body.should.have.property('lname');
       res.body.lname.should.equal('Smith');
     });
 
-    // Check email
     it('email is correct', function() {
       res.body.should.have.property('email');
       should.not.exist(res.body.email);
     });
 
-    // Check street
     it('street is correct', function() {
       res.body.should.have.property('street');
       should.not.exist(res.body.street);
     });
 
-    // Check city
     it('city is correct', function() {
       res.body.should.have.property('city');
       should.not.exist(res.body.city);
     });
 
-    // Check state
     it('state is correct', function() {
       res.body.should.have.property('state');
       should.not.exist(res.body.state);
     });
 
-    // Check zip
     it('zip is correct', function() {
       res.body.should.have.property('zip');
       should.not.exist(res.body.zip);
     });
 
-    // Check phone
     it('phone is correct', function() {
       res.body.should.have.property('phone');
       should.not.exist(res.body.phone);
     });
 
-    // Check shelterid
     it('fname is correct', function() {
       res.body.should.have.property('shelterid');
       res.body.shelterid.should.equal('WA214');
@@ -135,68 +127,242 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.body.should.be.a('object');
     });
 
-    // Check id
     it('id is correct', function() {
       res.body.should.have.property('id');
       res.body.id.should.equal(119889308491710);
     });
 
-    // Check fname
     it('fname is correct', function() {
       res.body.should.have.property('fname');
       res.body.fname.should.equal('Sally');
     });
 
-    // Check lname
     it('lname is correct', function() {
       res.body.should.have.property('lname');
       res.body.lname.should.equal('Smith');
     });
 
-    // Check email
     it('email is correct', function() {
       res.body.should.have.property('email');
       res.body.email.should.equal('dateadog@gmail.com');
     });
 
-
-    // Check street
     it('street is correct', function() {
       res.body.should.have.property('street');
       res.body.street.should.equal('Paul G. Allen Center for Computer Science & Engineering (Cse)');
     });
 
-    // Check city
     it('city is correct', function() {
       res.body.should.have.property('city');
       res.body.city.should.equal('Seattle');
     });
 
-
-    // Check state
     it('state is correct', function() {
       res.body.should.have.property('state');
       res.body.state.should.equal('WA');
     });
 
-    // Check zip
     it('zip is correct', function() {
       res.body.should.have.property('zip');
       res.body.zip.should.equal('98195');
     });
 
-    // Check phone
     it('phone is correct', function() {
       res.body.should.have.property('phone');
       res.body.phone.should.equal('(206) 543-1695');
     });
 
-    // Check shelterid
     it('fname is correct', function() {
       res.body.should.have.property('shelterid');
       res.body.shelterid.should.equal('WA214');
     });
   });
+
+  var dogid;
+  describe("Test endpoint /api/getNextDogs", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/getNextDogs')
+      .send({
+        'count': '20',
+      })
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+
+    it('Response is a valid JSON', function() {
+      res.should.be.json;
+      res.body.should.be.a('object');
+    });
+
+    it('Response is a valid length (number of dogs)', function() {
+      res.body.should.have.length(20);
+    });
+
+    it('dog property name exists', function() {
+      res.body[0].should.have.property('dog');
+    });
+
+    it('dog.id property name exists', function() {
+      res.body[0].dog.should.have.property('id');
+      dogid = res.body[0].id;
+    });
+
+    it('dog.age property name exists', function() {
+      res.body[0].dog.should.have.property('age');
+    });
+
+    it('dog.mix property name exists', function() {
+      res.body[0].dog.should.have.property('mix');
+    });
+
+    it('dog.sex property name exists', function() {
+      res.body[0].dog.should.have.property('sex');
+    });
+
+    it('dog.size property name exists', function() {
+      res.body[0].dog.should.have.property('size');
+    });
+
+    it('dog.media property name exists', function() {
+      res.body[0].dog.should.have.property('media');
+    });
+
+    it('dog.media.photos property name exists', function() {
+      res.body[0].dog.media.should.have.property('photos');
+    });
+
+    it('dog.breeds property name exists', function() {
+      res.body[0].dog.should.have.property('breeds');
+    });
+
+    it('dog.status property name exists', function() {
+      res.body[0].dog.should.have.property('status');
+    });
+
+    it('dog.contact property name exists', function() {
+      res.body[0].dog.should.have.property('contact');
+    });
+
+    it('dog.shelterId property name exists', function() {
+      res.body[0].dog.should.have.property('shelterId');
+    });
+
+    it('dog.description property name exists', function() {
+      res.body[0].dog.should.have.property('description');
+    });
+  })
+
+  describe("Test like a dog using endpoint /api/judgeDog", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/judgeDog')
+      .send({
+        'id': dogid,
+        'liked': 'TRUE',
+        'epoch': (new Date).getTime(),
+      })
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+  })
+
+  describe("Test endpoint /api/getLikedDogs", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/getLikedDogsTest')
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+
+    it('Response is a valid JSON', function() {
+      res.should.be.json;
+      res.body.should.be.a('object');
+    });
+
+    it('Response has at least 1 dog', function() {
+      expect(res.body).to.be.at.least(1);
+    });
+
+    it('Response has the liked dog', function() {
+      res.body[0].should.have.property('dog');
+      res.body[0].dog.should.have.property('id');
+      res.body[0].dog.id.should.equal(dogid);
+    });
+  })
+
+  describe("Test dislike a dog using endpoint /api/judgeDog", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/judgeDog')
+      .send({
+        'id': dogid,
+        'liked': 'FALSE',
+        'epoch': (new Date).getTime(),
+      })
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+  })
+
+  describe("Test endpoint /api/getDislikedDogs", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/getDislikedDogsTest')
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+
+    it('Response is a valid JSON', function() {
+      res.should.be.json;
+      res.body.should.be.a('object');
+    });
+
+    it('Response has at least 1 dog', function() {
+      expect(res.body).to.be.at.least(1);
+    });
+
+    it('Response has the liked dog', function() {
+      res.body[0].should.have.property('dog');
+      res.body[0].dog.should.have.property('id');
+      res.body[0].dog.id.should.equal(dogid);
+    });
+  })
 
   describe("Cleap up test endpoint /api/updateUser", function() {
     var res;
@@ -217,4 +383,6 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.should.have.status(200);
     });
   });
+
+
 });

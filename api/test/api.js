@@ -296,13 +296,13 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.should.have.status(200);
     });
 
-    it('Response is a valid JSON', function() {
+    it('Response is a valid JSON Array', function() {
       res.should.be.json;
-      res.body.should.be.a('object');
+      res.body.should.be.Array;
     });
 
     it('Response has at least 1 dog', function() {
-      expect(res.body).to.be.at.least(1);
+      res.body.should.have.length.at.least(1);
     });
 
     it('Response has the liked dog', function() {
@@ -316,7 +316,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     var res;
     before(function(done) {
       chai.request(server)
-      .post('/api/judgeDog')
+      .post('/api/judgeDogTest')
       .send({
         'id': dogid,
         'liked': 'FALSE',
@@ -348,13 +348,13 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.should.have.status(200);
     });
 
-    it('Response is a valid JSON', function() {
+    it('Response is a valid JSON Array', function() {
       res.should.be.json;
-      res.body.should.be.a('object');
+      res.body.should.be.Array;
     });
 
     it('Response has at least 1 dog', function() {
-      expect(res.body).to.be.at.least(1);
+      res.body.should.have.length.at.least(1);
     });
 
     it('Response has the liked dog', function() {

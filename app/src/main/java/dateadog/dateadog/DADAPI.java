@@ -39,6 +39,10 @@ public class DADAPI {
     private static String GET_NEXT_DOGS_URL = DAD_SERVER_URL_BASE + "getNextDogs";
     private static String JUDGE_DOG_URL = DAD_SERVER_URL_BASE + "judgeDog";
     private static String GET_LIKED_DOGS_URL = DAD_SERVER_URL_BASE + "getLikedDogs";
+    private static String GET_LOGIN_URL = DAD_SERVER_URL_BASE + "login";
+    private static String UPDATE_FORM_URL = DAD_SERVER_URL_BASE + "updateUser";
+    private static String DEFAULT_DOGS_REQUESTED = "50"; //call only 50 dogs at a time default
+    private static String DEFUALT_ZIP = "98105"; //call default zip until we can implmement how to get user zip
 
     private Context context;
 
@@ -118,6 +122,7 @@ public class DADAPI {
          * @param dogs the requested dogs
          */
         public void onGotDogs(Set<Dog> dogs);
+        public void onGotForm(Form formData);
     }
 
     /**
@@ -129,7 +134,12 @@ public class DADAPI {
      */
     private void getDogsAtUrl(String url, final DataListener dataListener) {
         JSONObject parameters = new JSONObject();
-        // Add additional parameters such as location and count here.
+        try {
+            parameters.put("count", DEFAULT_DOGS_REQUESTED);
+            parameters.put("zip", DEFUALT_ZIP);
+        } catch (JSONException e) {
+            Log.e("Error: json", "check json getNextDogs/likedDogs");
+        }
         makeRequest(url, parameters, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -140,6 +150,30 @@ public class DADAPI {
                         result.add(new Dog(dogsArray.getJSONObject(i)));
                     }
                     dataListener.onGotDogs(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Makes a DAD server request at the given URL, parses the response as a JSON
+     * object form and returns a Form containing these dogs via the given callback listener.
+     *
+     * @param url a DAD endpoint that returns a JSON array of dogs
+     * @param dataListener a data listener that will receive a callback with the dogs
+     */
+    private void getFormAtUrl(String url, final DataListener dataListener) {
+        JSONObject parameters = new JSONObject();
+        // Add additional parameters such as location and count here.
+        makeRequest(url, parameters, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonForm = (JSONObject) new JSONTokener(response).nextValue();
+                    Form form = new Form(jsonForm);
+                    dataListener.onGotForm(form);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -182,6 +216,39 @@ public class DADAPI {
             return;
         }
         makeRequest(JUDGE_DOG_URL, parameters, null);
+    }
+
+    /**
+     * When the user logs in, call this method to populate the form object
+     * and put form object into the GUI
+     * @param dataListener a data listener that will receive a callback with the dogs
+     */
+    public void login(DataListener dataListener) {
+        getFormAtUrl(GET_LOGIN_URL, dataListener);
+    }
+
+    /**
+     * When the user wants to update his/her form update Form object then send to
+     * endpoint in JSON format to rest API to be stored
+     * @param form the form to update the backend with
+     */
+    public void updateForm(Form form) {
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("id", form.getID());
+            parameters.put("email", form.getEmail());
+            parameters.put("fname", form.getFirstName());
+            parameters.put("lname", form.getLastName());
+            parameters.put("street", form.getAddress());
+            parameters.put("city", form.getCity());
+            parameters.put("state", form.getState());
+            parameters.put("zip", form.getZip());
+            parameters.put("phone", form.getPrimaryPhone());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        makeRequest(UPDATE_FORM_URL,parameters, null);
     }
 
     /**

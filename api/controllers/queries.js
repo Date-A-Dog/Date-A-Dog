@@ -115,7 +115,6 @@ function getDislikedDogs(req, res, next) {
 }
 
 function getShelterRequests(req, res, next) {
-  console.log('getShelterRequests called');
   var query = 'SELECT json_build_object(\'id\', r.id, \
                                         \'epoch\', r.epoch, \
                                         \'status\', r.status) AS request, \
@@ -147,7 +146,7 @@ function getShelterRequests(req, res, next) {
 }
 
 function getShelter(req, res, next) {
-  var query = 'SELECT * \
+  var query = 'SELECT s.shelter \
                FROM shelters s \
                WHERE s = $1';
   db.one(query, [req.body.shelterId])
@@ -223,7 +222,7 @@ function updateUser(req, res, next) {
         });
 }
 
-// Demo queries
+// Test queries
 function loginTest(req, res, next) {
   req.user = {};
   req.user.id = '119889308491710';

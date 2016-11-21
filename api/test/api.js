@@ -452,6 +452,40 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     });
   })
 
+  describe("Test endpoint /api/getShelter", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/getNextDogsTest')
+      .send({
+        'count': '20',
+      })
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+
+    it('Response is a valid JSON Array', function() {
+      res.should.be.json;
+      res.body.should.be.Array;
+    });
+
+    it('Response is a valid length (number of dogs)', function() {
+      res.body.should.have.length(20);
+    });
+
+    it('Response does not contain judged dog', function() {
+      for (i = 0; i < 20; i++) {
+        res.body[i].dog.id.should.not.equal(dogid);
+      }
+    });
+  })
+
   describe("Test endpoint /api/getShelterRequests", function() {
     var res, length;
     before(function(done) {

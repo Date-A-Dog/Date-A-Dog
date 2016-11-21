@@ -21,7 +21,7 @@ router.post("/requestDate", auth.isAuthenticated, db.requestDate);
 router.post("/updateRequestStatus", auth.isAuthenticated, db.updateRequestStatus);
 router.post("/updateUser", auth.isAuthenticated, db.updateUser);
 
-// Demo endpoints
+// Test endpoints
 router.post("/loginTest", db.loginTest);
 router.post("/getNextDogsTest", db.getNextDogsTest);
 router.post("/getDogHistoryTest", db.getDogHistoryTest);

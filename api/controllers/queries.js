@@ -265,7 +265,7 @@ function getShelterRequestsTest(req, res, next) {
 function judgeDogTest(req, res, next) {
   req.user = {};
   req.user.id = '119889308491710';
-  return judge(req, res, next);
+  return judgeDog(req, res, next);
 }
 
 function requestDateTest(req, res, next) {

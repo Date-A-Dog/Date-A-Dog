@@ -212,7 +212,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('dog.id exists', function() {
       res.body[0].dog.should.have.property('id');
-      dogid = res.body[0].id;
+      dogid = res.body[0].dog.id;
     });
 
     it('dog.age exists', function() {

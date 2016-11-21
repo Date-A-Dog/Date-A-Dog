@@ -58,6 +58,7 @@ public class FormFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getFormData();
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_form, container, false);
         View rootView = inflater.inflate(R.layout.fragment_form, container, false);
@@ -113,11 +114,16 @@ public class FormFragment extends Fragment {
 
         layout.addView(label5);
         layout.addView(text5);
-
+        System.out.println("hi");
         Button button = new Button(getActivity());
-        button.setText("OK");
+        button.setText("Submit");
         button.setGravity(Gravity.CENTER);
         layout.addView(button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //need to call DogManager.updateForm(form);
+            }
+        });
         return rootView;
     }
 

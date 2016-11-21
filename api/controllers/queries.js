@@ -70,6 +70,36 @@ function getNextDogs(req, res, next) {
     });
 }
 
+function getDateRequestsStatus(req, res, next) {
+  var query = 'SELECT json_build_object(\'id\', r.id, \
+                                        \'epoch\', r.epoch, \
+                                        \'status\', r.status) AS request, \
+                      d.dog AS dog, \
+                      s.shelter AS shelter, \
+                      json_build_object(\'id\', u.id, \
+                                        \'email\', u.email, \
+                                        \'fname\', u.fname, \
+                                        \'lname\', u.lname, \
+                                        \'street\', u.street, \
+                                        \'city\', u.city, \
+                                        \'state\', u.state, \
+                                        \'zip\', u.zip, \
+                                        \'phone\', u.phone) AS user \
+               FROM requests r \
+               JOIN doggies d ON d.id = r.dogId \
+               JOIN shelters s ON s.id = r.shelterId \
+               JOIN users u ON  u.id = r.userId \
+               WHERE r.userId = $1 \
+               ORDER BY r.epoch ASC';
+  db.any(query, [req.user.id])
+    .then(function (data) {
+      res.status(200).json(data);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
 function getDogHistory(req, res, next) {
   var query = 'SELECT d.dog, j.liked \
                FROM doggies d JOIN judged j ON d.id = j.dogId \
@@ -235,6 +265,12 @@ function getNextDogsTest(req, res, next) {
   req.user = {};
   req.user.id = '119889308491710';
   return getNextDogs(req, res, next);
+}
+
+function getDateRequestsStatusTest(req, res, next) {
+  req.user = {};
+  req.user.id = '119889308491710';
+  return getDateRequestsStatus(req, res, next);
 }
 
 function getDogHistoryTest(req, res, next) {

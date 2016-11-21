@@ -512,7 +512,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('shelter.phone is correct', function() {
       res.body.shelter.should.have.property('phone');
-      res.body.shelter.id.should.equal('(206) 445-5151');
+      res.body.shelter.phone.should.equal('(206) 445-5151');
     });
 
     it('shelter.state is correct', function() {

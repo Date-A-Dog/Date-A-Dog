@@ -9,9 +9,11 @@ chai.use(chaiHttp);
 
 describe("Date-a-Dog Server Rest API Tests", function() {
   describe("Should return user profile for test user on /api/loginTest", function() {
+    var res;
     chai.request(server)
     .post('/api/loginTest')
-    .end(function(err, res){
+    .end(function(error, response){
+      res = response;
       done();
     });
     it('Response is OK', function() {

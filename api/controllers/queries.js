@@ -33,6 +33,7 @@ function login(req, res, next) {
                                         \'lname\', u.lname, \
                                         \'street\', u.street, \
                                         \'city\', u.city, \
+                                        \'state\', u.state, \
                                         \'zip\', u.zip, \
                                         \'phone\', u.phone, \
                                         \'shelterid\', u.shelterid \

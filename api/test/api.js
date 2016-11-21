@@ -456,7 +456,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     var res;
     before(function(done) {
       chai.request(server)
-      .post('/api/getShelter')
+      .post('/api/getShelterTest')
       .send({
         'shelterId': 'WA214',
       })

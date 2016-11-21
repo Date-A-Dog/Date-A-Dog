@@ -357,11 +357,114 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.body.should.have.length.at.least(1);
     });
 
-    it('Response has the liked dog', function() {
+    it('Response has the disliked dog', function() {
       res.body[0].should.have.property('dog');
       res.body[0].dog.should.have.property('id');
       res.body[0].dog.id.should.equal(dogid);
     });
+  })
+
+  describe("Test endpoint /api/getDogHistory", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/getDogHistoryTest')
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+
+    it('Response is a valid JSON Array', function() {
+      res.should.be.json;
+      res.body.should.be.Array;
+    });
+
+    it('Response has at least 1 dog', function() {
+      res.body.should.have.length.at.least(1);
+    });
+
+    it('Response has the judged dog', function() {
+      res.body[0].should.have.property('dog');
+      res.body[0].dog.should.have.property('id');
+      res.body[0].dog.id.should.equal(dogid);
+    });
+  })
+
+  describe("Test endpoint /api/getNextDogs does not return judged dogs", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/getNextDogsTest')
+      .send({
+        'count': '20',
+      })
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+
+    it('Response is a valid JSON Array', function() {
+      res.should.be.json;
+      res.body.should.be.Array;
+    });
+
+    it('Response is a valid length (number of dogs)', function() {
+      res.body.should.have.length(20);
+    });
+
+    it('Response does not contain judged dog', function() {
+      for (i = 0; i < 20; i++) {
+        res.body[i].dog.id.should.not.equal(dogid);
+      }
+    });
+  })
+
+  dogid = 22406048;
+  describe("Test endpoint /api/requestDate", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/requestDateTest')
+      .send({
+        'id': dogid,
+        'epoch': (new Date).getTime(),
+      })
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+  })
+
+  describe("Test endpoint /api/getShelterRequests", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/getShelterRequestsTest')
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+
   })
 
   describe("Cleap up test endpoint /api/updateUser", function() {

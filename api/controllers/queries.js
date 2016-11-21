@@ -148,7 +148,7 @@ function getShelterRequests(req, res, next) {
 function getShelter(req, res, next) {
   var query = 'SELECT s.shelter \
                FROM shelters s \
-               WHERE s = $1';
+               WHERE s.id = $1';
   db.one(query, [req.body.shelterId])
     .then(function(shelter) {
       res.status(200).json(shelter);

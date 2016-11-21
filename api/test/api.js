@@ -49,37 +49,37 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     // Check email
     it('email is correct', function() {
       res.body.should.have.property('email');
-      should.be.null(res.body.email);
+      should.equal(res.body.email, undefined);
     });
 
     // Check street
     it('street is correct', function() {
       res.body.should.have.property('street');
-      should.be.null(res.body.street);
+      should.equal(res.body.street, undefined);
     });
 
     // Check city
     it('city is correct', function() {
       res.body.should.have.property('city');
-      should.be.null(res.body.city);
+      should.equal(res.body.city, undefined);
     });
 
     // Check state
     it('state is correct', function() {
       res.body.should.have.property('state');
-      should.be.null(res.body.state);
+      should.equal(res.body.state, undefined);
     });
 
     // Check zip
     it('zip is correct', function() {
       res.body.should.have.property('zip');
-      should.be.null(res.body.zip);
+      should.equal(res.body.zip, undefined);
     });
 
     // Check phone
     it('phone is correct', function() {
       res.body.should.have.property('phone');
-      should.be.null(res.body.phone);
+      should.equal(res.body.phone, undefined);
     });
 
     // Check shelterid
@@ -103,7 +103,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
         "phone": "(206) 543-1695", \
       }';
       chai.request(server)
-      .post('/api/updateUser')
+      .post('/api/updateUserTest')
       .send(data)
       .end(function(err, response){
         res = response;
@@ -196,6 +196,27 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     it('fname is correct', function() {
       res.body.should.have.property('shelterid');
       res.body.shelterid.should.equal('WA214');
+    });
+  });
+
+  describe("Cleap up test endpoint /api/updateUser", function() {
+    var res;
+    before(function(done) {
+      var data = '{ \
+        "fname": "Sally", \
+        "lname": "Smith", \
+      }';
+      chai.request(server)
+      .post('/api/updateUserTest')
+      .send(data)
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
     });
   });
 });

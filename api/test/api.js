@@ -91,20 +91,19 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
   describe("Test endpoint /api/updateUser", function() {
     var res;
-    before(function(done) {
-      var data = '{ \
-        "email": "dateadog@gmail.com", \
-        "fname": "Sally", \
-        "lname": "Smith", \
-        "street": "Paul G. Allen Center for Computer Science & Engineering (Cse)", \
-        "city": "Seattle", \
-        "state": "WA", \
-        "zip": "98195", \
-        "phone": "(206) 543-1695", \
-      }';
+    before(function(done) {;
       chai.request(server)
       .post('/api/updateUserTest')
-      .send(data)
+      .send({
+        'email': 'dateadog@gmail.com',
+        'fname': 'Sally',
+        'lname': 'Smith',
+        'street': 'Paul G. Allen Center for Computer Science & Engineering (Cse)',
+        'city': 'Seattle',
+        'state': 'WA',
+        'zip': '98195',
+        'phone': '(206) 543-1695',
+      })
       .end(function(err, response){
         res = response;
         done();
@@ -202,13 +201,12 @@ describe("Date-a-Dog Server Rest API Tests", function() {
   describe("Cleap up test endpoint /api/updateUser", function() {
     var res;
     before(function(done) {
-      var data = '{ \
-        "fname": "Sally", \
-        "lname": "Smith", \
-      }';
       chai.request(server)
       .post('/api/updateUserTest')
-      .send(data)
+      .send({
+        'fname': 'Sally',
+        'lname': 'Smith',
+      })
       .end(function(err, response){
         res = response;
         done();

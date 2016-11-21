@@ -5,6 +5,8 @@ var should = chai.should();
 // var expect  = chai.expect;
 // var request = require("request");
 
+chai.use(chaiHttp);
+
 describe("Date-a-Dog Server", function() {
   describe("Rest API tests", function() {
     it('Should return user profile for test user on /api/loginTest', function(done) {

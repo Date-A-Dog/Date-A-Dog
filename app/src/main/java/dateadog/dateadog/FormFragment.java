@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Set;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,12 +26,9 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class FormFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
     private OnFragmentInteractionListener mListener;
-
     private LinearLayout layout;
+    private DADAPI DogManager;
 
     public FormFragment() {
         // Required empty public constructor
@@ -51,6 +50,7 @@ public class FormFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        DogManager = DADAPI.getInstance(getContext().getApplicationContext());
         super.onCreate(savedInstanceState);
 
     }
@@ -58,6 +58,7 @@ public class FormFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getFormData();
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_form, container, false);
         View rootView = inflater.inflate(R.layout.fragment_form, container, false);
@@ -113,11 +114,16 @@ public class FormFragment extends Fragment {
 
         layout.addView(label5);
         layout.addView(text5);
-
+        System.out.println("hi");
         Button button = new Button(getActivity());
-        button.setText("OK");
+        button.setText("Submit");
         button.setGravity(Gravity.CENTER);
         layout.addView(button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //need to call DogManager.updateForm(form);
+            }
+        });
         return rootView;
     }
 
@@ -158,5 +164,20 @@ public class FormFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    //gets the form data from the Rest API
+    private void getFormData() {
+        DogManager.login(new DADAPI.DataListener() {
+            @Override
+            public void onGotDogs(Set<Dog> dogs) {
+
+            }
+
+            @Override
+            public void onGotForm(Form formData) {
+                //do something with the form data
+            }
+        });
     }
 }

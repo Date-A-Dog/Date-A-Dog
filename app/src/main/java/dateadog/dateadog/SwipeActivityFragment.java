@@ -33,8 +33,6 @@ import java.util.Set;
  * create an instance of this fragment.
  */
 public class SwipeActivityFragment extends Fragment implements FlingCardListener.ActionDownInterface{
-    private static final String DOGS_TO_SPAWN = "10"; //how many dogs to spawn every time we run out of doggies
-    private static final String ZIP = "98105"; //zip code specified: to do maybe user can enter later
     public static MyAppAdapter myAppAdapter; //holds the app adapter
     private TextView noDogs; //displays when there are no dogs left
     public static ViewHolder viewHolder;
@@ -70,6 +68,11 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
                 pendingDogs.addAll(dogs);
                 addDogsToAL(pendingDogs, al);
                 myAppAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onGotForm(Form formData) {
+
             }
         });
     }

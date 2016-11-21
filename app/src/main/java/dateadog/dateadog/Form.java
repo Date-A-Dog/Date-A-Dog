@@ -1,11 +1,27 @@
 package dateadog.dateadog;
 
-/**
- * Created by aj on 11/11/16.
- */
+import android.content.Context;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 
 //info is all based on the Shelter adoption form
 public class Form {
+
+    /** Holds the sole instance of this class. */
+    private static Form instance;
+
+    /** Used to identify this class in logging messages. */
+    private static String TAG_FORM = Form.class.getName();
+
+    private Context context;
+
+    //form fields
+    private long id;
     private String firstName;
     private String lastName;
     private String address;
@@ -14,8 +30,66 @@ public class Form {
     private String state;
     private String zip;
     private String primaryPhone;
-    private String whyYouWantToDateADog; //why you want to date a dog
+    private String shelterID;
 
+    public Form(long id, String firstName, String lastName, String address, String email, String city, String state, String zip, String primaryPhone) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.email = email;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.primaryPhone = primaryPhone;
+        this.shelterID = null;
+    }
+
+    /**
+     * Constructs an instance of the Form class with the given context.
+     *
+     * @param context the application context in which this class will be used
+     */
+    public Form(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * Returns an instance of the {@code Form} class.
+     *
+     * @param context the application context in which this class will be used
+     * @return an instance of the {@code Form} class
+     */
+    public static Form getInstance(Context context) {
+        if (instance == null) {
+            instance = new Form(context);
+        }
+        return instance;
+    }
+
+
+    /**
+     * Constructs a form object given a json
+     * @param json the json of form to be parsed
+     */
+    public Form (JSONObject json) {
+        try {
+            id = json.getLong("id");
+            email = json.getString("email");
+            firstName = json.getString("fname");
+            lastName = json.getString("lname");
+            address = json.getString("street");
+            city = json.getString("city");
+            state = json.getString("state");
+            zip = json.getString("zip");
+            primaryPhone = json.getString("phone");
+            shelterID = json.getString("shelterid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public long getID() { return id; }
     public String getFirstName() {
         return firstName;
     }
@@ -48,8 +122,8 @@ public class Form {
         return primaryPhone;
     }
 
-    public String getWhyYouWantToDateADog() {
-        return whyYouWantToDateADog;
+    public String retuenShelterID() {
+        return shelterID;
     }
 
     public void setFirstName(String firstName) {
@@ -84,7 +158,4 @@ public class Form {
         this.primaryPhone = primaryPhone;
     }
 
-    public void setWhyYouWantToDateADog(String whyYouWantToDateADog) {
-        this.whyYouWantToDateADog = whyYouWantToDateADog;
-    }
 }

@@ -81,6 +81,14 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     @Override
+    public void onResume() {
+        refreshLikedDogs();
+        adapter.notifyDataSetChanged();
+        super.onResume();
+
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Dog dog = (Dog) parent.getItemAtPosition(position);
         Intent showDogProfile = new Intent(getContext(), DogProfileActivity.class);

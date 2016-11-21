@@ -26,11 +26,15 @@ import com.facebook.login.widget.LoginButton;
 import com.facebook.AccessTokenTracker;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
 import com.facebook.Profile;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 
 public class LoginActivity extends AppCompatActivity {
+    private DADAPI DogManager;
+    private Form FormManager;
     private LoginButton loginButton;
     private TextView mTextDetails; //this is for the test that says welcome fb user
     private CallbackManager callbackManager;
@@ -45,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        DogManager = DADAPI.getInstance(LoginActivity.this);
         setContentView(R.layout.activity_login);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -67,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onSuccess(LoginResult loginResult) {
+                loginAuth();
                 fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
                 loginButton.setVisibility(View.GONE);
                 Profile profile = Profile.getCurrentProfile();
@@ -107,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         // Allows the app to bypass the FB login if the user is already logged in
         if (facebookIsLoggedIn()) {
             fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
-            //authenticateAPI();
+            loginAuth();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -166,54 +172,21 @@ public class LoginActivity extends AppCompatActivity {
      */
     public static String getUserAPIAuthenticationToken() { return APIAuthenticationToken; }
 
-    /**
-     * Authenticates the app with the API using the POST method and a custom HTML header
-     * Also, uses the volley library.
-     */
-    private void authenticateAPI() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JSONObject login = new JSONObject();
-        try {
-            login.put("count", "20");
-            login.put("zip", "98105");
-        } catch (JSONException e) {
-            Log.v("Error in add zip", "");
-        }
 
-        //TO DO: CHANGE THIS TO A URL FOR PAUL WANTS
-        String host = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com";
-        String url = host + "/api/getNextDogs";
 
-        JsonObjectToArrayRequest jsObjRequest = new JsonObjectToArrayRequest(Request.Method.POST, url, login, new Response.Listener<JSONArray>() {
+    //sends a callback to login so REST API can get the token
+    private void loginAuth() {
+        DogManager.login(new DADAPI.DataListener() {
             @Override
-            public void onResponse(JSONArray response) {
-                Log.v("Entering onResponse", "");
-                System.err.println("Error I been here");
-                //Log.v("Reponse = ", "It did something with response" + response.toString());
-                System.out.println(response.toString());
+            public void onGotDogs(Set<Dog> dogs) {
+                //don't do anything with this
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error == null) {
-                    ;
-                } else if (error.getMessage() != null){
-                    ;
-                } else {
-                    ;
-                }
-            }
-        }){
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                params.put("access_token",getUserLoginToken());
-                return params;
+            public void onGotForm(Form formData) {
+                //only do something with the form in form frag
             }
-        };
-        VolleySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
+        });
     }
 
 

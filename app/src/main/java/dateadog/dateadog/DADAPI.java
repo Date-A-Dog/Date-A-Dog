@@ -41,6 +41,8 @@ public class DADAPI {
     private static String GET_LIKED_DOGS_URL = DAD_SERVER_URL_BASE + "getLikedDogs";
     private static String GET_LOGIN_URL = DAD_SERVER_URL_BASE + "login";
     private static String UPDATE_FORM_URL = DAD_SERVER_URL_BASE + "updateUser";
+    private static String DEFAULT_DOGS_REQUESTED = "50"; //call only 50 dogs at a time default
+    private static String DEFUALT_ZIP = "98105"; //call default zip until we can implmement how to get user zip
 
     private Context context;
 
@@ -132,7 +134,12 @@ public class DADAPI {
      */
     private void getDogsAtUrl(String url, final DataListener dataListener) {
         JSONObject parameters = new JSONObject();
-        // Add additional parameters such as location and count here.
+        try {
+            parameters.put("count", DEFAULT_DOGS_REQUESTED);
+            parameters.put("zip", DEFUALT_ZIP);
+        } catch (JSONException e) {
+            Log.e("Error: json", "check json getNextDogs/likedDogs");
+        }
         makeRequest(url, parameters, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -217,12 +224,12 @@ public class DADAPI {
      * @param dataListener a data listener that will receive a callback with the dogs
      */
     public void login(DataListener dataListener) {
-        getDogsAtUrl(GET_LOGIN_URL, dataListener);
+        getFormAtUrl(GET_LOGIN_URL, dataListener);
     }
 
     /**
      * When the user wants to update his/her form update Form object then send to
-     * enspoint in JSON format to rest API to be stored
+     * endpoint in JSON format to rest API to be stored
      * @param form the form to update the backend with
      */
     public void updateForm(Form form) {

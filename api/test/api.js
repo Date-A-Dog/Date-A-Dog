@@ -9,85 +9,85 @@ chai.use(chaiHttp);
 
 describe("Date-a-Dog Server Rest API Tests", function() {
   describe("Should return user profile for test user on /api/loginTest", function() {
-    chai.request(server)
-    .post('/api/loginTest')
-    .end(function(err, res){
-      console.log('test output');
-      for (key in res) {
-        console.log(key);
-      }
-
-      it('Response is OK', function() {
-        res.should.have.status(200);
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/loginTest')
+      .end(function(err, response){
+        res = response;
+        done();
       });
+    });
 
-      it('Response is a valid JSON', function() {
-        res.should.be.json;
-        res.body.should.be.a('object');
-      });
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
 
-      // Check id
-      it('id is correct', function() {
-        res.body.should.have.property('id');
-        res.body.id.should.equal(119889308491710);
-      });
+    it('Response is a valid JSON', function() {
+      res.should.be.json;
+      res.body.should.be.a('object');
+    });
 
-      // Check email
-      it('email is correct', function() {
-        res.body.should.have.property('email');
-        res.body.email.should.equal('dateadog@gmail.com');
-      });
+    // Check id
+    it('id is correct', function() {
+      res.body.should.have.property('id');
+      res.body.id.should.equal(119889308491710);
+    });
 
-      // Check fname
-      it('fname is correct', function() {
-        res.body.should.have.property('fname');
-        res.body.fname.should.equal('Sally');
-      });
+    // Check email
+    it('email is correct', function() {
+      res.body.should.have.property('email');
+      res.body.email.should.equal('dateadog@gmail.com');
+    });
 
-      // Check lname
-      it('lname is correct', function() {
-        res.body.should.have.property('lname');
-        res.body.lname.should.equal('Smith');
-      });
+    // Check fname
+    it('fname is correct', function() {
+      res.body.should.have.property('fname');
+      res.body.fname.should.equal('Sally');
+    });
 
-
-      // Check street
-      it('street is correct', function() {
-        res.body.should.have.property('street');
-        res.body.street.should.equal('Paul G. Allen Center for Computer Science & Engineering (Cse)');
-      });
-
-      // Check city
-      it('city is correct', function() {
-        res.body.should.have.property('city');
-        res.body.city.should.equal('Seattle');
-      });
+    // Check lname
+    it('lname is correct', function() {
+      res.body.should.have.property('lname');
+      res.body.lname.should.equal('Smith');
+    });
 
 
-      // Check state
-      it('state is correct', function() {
-        res.body.should.have.property('state');
-        res.body.state.should.equal('WA');
-      });
+    // Check street
+    it('street is correct', function() {
+      res.body.should.have.property('street');
+      res.body.street.should.equal('Paul G. Allen Center for Computer Science & Engineering (Cse)');
+    });
 
-      // Check zip
-      it('zip is correct', function() {
-        res.body.should.have.property('zip');
-        res.body.zip.should.equal('98195');
-      });
+    // Check city
+    it('city is correct', function() {
+      res.body.should.have.property('city');
+      res.body.city.should.equal('Seattle');
+    });
 
-      // Check phone
-      it('phone is correct', function() {
-        res.body.should.have.property('phone');
-        res.body.phone.should.equal('(206) 543-1695');
-      });
 
-      // Check shelterid
-      it('fname is correct', function() {
-        res.body.should.have.property('shelterid');
-        res.body.shelterid.should.equal('WA214');
-      });
-      done();
+    // Check state
+    it('state is correct', function() {
+      res.body.should.have.property('state');
+      res.body.state.should.equal('WA');
+    });
+
+    // Check zip
+    it('zip is correct', function() {
+      res.body.should.have.property('zip');
+      res.body.zip.should.equal('98195');
+    });
+
+    // Check phone
+    it('phone is correct', function() {
+      res.body.should.have.property('phone');
+      res.body.phone.should.equal('(206) 543-1695');
+    });
+
+    // Check shelterid
+    it('fname is correct', function() {
+      res.body.should.have.property('shelterid');
+      res.body.shelterid.should.equal('WA214');
     });
   });
 });

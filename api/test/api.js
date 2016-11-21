@@ -9,11 +9,9 @@ chai.use(chaiHttp);
 
 describe("Date-a-Dog Server Rest API Tests", function() {
   describe("Should return user profile for test user on /api/loginTest", function() {
-    var res;
     chai.request(server)
     .post('/api/loginTest')
     .end(function(err, res){
-      done();
       it('Response is OK', function() {
         res.should.have.status(200);
       });
@@ -84,6 +82,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
         res.body.should.have.property('shelterid');
         res.body.shelterid.should.equal('WA214');
       });
+      done();
     });
   });
 });

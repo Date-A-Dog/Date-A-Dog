@@ -197,8 +197,8 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.should.have.status(200);
     });
 
-    it('Response is a valid JSON', function() {
-      res.should.be.json;
+    it('Response is a valid Array', function() {
+      res.should.be.Array;
       res.body.should.be.a('object');
     });
 

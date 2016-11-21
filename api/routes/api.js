@@ -8,9 +8,10 @@ router.get('/', function(req, res, next) {
   res.send('Welcome to the Date-A-Dog API.');
 });
 
-// Production endpoints
+// Production endpoints // getDateRequestsStatus
 router.post("/login", auth.isAuthenticated, db.login);
 router.post("/getNextDogs", auth.isAuthenticated, db.getNextDogs);
+router.post("/getDateRequestsStatus", auth.isAuthenticated, db.getDateRequestsStatus);
 router.post("/getDogHistory", auth.isAuthenticated, db.getDogHistory);
 router.post("/getLikedDogs", auth.isAuthenticated, db.getLikedDogs);
 router.post("/getDislikedDogs", auth.isAuthenticated, db.getDislikedDogs);
@@ -24,6 +25,7 @@ router.post("/updateUser", auth.isAuthenticated, db.updateUser);
 // Test endpoints
 router.post("/loginTest", db.loginTest);
 router.post("/getNextDogsTest", db.getNextDogsTest);
+router.post("/getDateRequestsStatusTest", db.getDateRequestsStatusTest);
 router.post("/getDogHistoryTest", db.getDogHistoryTest);
 router.post("/getLikedDogsTest", db.getLikedDogsTest);
 router.post("/getDislikedDogsTest", db.getDislikedDogsTest);

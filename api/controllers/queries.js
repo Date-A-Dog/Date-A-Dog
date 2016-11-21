@@ -160,7 +160,6 @@ function getShelter(req, res, next) {
 }
 
 function judgeDog(req, res, next) {
-  console.log(req.body);
   var query = 'INSERT INTO judged (userId, dogId, epoch, liked) \
                VALUES ($1, $2, $3, $4) \
                ON CONFLICT (userId, dogId) \

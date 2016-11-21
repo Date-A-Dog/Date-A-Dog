@@ -12,6 +12,12 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     chai.request(server)
     .post('/api/loginTest')
     .end(function(err, res){
+      keys = Object.keys(obj);
+      for (i = 0, l = keys.length; i < l; i++) {
+        value = obj[keys[i]];
+        console.log(value);
+      }
+      
       it('Response is OK', function() {
         res.should.have.status(200);
       });

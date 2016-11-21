@@ -429,7 +429,7 @@ module.exports = {
   updateUser: updateUser,
 
   // Rest API Demo specific queries
-  loginDemo: loginDemo,
+  loginDemo: loginTest,
   getNextDogsDemo: getNextDogsDemo,
   getDogHistoryDemo: getDogHistoryDemo,
   getLikedDogsDemo: getLikedDogsDemo,

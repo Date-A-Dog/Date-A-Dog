@@ -531,6 +531,70 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     });
   })
 
+  describe("Test endpoint /api/updateRequestStatus", function() {
+    var res;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/updateRequestStatusTest')
+      .send({
+        'id': requestid,
+        'status': 'A',
+      })
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+  })
+
+  describe("Verify /api/updateRequestStatus using endpoint /api/getShelterRequests", function() {
+    var res, length;
+    before(function(done) {
+      chai.request(server)
+      .post('/api/getShelterRequestsTest')
+      .end(function(err, response){
+        res = response;
+        done();
+      });
+    });
+
+    it('Response is OK', function() {
+      res.should.have.status(200);
+    });
+
+    it('Response is a valid JSON Array', function() {
+      res.should.be.json;
+      res.body.should.be.Array;
+    });
+
+    it('Response has at least 1 request', function() {
+      res.body.should.have.length.at.least(1);
+    });
+
+    it('request exists', function() {
+      res.body[res.body.length - 1].should.have.property('request');
+    });
+
+    it('request.id is correct', function() {
+      res.body[res.body.length - 1].request.should.have.property('id');
+      res.body[res.body.length - 1].request.id.should.equal(requestid);
+    });
+
+    it('request.epoch is correct', function() {
+      res.body[res.body.length - 1].request.should.have.property('epoch');
+      res.body[res.body.length - 1].request.epoch.should.equal(epoch);
+    });
+
+    it('request.status is correct', function() {
+      res.body[res.body.length - 1].request.should.have.property('status');
+      res.body[res.body.length - 1].request.status.should.equal('A');
+    });
+  })
+
   describe("Cleap up test endpoint /api/updateUser", function() {
     var res;
     before(function(done) {
@@ -550,6 +614,5 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.should.have.status(200);
     });
   });
-
 
 });

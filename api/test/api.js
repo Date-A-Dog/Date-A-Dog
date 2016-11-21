@@ -206,56 +206,56 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.body.should.have.length(20);
     });
 
-    it('dog property name exists', function() {
+    it('dog exists', function() {
       res.body[0].should.have.property('dog');
     });
 
-    it('dog.id property name exists', function() {
+    it('dog.id exists', function() {
       res.body[0].dog.should.have.property('id');
       dogid = res.body[0].id;
     });
 
-    it('dog.age property name exists', function() {
+    it('dog.age exists', function() {
       res.body[0].dog.should.have.property('age');
     });
 
-    it('dog.mix property name exists', function() {
+    it('dog.mix exists', function() {
       res.body[0].dog.should.have.property('mix');
     });
 
-    it('dog.sex property name exists', function() {
+    it('dog.sex exists', function() {
       res.body[0].dog.should.have.property('sex');
     });
 
-    it('dog.size property name exists', function() {
+    it('dog.size exists', function() {
       res.body[0].dog.should.have.property('size');
     });
 
-    it('dog.media property name exists', function() {
+    it('dog.media exists', function() {
       res.body[0].dog.should.have.property('media');
     });
 
-    it('dog.media.photos property name exists', function() {
+    it('dog.media.photos exists', function() {
       res.body[0].dog.media.should.have.property('photos');
     });
 
-    it('dog.breeds property name exists', function() {
+    it('dog.breeds exists', function() {
       res.body[0].dog.should.have.property('breeds');
     });
 
-    it('dog.status property name exists', function() {
+    it('dog.status exists', function() {
       res.body[0].dog.should.have.property('status');
     });
 
-    it('dog.contact property name exists', function() {
+    it('dog.contact exists', function() {
       res.body[0].dog.should.have.property('contact');
     });
 
-    it('dog.shelterId property name exists', function() {
+    it('dog.shelterId exists', function() {
       res.body[0].dog.should.have.property('shelterId');
     });
 
-    it('dog.description property name exists', function() {
+    it('dog.description exists', function() {
       res.body[0].dog.should.have.property('description');
     });
   })

@@ -431,7 +431,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
   var requestid;
   var dogid2 = '22406048';
-  var epoch = (new Date).getTime();
+  var epoch = ((new Date).getTime()/1000);
   describe("Test endpoint /api/requestDate", function() {
     var res;
     before(function(done) {

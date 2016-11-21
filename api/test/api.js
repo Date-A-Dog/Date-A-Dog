@@ -429,14 +429,13 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     });
   })
 
-  dogid = 22406048;
   describe("Test endpoint /api/requestDate", function() {
     var res;
     before(function(done) {
       chai.request(server)
       .post('/api/requestDateTest')
       .send({
-        'id': dogid,
+        'id': '22406048',
         'epoch': (new Date).getTime(),
       })
       .end(function(err, response){

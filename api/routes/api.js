@@ -22,16 +22,16 @@ router.post("/updateRequestStatus", auth.isAuthenticated, db.updateRequestStatus
 router.post("/updateUser", auth.isAuthenticated, db.updateUser);
 
 // Demo endpoints
-router.post("/loginDemo", db.loginDemo);
-router.post("/getNextDogsDemo", db.getNextDogsDemo);
-router.post("/getDogHistoryDemo", db.getDogHistoryDemo);
-router.post("/getLikedDogsDemo", db.getLikedDogsDemo);
-router.post("/getDislikedDogsDemo", db.getDislikedDogsDemo);
-router.post("/getShelterDemo", db.getShelterDemo);
-router.post("/getShelterRequestsDemo", db.getShelterRequestsDemo);
-router.post("/judgeDogDemo", db.judgeDogDemo);
-router.post("/requestDateDemo", db.requestDateDemo);
-router.post("/updateRequestStatusDemo", db.updateRequestStatusDemo);
-router.post("/updateUserDemo", db.updateUserDemo);
+router.post("/loginTest", db.loginTest);
+router.post("/getNextDogsTest", db.getNextDogsTest);
+router.post("/getDogHistoryTest", db.getDogHistoryTest);
+router.post("/getLikedDogsTest", db.getLikedDogsTest);
+router.post("/getDislikedDogsTest", db.getDislikedDogsTest);
+router.post("/getShelterTest", db.getShelterTest);
+router.post("/getShelterRequestsTest", db.getShelterRequestsTest);
+router.post("/judgeDogTest", db.judgeDogTest);
+router.post("/requestDateTest", db.requestDateTest);
+router.post("/updateRequestStatusTest", db.updateRequestStatusTest);
+router.post("/updateUserTest", db.updateUserTest);
 
 module.exports = router;

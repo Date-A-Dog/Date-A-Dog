@@ -331,6 +331,7 @@ module.exports = {
   // Rest API specific queries
   login: login,
   getNextDogs: getNextDogs,
+  getDateRequestsStatus : getDateRequestsStatus,
   getDogHistory: getDogHistory,
   getLikedDogs: getLikedDogs,
   getDislikedDogs: getDislikedDogs,
@@ -344,6 +345,7 @@ module.exports = {
   // Rest API Test specific queries
   loginTest: loginTest,
   getNextDogsTest: getNextDogsTest,
+  getDateRequestsStatusTest : getDateRequestsStatusTest,
   getDogHistoryTest: getDogHistoryTest,
   getLikedDogsTest: getLikedDogsTest,
   getDislikedDogsTest: getDislikedDogsTest,

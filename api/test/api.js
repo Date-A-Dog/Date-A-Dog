@@ -49,37 +49,37 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     // Check email
     it('email is correct', function() {
       res.body.should.have.property('email');
-      should.equal(res.body.email, undefined);
+      should.not.exist(res.body.email);
     });
 
     // Check street
     it('street is correct', function() {
       res.body.should.have.property('street');
-      should.equal(res.body.street, undefined);
+      should.not.exist(res.body.street);
     });
 
     // Check city
     it('city is correct', function() {
       res.body.should.have.property('city');
-      should.equal(res.body.city, undefined);
+      should.not.exist(res.body.city);
     });
 
     // Check state
     it('state is correct', function() {
       res.body.should.have.property('state');
-      should.equal(res.body.state, undefined);
+      should.not.exist(res.body.state);
     });
 
     // Check zip
     it('zip is correct', function() {
       res.body.should.have.property('zip');
-      should.equal(res.body.zip, undefined);
+      should.not.exist(res.body.zip);
     });
 
     // Check phone
     it('phone is correct', function() {
       res.body.should.have.property('phone');
-      should.equal(res.body.phone, undefined);
+      should.not.exist(res.body.phone);
     });
 
     // Check shelterid

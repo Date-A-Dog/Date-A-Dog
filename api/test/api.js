@@ -264,7 +264,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     var res;
     before(function(done) {
       chai.request(server)
-      .post('/api/judgeDog')
+      .post('/api/judgeDogTest')
       .send({
         'id': dogid,
         'liked': 'TRUE',

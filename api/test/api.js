@@ -477,56 +477,56 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     });
 
     it('request exists', function() {
-      res.body[res.length - 1].should.have.property('request');
+      res.body[res.body.length - 1].should.have.property('request');
     });
 
     it('request.id exists', function() {
       res.body[res.length - 1].request.should.have.property('id');
-      requestid = res.body[res.length - 1].request.id;
+      requestid = res.body[res.body.length - 1].request.id;
     });
 
     it('request.epoch exists', function() {
-      res.body[res.length - 1].request.should.have.property('epoch');
+      res.body[res.body.length - 1].request.should.have.property('epoch');
     });
 
     it('request.status exists', function() {
-      res.body[res.length - 1].request.should.have.property('status');
+      res.body[res.body.length - 1].request.should.have.property('status');
     });
 
     it('request.epoch is correct', function() {
-      res.body[res.length - 1].request.epoch.should.equal(epoch);
+      res.body[res.body.length - 1].request.epoch.should.equal(epoch);
     });
 
     it('request.status is correct', function() {
-      res.body[res.length - 1].request.status.should.equal('P');
+      res.body[res.body.length - 1].request.status.should.equal('P');
     });
 
     it('dog exists', function() {
-      res.body[res.length - 1].should.have.property('dog');
+      res.body[res.body.length - 1].should.have.property('dog');
     });
 
     it('dog.id is correct', function() {
-      res.body[res.length - 1].dog.should.have.property('id');
-      res.body[res.length - 1].dog.id.should.equal(dogid2);
+      res.body[res.body.length - 1].dog.should.have.property('id');
+      res.body[res.body.length - 1].dog.id.should.equal(dogid2);
     });
 
     it('shelter exists', function() {
-      res.body[res.length - 1].should.have.property('shelter');
+      res.body[res.body.length - 1].should.have.property('shelter');
     });
 
     it('shelter.id is correct', function() {
-      res.body[res.length - 1].shelter.should.have.property('id');
-      res.body[res.length - 1].shelter.id.should
-      .equal(res.body[res.length - 1].dog.shelterId);
+      res.body[res.body.length - 1].shelter.should.have.property('id');
+      res.body[res.body.length - 1].shelter.id.should
+      .equal(res.body[res.body.length - 1].dog.shelterId);
     });
 
     it('user exists', function() {
-      res.body[res.length - 1].should.have.property('user');
+      res.body[res.body.length - 1].should.have.property('user');
     });
 
     it('user.id is correct', function() {
-      res.body[res.length - 1].user.should.have.property('id');
-      res.body[res.length - 1].user.id.should
+      res.body[res.body.length - 1].user.should.have.property('id');
+      res.body[res.body.length - 1].user.id.should
       .equal(119889308491710);
     });
   })

@@ -268,7 +268,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       .send({
         'id': dogid,
         'liked': 'TRUE',
-        'epoch': Math.floor((new Date).getTime()/1000),
+        'epoch': (new Date).getTime(),
       })
       .end(function(err, response){
         res = response;
@@ -320,7 +320,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       .send({
         'id': dogid,
         'liked': 'FALSE',
-        'epoch': Math.floor((new Date).getTime()/1000),
+        'epoch': (new Date).getTime(),
       })
       .end(function(err, response){
         res = response;
@@ -431,7 +431,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
   var requestid;
   var dogid2 = '22406048';
-  var epoch = Math.floor((new Date).getTime()/1000);
+  var epoch = (new Date).getTime();
   describe("Test endpoint /api/requestDate", function() {
     var res;
     before(function(done) {

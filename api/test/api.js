@@ -456,9 +456,9 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     var res;
     before(function(done) {
       chai.request(server)
-      .post('/api/getNextDogsTest')
+      .post('/api/getShelter')
       .send({
-        'count': '20',
+        'shelterId': 'WA214',
       })
       .end(function(err, response){
         res = response;
@@ -470,19 +470,69 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.should.have.status(200);
     });
 
-    it('Response is a valid JSON Array', function() {
+    it('Response is a valid JSON', function() {
       res.should.be.json;
-      res.body.should.be.Array;
+      res.body.should.be.a('object');
     });
 
-    it('Response is a valid length (number of dogs)', function() {
-      res.body.should.have.length(20);
+    it('shelter exists', function() {
+      res.body.should.have.property('shelter');
     });
 
-    it('Response does not contain judged dog', function() {
-      for (i = 0; i < 20; i++) {
-        res.body[i].dog.id.should.not.equal(dogid);
-      }
+    it('shelter.id is correct', function() {
+      res.body.shelter.should.have.property('id');
+      res.body.shelter.id.should.equal('WA214');
+    });
+
+    it('shelter.fax is correct', function() {
+      res.body.shelter.should.have.property('fax');
+      res.body.shelter.fax.should.equal('www.washingtongsd.org');
+    });
+
+    it('shelter.zip is correct', function() {
+      res.body.shelter.should.have.property('zip');
+      res.body.shelter.zip.should.equal('98104');
+    });
+
+    it('shelter.city is correct', function() {
+      res.body.shelter.should.have.property('city');
+      res.body.shelter.city.should.equal('Seattle');
+    });
+
+
+    it('shelter.name is correct', function() {
+      res.body.shelter.should.have.property('name');
+      res.body.shelter.name.should.equal('Washington German Shepherd Rescue');
+    });
+
+    it('shelter.email is correct', function() {
+      res.body.shelter.should.have.property('email');
+      res.body.shelter.email.should.equal('washingtonshepherds@yahoo.com');
+    });
+
+    it('shelter.phone is correct', function() {
+      res.body.shelter.should.have.property('phone');
+      res.body.shelter.id.should.equal('(206) 445-5151');
+    });
+
+    it('shelter.state is correct', function() {
+      res.body.shelter.should.have.property('state');
+      res.body.shelter.state.should.equal('WA');
+    });
+
+    it('shelter.country is correct', function() {
+      res.body.shelter.should.have.property('country');
+      res.body.shelter.country.should.equal('US');
+    });
+
+    it('shelter.latitude is correct', function() {
+      res.body.shelter.should.have.property('latitude');
+      res.body.shelter.latitude.should.equal('47.604');
+    });
+
+    it('shelter.longitude is correct', function() {
+      res.body.shelter.should.have.property('longitude');
+      res.body.shelter.longitude.should.equal('-122.326');
     });
   })
 

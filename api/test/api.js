@@ -430,7 +430,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
   })
 
   var requestid;
-  var dogid2 = 22406048;
+  var dogid2 = '22406048';
   var epoch = (new Date).getTime();
   describe("Test endpoint /api/requestDate", function() {
     var res;
@@ -481,7 +481,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     });
 
     it('request.id exists', function() {
-      res.body[res.length - 1].request.should.have.property('id');
+      res.body[res.body.length - 1].request.should.have.property('id');
       requestid = res.body[res.body.length - 1].request.id;
     });
 

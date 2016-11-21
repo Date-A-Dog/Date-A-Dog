@@ -21,7 +21,6 @@ var db = pgp(cn);
 // Production queries
 function login(req, res, next) {
   // Find or create user in the database
-  console.log(req.user);
   var query = 'INSERT INTO users (id, fname, lname) \
                VALUES ($1, $2, $3) \
                ON CONFLICT DO NOTHING';

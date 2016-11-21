@@ -255,6 +255,12 @@ function getDislikedDogsTest(req, res, next) {
   return getDislikedDogs(req, res, next);
 }
 
+function getShelterTest(req, res, next) {
+  req.user = {};
+  req.user.id = '119889308491710';
+  return getShelter(req, res, next);
+}
+
 function getShelterRequestsTest(req, res, next) {
   req.user = {};
   req.user.id = '119889308491710';
@@ -305,7 +311,7 @@ module.exports = {
   getDogHistoryTest: getDogHistoryTest,
   getLikedDogsTest: getLikedDogsTest,
   getDislikedDogsTest: getDislikedDogsTest,
-  getShelterTest: getShelter,
+  getShelterTest: getShelterTest,
   getShelterRequestsTest: getShelterRequestsTest,
   judgeDogTest: judgeDogTest,
   requestDateTest: requestDateTest,

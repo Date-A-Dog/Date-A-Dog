@@ -238,9 +238,12 @@ function updateUser(req, res, next) {
 }
 
 // Demo queries
-function loginDemo(req, res, next) {
+function loginTest(req, res, next) {
   // Find or create user in the database
-  console.log(req.user);
+  req.user = {};
+  req.user.id = '119889308491710';
+  return login(req, res, next);
+  /*
   var query = 'INSERT INTO users (id, fname, lname) \
                VALUES ($1, $2, $3) \
                ON CONFLICT DO NOTHING';
@@ -251,6 +254,7 @@ function loginDemo(req, res, next) {
     .catch(function(err) {
       return next(err);
     });
+    */
 }
 
 function getNextDogsDemo(req, res, next) {

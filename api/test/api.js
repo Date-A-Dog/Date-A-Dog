@@ -429,14 +429,17 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     });
   })
 
+  var requestid;
+  var dogid2 = 22406048;
+  var epoch = (new Date).getTime();
   describe("Test endpoint /api/requestDate", function() {
     var res;
     before(function(done) {
       chai.request(server)
       .post('/api/requestDateTest')
       .send({
-        'id': '22406048',
-        'epoch': (new Date).getTime(),
+        'id': dogid2,
+        'epoch': epoch,
       })
       .end(function(err, response){
         res = response;
@@ -450,7 +453,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
   })
 
   describe("Test endpoint /api/getShelterRequests", function() {
-    var res;
+    var res, length;
     before(function(done) {
       chai.request(server)
       .post('/api/getShelterRequestsTest')
@@ -464,8 +467,68 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       res.should.have.status(200);
     });
 
+    it('Response is a valid JSON Array', function() {
+      res.should.be.json;
+      res.body.should.be.Array;
+    });
 
+    it('Response has at least 1 request', function() {
+      res.body.should.have.length.at.least(1);
+    });
 
+    it('request exists', function() {
+      res.body[res.length - 1].should.have.property('request');
+    });
+
+    it('request.id exists', function() {
+      res.body[res.length - 1].request.should.have.property('id');
+      requestid = res.body[res.length - 1].request.id;
+    });
+
+    it('request.epoch exists', function() {
+      res.body[res.length - 1].request.should.have.property('epoch');
+    });
+
+    it('request.status exists', function() {
+      res.body[res.length - 1].request.should.have.property('status');
+    });
+
+    it('request.epoch is correct', function() {
+      res.body[res.length - 1].request.epoch.should.equal(epoch);
+    });
+
+    it('request.status is correct', function() {
+      res.body[res.length - 1].request.status.should.equal('P');
+    });
+
+    it('dog exists', function() {
+      res.body[res.length - 1].should.have.property('dog');
+    });
+
+    it('dog.id is correct', function() {
+      res.body[res.length - 1].dog.should.have.property('id');
+      res.body[res.length - 1].dog.id.should.equal(dogid2);
+    });
+
+    it('shelter exists', function() {
+      res.body[res.length - 1].should.have.property('shelter');
+    });
+
+    it('shelter.id is correct', function() {
+      res.body[res.length - 1].shelter.should.have.property('id');
+      res.body[res.length - 1].shelter.id.should
+      .equal(res.body[res.length - 1].dog.shelterId);
+    });
+
+    it('user exists', function() {
+      res.body[res.length - 1].should.have.property('user');
+    });
+
+    it('user.id is correct', function() {
+      res.body[res.length - 1].user.should.have.property('id');
+      res.body[res.length - 1].user.id.should
+      .equal(119889308491710);
+    });
   })
 
   describe("Cleap up test endpoint /api/updateUser", function() {

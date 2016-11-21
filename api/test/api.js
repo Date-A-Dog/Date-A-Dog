@@ -17,7 +17,7 @@ describe("Date-a-Dog Server", function() {
         res.should.be.json;
         res.body.should.be.a('object');
         res.body.should.have.property('id');
-        res.body.id.should.equal('119889308491710');
+        res.body.id.should.equal(119889308491710);
         done();
       });
     });

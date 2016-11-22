@@ -11,8 +11,7 @@ import android.widget.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ConfirmRequestActivity extends AppCompatActivity implements DatePickerFragment.DateDialogListener,
-        TimePickerFragment.TimeDialogListener {
+public class ConfirmRequestActivity extends AppCompatActivity {
     private final String DIALOG_DATE = "ConfirmRequestActivity.DateDialog";
     private final String DIALOG_TIME = "ConfirmRequestActivity.TimeDialog";
 
@@ -56,7 +55,6 @@ public class ConfirmRequestActivity extends AppCompatActivity implements DatePic
         });
     }
 
-    @Override
     public void onFinishDialog(Date date) {
         Toast.makeText(this, "Selected Date :"+ formatDate(date), Toast.LENGTH_SHORT).show();
     }
@@ -67,7 +65,6 @@ public class ConfirmRequestActivity extends AppCompatActivity implements DatePic
         return hireDate;
     }
 
-    @Override
     public void onFinishDialog(String time) {
         Toast.makeText(this, "Selected Time : "+ time, Toast.LENGTH_SHORT).show();
     }

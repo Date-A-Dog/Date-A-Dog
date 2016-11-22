@@ -21,7 +21,6 @@ public class Form {
     private Context context;
 
     //form fields
-    private long id;
     private String firstName;
     private String lastName;
     private String address;
@@ -32,8 +31,7 @@ public class Form {
     private String primaryPhone;
     private String shelterID;
 
-    public Form(long id, String firstName, String lastName, String address, String email, String city, String state, String zip, String primaryPhone) {
-        this.id = id;
+    public Form(String firstName, String lastName, String address, String email, String city, String state, String zip, String primaryPhone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -43,6 +41,28 @@ public class Form {
         this.zip = zip;
         this.primaryPhone = primaryPhone;
         this.shelterID = null;
+    }
+
+    public JSONObject asJSONParameters() {
+        JSONObject parameters = new JSONObject();
+        try {
+            /*
+            req.body.email, req.body.fname, req.body.lname,
+                    req.body.street, req.body.city, req.body.state,
+                    req.body.phone, req.body.zip,
+             */
+            parameters.put("email", getEmail());
+            parameters.put("fname", getFirstName());
+            parameters.put("lname", getLastName());
+            parameters.put("street", getAddress());
+            parameters.put("city", getCity());
+            parameters.put("state", getState());
+            parameters.put("zip", getZip());
+            parameters.put("phone", getPrimaryPhone());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return parameters;
     }
 
     /**
@@ -74,7 +94,6 @@ public class Form {
      */
     public Form (JSONObject json) {
         try {
-            id = json.getLong("id");
             email = json.getString("email");
             firstName = json.getString("fname");
             lastName = json.getString("lname");
@@ -89,7 +108,6 @@ public class Form {
         }
     }
 
-    public long getID() { return id; }
     public String getFirstName() {
         return firstName;
     }

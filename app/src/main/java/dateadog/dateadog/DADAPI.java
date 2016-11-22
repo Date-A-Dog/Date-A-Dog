@@ -39,8 +39,9 @@ public class DADAPI {
     private static String GET_NEXT_DOGS_URL = DAD_SERVER_URL_BASE + "getNextDogs";
     private static String JUDGE_DOG_URL = DAD_SERVER_URL_BASE + "judgeDog";
     private static String GET_LIKED_DOGS_URL = DAD_SERVER_URL_BASE + "getLikedDogs";
-    private static String GET_LOGIN_URL = DAD_SERVER_URL_BASE + "login";
-    private static String UPDATE_FORM_URL = DAD_SERVER_URL_BASE + "updateUser";
+    private static String LOGIN_URL = DAD_SERVER_URL_BASE + "login";
+    private static String UPDATE_USER_URL = DAD_SERVER_URL_BASE + "updateUser";
+    private static String REQUEST_DATE_URL = DAD_SERVER_URL_BASE + "requestDate";
     private static String DEFAULT_DOGS_REQUESTED = "50"; //call only 50 dogs at a time default
     private static String DEFUALT_ZIP = "98105"; //call default zip until we can implmement how to get user zip
 
@@ -79,6 +80,7 @@ public class DADAPI {
      *                         data, or null to ignore response data
      */
     public void makeRequest(final String url, final JSONObject jsonBody, Response.Listener<String> responseListener) {
+        System.out.println(jsonBody.toString());
         if (responseListener == null) {
             // The caller would like not to receive response data. This can be done by setting an
             // empty response listener.
@@ -172,6 +174,7 @@ public class DADAPI {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonForm = (JSONObject) new JSONTokener(response).nextValue();
+                    System.out.println(jsonForm.toString());
                     Form form = new Form(jsonForm);
                     dataListener.onGotForm(form);
                 } catch (JSONException e) {
@@ -218,13 +221,25 @@ public class DADAPI {
         makeRequest(JUDGE_DOG_URL, parameters, null);
     }
 
+    public void requestDate(long dogId, long epoch) {
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("id", dogId);
+            parameters.put("epoch", epoch);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        makeRequest(REQUEST_DATE_URL, parameters, null);
+    }
+
     /**
      * When the user logs in, call this method to populate the form object
      * and put form object into the GUI
      * @param dataListener a data listener that will receive a callback with the dogs
      */
     public void login(DataListener dataListener) {
-        getFormAtUrl(GET_LOGIN_URL, dataListener);
+        getFormAtUrl(LOGIN_URL, dataListener);
     }
 
     /**
@@ -232,23 +247,8 @@ public class DADAPI {
      * endpoint in JSON format to rest API to be stored
      * @param form the form to update the backend with
      */
-    public void updateForm(Form form) {
-        JSONObject parameters = new JSONObject();
-        try {
-            parameters.put("id", form.getID());
-            parameters.put("email", form.getEmail());
-            parameters.put("fname", form.getFirstName());
-            parameters.put("lname", form.getLastName());
-            parameters.put("street", form.getAddress());
-            parameters.put("city", form.getCity());
-            parameters.put("state", form.getState());
-            parameters.put("zip", form.getZip());
-            parameters.put("phone", form.getPrimaryPhone());
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return;
-        }
-        makeRequest(UPDATE_FORM_URL,parameters, null);
+    public void updateUser(Form form) {
+        makeRequest(UPDATE_USER_URL, form.asJSONParameters(), null);
     }
 
     /**

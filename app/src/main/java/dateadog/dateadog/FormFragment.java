@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+
 import java.util.Set;
 
 
@@ -55,6 +57,12 @@ public class FormFragment extends Fragment {
 
     }
 
+    private EditText firstName;
+    private EditText lastName;
+    private EditText email;
+    private EditText phone;
+    private EditText reason;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,64 +72,61 @@ public class FormFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_form, container, false);
         layout = (LinearLayout) rootView.findViewById(R.id.formLayout);
         TextView label1 = new TextView(getActivity());
-        EditText text1 = new EditText(getActivity());
+        firstName = new EditText(getActivity());
         label1.setTextSize(25);
-        text1.setTextSize(25);
+        firstName.setTextSize(25);
         label1.setText("First Name: ");
-        text1.setText("Sally");
 
 
         layout.addView(label1);
-        layout.addView(text1);
+        layout.addView(firstName);
 
         TextView label2 = new TextView(getActivity());
-        EditText text2 = new EditText(getActivity());
+        lastName = new EditText(getActivity());
         label2.setTextSize(25);
-        text2.setTextSize(25);
+        lastName.setTextSize(25);
         label2.setText("Last Name: ");
-        text2.setText("Smith");
 
         layout.addView(label2);
-        layout.addView(text2);
+        layout.addView(lastName);
 
         TextView label3 = new TextView(getActivity());
-        EditText text3 = new EditText(getActivity());
+        email = new EditText(getActivity());
         label3.setTextSize(25);
-        text3.setTextSize(25);
+        email.setTextSize(25);
         label3.setText("Email: ");
-        text3.setText("sally1@hotmail.com");
 
 
         layout.addView(label3);
-        layout.addView(text3);
+        layout.addView(email);
 
         TextView label4 = new TextView(getActivity());
-        EditText text4 = new EditText(getActivity());
+        phone = new EditText(getActivity());
         label4.setTextSize(25);
-        text4.setTextSize(25);
+        phone.setTextSize(25);
         label4.setText("Phone number ");
-        text4.setText("206-000-1111");
 
         layout.addView(label4);
-        layout.addView(text4);
+        layout.addView(phone);
 
         TextView label5 = new TextView(getActivity());
-        EditText text5 = new EditText(getActivity());
+        reason = new EditText(getActivity());
         label5.setTextSize(25);
-        text5.setTextSize(25);
+        reason.setTextSize(25);
         label5.setText("Why do you want to date a dog? ");
-        text5.setText("I am looking for my doggie");
+        reason.setText("I am looking for my doggie");
 
         layout.addView(label5);
-        layout.addView(text5);
-        System.out.println("hi");
+        layout.addView(reason);
         Button button = new Button(getActivity());
-        button.setText("Submit");
+        button.setText("Save Profile");
         button.setGravity(Gravity.CENTER);
         layout.addView(button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //need to call DogManager.updateForm(form);
+                //need to call DogManager.updateUser(form);
+                DogManager.updateUser(new Form(firstName.getText().toString(), lastName.getText().toString(), "", email.getText().toString(), "", "", "", phone.getText().toString()));
+
             }
         });
         return rootView;
@@ -168,6 +173,7 @@ public class FormFragment extends Fragment {
 
     //gets the form data from the Rest API
     private void getFormData() {
+        System.out.println(AccessToken.getCurrentAccessToken().getToken().toString());
         DogManager.login(new DADAPI.DataListener() {
             @Override
             public void onGotDogs(Set<Dog> dogs) {
@@ -177,6 +183,10 @@ public class FormFragment extends Fragment {
             @Override
             public void onGotForm(Form formData) {
                 //do something with the form data
+                firstName.setText(formData.getFirstName());
+                lastName.setText(formData.getLastName());
+                email.setText(formData.getEmail());
+                phone.setText(formData.getPrimaryPhone());
             }
         });
     }

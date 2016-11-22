@@ -17,17 +17,25 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
-public class DogProfileActivity extends AppCompatActivity {
+import java.util.Calendar;
+import java.util.Date;
+
+import static java.security.AccessController.getContext;
+
+public class DogProfileActivity extends AppCompatActivity implements DatePickerFragment.DateDialogListener, TimePickerFragment.TimeDialogListener {
 
     /**
      * The dog that this profile displays information for. Passed via an intent when starting
      * this activity.
      * */
     private Dog dog;
+    private DADAPI DogManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DogManager = DADAPI.getInstance(getApplicationContext());
+
         setContentView(R.layout.activity_dog_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -37,12 +45,29 @@ public class DogProfileActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(DogProfileActivity.this).show();
+                DatePickerFragment dateDialog = new DatePickerFragment();
+                dateDialog.show(getSupportFragmentManager(), "DateDialog");
             }
         });
 
         dog = (Dog) getIntent().getExtras().get("Dog");
         refreshUI();
+    }
+
+    @Override
+    public void onFinishDialog(int hour, int minute) {
+        calendar.set(Calendar.HOUR, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        DogManager.requestDate(dog.getDogId(), calendar.getTimeInMillis());
+    }
+
+    Calendar calendar = Calendar.getInstance();
+
+    @Override
+    public void onFinishDialog(Date date) {
+        calendar.setTime(date);
+        TimePickerFragment timeDialog = new TimePickerFragment();
+        timeDialog.show(getSupportFragmentManager(), "TimeDialog");
     }
 
     @Override

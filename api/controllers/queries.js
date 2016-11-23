@@ -1,4 +1,5 @@
 var promise = require('bluebird');
+var zipcode_tools = req('./zip');
 
 var options = {
   // Initialization Options
@@ -53,15 +54,19 @@ function login(req, res, next) {
 }
 
 function getNextDogs(req, res, next) {
+  var zipcodes = zipcode_tools.getZipcodes(req.body.zip, 5);
+
   var query = 'SELECT d.dog \
                FROM doggies d \
                WHERE NOT EXISTS (SELECT j.dogId \
                                  FROM judged j \
                                  WHERE d.id = j.dogId \
                                  AND j.userId = $1) \
+               $2 \
                ORDER BY d.id ASC \
-               LIMIT $2';
-  db.any(query, [req.user.id, req.body.count])
+               LIMIT $3';
+    
+  db.any(query, [req.user.id, zipcodes, req.body.count])
     .then(function (data) {
       res.status(200).json(data);
     })

@@ -70,7 +70,8 @@ class FindZipcodes(object):
 
         # attribute a relative weight distance
         for row in result:
-            tup = (row[0], (math.fabs(row[1] - lat) + math.fabs(row[2] - lon)))
+            zipcode = '%05d' % row[0]
+            tup = (zipcode, (math.fabs(row[1] - lat) + math.fabs(row[2] - lon)))
             distances.append(tup)
 
         distances.sort(key=itemgetter(1))

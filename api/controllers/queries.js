@@ -65,7 +65,7 @@ function getNextDogs(req, res, next) {
                $2 \
                ORDER BY d.id ASC \
                LIMIT $3';
-    
+
   db.any(query, [req.user.id, zipcodes, req.body.count])
     .then(function (data) {
       res.status(200).json(data);

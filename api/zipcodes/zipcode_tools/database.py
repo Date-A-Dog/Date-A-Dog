@@ -18,13 +18,12 @@ class Database:
 
         	"""Creates the zipcode database table."""
         	query = "CREATE TABLE zipcodes \
-              	(zipcode INTEGER PRIMARY KEY, \
+              	(zipcode VARCHAR(5), \
               	latitude DOUBLE PRECISION, \
               	longitude DOUBLE PRECISION)"
         	self.run_query(query)
 
-    	def insert_data(self):
-	 
+    	def insert_data(self):	 
 
        		"""Concatenates insert rows into one query;
         	It works fine for this dataset, but if it were larger I'd need to be
@@ -40,7 +39,7 @@ class Database:
                 		next(f)  # skip header row
 	                	for line in f:
         	            		row = line.split("\t")
-                	   		query += "(" + row[0] + ", " + row[5] + ", " + row[6] + "),"
+                	   		query += "('" + row[0] + "', " + row[5] + ", " + row[6] + "),"
             			query = query[:-1]  # remove last comma
             		self.run_query(query)
 

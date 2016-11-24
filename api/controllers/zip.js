@@ -9,12 +9,12 @@ module.exports = {
             args: [zipcode, distance]
         };
 
-        PythonShell.run('main.py', options, function(err, res){
+        PythonShell.run('main.py',  function(err, res){
             if(err) throw err;
             var query_zip_str = "AND ";
 
             res.forEach(function(zipcode) {
-                query_zip_str += "zipcode = " + zipcode + " OR ";
+                query_zip_str += "zipcode = '" + zipcode + "' OR ";
             });
 
             query_zip_str = query_zip_str.slice(0, -3);

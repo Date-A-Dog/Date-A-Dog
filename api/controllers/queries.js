@@ -53,27 +53,28 @@ function login(req, res, next) {
     });
 }
 
-function getNextDogs(req, res, next) {
-  var zipcodes = zipcode_tools.getZipcodes(req.body.zip, 5);
 
+function getNextDogs(req, res, next) {
+  var zipcode_str = zipcode_tools.getZipcodes(req.body.zip, 5);
+  // promise here?
   var query = 'SELECT d.dog \
                FROM doggies d \
                WHERE NOT EXISTS (SELECT j.dogId \
                                  FROM judged j \
                                  WHERE d.id = j.dogId \
                                  AND j.userId = $1) \
-               $2 \
+                  $2 \
                ORDER BY d.id ASC \
                LIMIT $3';
-
-  db.any(query, [req.user.id, zipcodes, req.body.count])
+  db.any(query, [req.user.id, zipcode_str, req.body.count])
     .then(function (data) {
       res.status(200).json(data);
     })
     .catch(function (err) {
       return next(err);
     });
-}
+}    
+
 
 function getDogHistory(req, res, next) {
   var query = 'SELECT d.dog, j.liked \
@@ -83,6 +84,8 @@ function getDogHistory(req, res, next) {
   db.any(query, [req.user.id])
     .then(function (data) {
       res.status(200).json(data);
+    }).then(function (){
+      
     })
     .catch(function (err) {
       return next(err);

@@ -3,19 +3,9 @@ package dateadog.dateadog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 import android.view.View;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -24,8 +14,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.AccessTokenTracker;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.Set;
 
 import com.facebook.Profile;
@@ -34,7 +23,7 @@ import android.content.DialogInterface;
 
 public class LoginActivity extends AppCompatActivity {
     private DADAPI DogManager;
-    private Form FormManager;
+    private UserProfile FormManager;
     private LoginButton loginButton;
     private TextView mTextDetails; //this is for the test that says welcome fb user
     private CallbackManager callbackManager;
@@ -72,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onSuccess(LoginResult loginResult) {
-                loginAuth();
                 fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
                 loginButton.setVisibility(View.GONE);
                 Profile profile = Profile.getCurrentProfile();
@@ -113,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
         // Allows the app to bypass the FB login if the user is already logged in
         if (facebookIsLoggedIn()) {
             fbLoginToken = AccessToken.getCurrentAccessToken().getToken();
-            loginAuth();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -171,23 +158,5 @@ public class LoginActivity extends AppCompatActivity {
      * @return API Authentication key
      */
     public static String getUserAPIAuthenticationToken() { return APIAuthenticationToken; }
-
-
-
-    //sends a callback to login so REST API can get the token
-    private void loginAuth() {
-        DogManager.login(new DADAPI.DataListener() {
-            @Override
-            public void onGotDogs(Set<Dog> dogs) {
-                //don't do anything with this
-            }
-
-            @Override
-            public void onGotForm(Form formData) {
-                //only do something with the form in form frag
-            }
-        });
-    }
-
 
 }

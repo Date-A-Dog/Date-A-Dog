@@ -107,6 +107,18 @@ public class UserProfile {
         return parameters;
     }
 
+    public UserProfile(String firstName, String lastName, String address, String email, String city, String state, String zip, String phone, String shelterId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.email = email;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.phone = phone;
+        this.shelterId = shelterId;
+    }
+
     /**
      * Constructs a profile and initializes its fields using the given JSON object.
      *

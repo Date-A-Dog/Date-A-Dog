@@ -1,7 +1,6 @@
 package dateadog.dateadog;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -125,7 +124,7 @@ public class FormFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //need to call DogManager.updateUser(form);
-                DogManager.updateUser(new Form(firstName.getText().toString(), lastName.getText().toString(), "", email.getText().toString(), "", "", "", phone.getText().toString()));
+                DogManager.updateUser(new UserProfile(firstName.getText().toString(), lastName.getText().toString(), "", email.getText().toString(), "", "", "", phone.getText().toString(), ""));
 
             }
         });
@@ -174,19 +173,14 @@ public class FormFragment extends Fragment {
     //gets the form data from the Rest API
     private void getFormData() {
         System.out.println(AccessToken.getCurrentAccessToken().getToken().toString());
-        DogManager.login(new DADAPI.DataListener() {
+        DogManager.getUser(new DADAPI.UserProfileDataListener() {
             @Override
-            public void onGotDogs(Set<Dog> dogs) {
-
-            }
-
-            @Override
-            public void onGotForm(Form formData) {
+            public void onGotUserProfile(UserProfile userProfileData) {
                 //do something with the form data
-                firstName.setText(formData.getFirstName());
-                lastName.setText(formData.getLastName());
-                email.setText(formData.getEmail());
-                phone.setText(formData.getPrimaryPhone());
+                firstName.setText(userProfileData.getFirstName());
+                lastName.setText(userProfileData.getLastName());
+                email.setText(userProfileData.getEmail());
+                phone.setText(userProfileData.getPhone());
             }
         });
     }

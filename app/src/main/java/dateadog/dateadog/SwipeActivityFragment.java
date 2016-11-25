@@ -62,17 +62,12 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         }
     }
     private void getDoggies() {
-        DogManager.getNextDogs(new DADAPI.DataListener() {
+        DogManager.getNextDogs(new DADAPI.DogsDataListener() {
             @Override
             public void onGotDogs(Set<Dog> dogs) {
                 pendingDogs.addAll(dogs);
                 addDogsToAL(pendingDogs, al);
                 myAppAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onGotForm(Form formData) {
-
             }
         });
     }

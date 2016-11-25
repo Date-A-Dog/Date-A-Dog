@@ -58,18 +58,13 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     private void refreshLikedDogs() {
-        DogManager.getLikedDogs(new DADAPI.DataListener() {
+        DogManager.getLikedDogs(new DADAPI.DogsDataListener() {
             @Override
             public void onGotDogs(Set<Dog> dogs) {
                 System.out.println("Got " + dogs.size() + " dogs back!!!");
                 likedDogs.clear();
                 likedDogs.addAll(dogs);
                 adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onGotForm(Form formData) {
-
             }
         });
     }

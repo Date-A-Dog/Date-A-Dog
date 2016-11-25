@@ -37,11 +37,11 @@ public class DADAPI {
     /** URLs for server endpoints. */
     private static String DAD_SERVER_URL_BASE = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/";
     private static String GET_NEXT_DOGS_URL = DAD_SERVER_URL_BASE + "getNextDogs";
-    private static String JUDGE_DOG_URL = DAD_SERVER_URL_BASE + "judgeDog";
     private static String GET_LIKED_DOGS_URL = DAD_SERVER_URL_BASE + "getLikedDogs";
+    private static String JUDGE_DOG_URL = DAD_SERVER_URL_BASE + "judgeDog";
+    private static String REQUEST_DATE_URL = DAD_SERVER_URL_BASE + "requestDate";
     private static String LOGIN_URL = DAD_SERVER_URL_BASE + "login";
     private static String UPDATE_USER_URL = DAD_SERVER_URL_BASE + "updateUser";
-    private static String REQUEST_DATE_URL = DAD_SERVER_URL_BASE + "requestDate";
     /** Number of dogs to request each time a request is made. */
     private static int NUM_DOGS_REQUESTED = 50;
     private static String DEFAULT_ZIP = "98105";
@@ -128,15 +128,15 @@ public class DADAPI {
     }
 
     /**
-     * Clients implement this interface to receive form data from DADAPI requests.
+     * Clients implement this interface to receive user profile data from DADAPI requests.
      */
-    public interface FormDataListener {
+    public interface UserProfileDataListener {
         /**
-         * Called when the requested form has been retrieved.
+         * Called when the requested user profile has been retrieved.
          *
-         * @param formData the requested form
+         * @param userProfile the requested user profile
          */
-        public void onGotForm(Form formData);
+        public void onGotUserProfile(UserProfile userProfile);
     }
 
     /**
@@ -172,28 +172,35 @@ public class DADAPI {
     }
 
     /**
-     * Makes a DAD server request at the given URL, parses the response as a JSON
-     * object form and returns the Form via the given callback listener.
+     * Retrieves the user's profile from the DAD server.
      *
-     * @param url a DAD endpoint that returns a JSON object
-     * @param dataListener a data listener that will receive a callback with the form
+     * @param dataListener a data listener that will receive a callback with the user profile
      */
-    private void getFormAtUrl(String url, final FormDataListener dataListener) {
+    public void getUser(final UserProfileDataListener dataListener) {
         JSONObject parameters = new JSONObject();
-        makeRequest(url, parameters, new Response.Listener<String>() {
+        makeRequest(LOGIN_URL, parameters, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonForm = (JSONObject) new JSONTokener(response).nextValue();
-                    System.out.println(jsonForm.toString());
-                    Form form = new Form(jsonForm);
-                    dataListener.onGotForm(form);
+                    UserProfile userProfile = new UserProfile(jsonForm);
+                    dataListener.onGotUserProfile(userProfile);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
     }
+
+    /**
+     * Updates the user's profile information using the given {@code UserProfile}.
+     *
+     * @param userProfile the userProfile containing the user's information
+     */
+    public void updateUser(UserProfile userProfile) {
+        makeRequest(UPDATE_USER_URL, userProfile.asJSONObject(), null);
+    }
+
 
     /**
      * Retrieves a set of dogs that the user has not yet judged.
@@ -214,6 +221,25 @@ public class DADAPI {
     }
 
     /**
+     * Sends the DAD server a request to schedule a date with the dog that has the
+     * given {@code dogId} at the time given by {@code epoch}.
+     *
+     * @param dogId the id of the dog to schedule the date with
+     * @param epoch the time at which to schedule the date, expressed as milliseconds after epoch
+     */
+    public void requestDate(long dogId, long epoch) {
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("id", dogId);
+            parameters.put("epoch", epoch);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        makeRequest(REQUEST_DATE_URL, parameters, null);
+    }
+
+    /**
      * Marks the dog with the given {@code dogId} as liked or disliked.
      *
      * @param dogId the id of the dog to judge
@@ -230,36 +256,6 @@ public class DADAPI {
             return;
         }
         makeRequest(JUDGE_DOG_URL, parameters, null);
-    }
-
-    public void requestDate(long dogId, long epoch) {
-        JSONObject parameters = new JSONObject();
-        try {
-            parameters.put("id", dogId);
-            parameters.put("epoch", epoch);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return;
-        }
-        makeRequest(REQUEST_DATE_URL, parameters, null);
-    }
-
-    /**
-     * When the user logs in, call this method to populate the form object
-     * and put form object into the GUI
-     * @param dataListener a data listener that will receive a callback with the dogs
-     */
-    public void login(FormDataListener dataListener) {
-        getFormAtUrl(LOGIN_URL, dataListener);
-    }
-
-    /**
-     * Updates the user's profile information using the given {@code Form}.
-     *
-     * @param form the form containing the user's information
-     */
-    public void updateUser(Form form) {
-        makeRequest(UPDATE_USER_URL, form.asJSONObject(), null);
     }
 
     /**

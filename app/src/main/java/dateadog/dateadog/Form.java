@@ -43,7 +43,7 @@ public class Form {
         this.shelterID = null;
     }
 
-    public JSONObject asJSONParameters() {
+    public JSONObject asJSONObject() {
         JSONObject parameters = new JSONObject();
         try {
             /*

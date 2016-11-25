@@ -42,8 +42,9 @@ public class DADAPI {
     private static String LOGIN_URL = DAD_SERVER_URL_BASE + "login";
     private static String UPDATE_USER_URL = DAD_SERVER_URL_BASE + "updateUser";
     private static String REQUEST_DATE_URL = DAD_SERVER_URL_BASE + "requestDate";
-    private static String DEFAULT_DOGS_REQUESTED = "50"; //call only 50 dogs at a time default
-    private static String DEFUALT_ZIP = "98105"; //call default zip until we can implmement how to get user zip
+    /** Number of dogs to request each time a request is made. */
+    private static int NUM_DOGS_REQUESTED = 50;
+    private static String DEFAULT_ZIP = "98105";
 
     private Context context;
 
@@ -115,15 +116,26 @@ public class DADAPI {
     }
 
     /**
-     * Clients implement this interface to receive data from DADAPI requests.
+     * Clients implement this interface to receive dogs from DADAPI requests.
      */
-    public interface DataListener {
+    public interface DogsDataListener {
         /**
          * Called when the requested dogs have been retrieved.
          *
          * @param dogs the requested dogs
          */
         public void onGotDogs(Set<Dog> dogs);
+    }
+
+    /**
+     * Clients implement this interface to receive form data from DADAPI requests.
+     */
+    public interface FormDataListener {
+        /**
+         * Called when the requested form has been retrieved.
+         *
+         * @param formData the requested form
+         */
         public void onGotForm(Form formData);
     }
 
@@ -134,13 +146,13 @@ public class DADAPI {
      * @param url a DAD endpoint that returns a JSON array of dogs
      * @param dataListener a data listener that will receive a callback with the dogs
      */
-    private void getDogsAtUrl(String url, final DataListener dataListener) {
+    private void getDogsAtUrl(String url, final DogsDataListener dataListener) {
         JSONObject parameters = new JSONObject();
         try {
-            parameters.put("count", DEFAULT_DOGS_REQUESTED);
-            parameters.put("zip", DEFUALT_ZIP);
+            parameters.put("count", NUM_DOGS_REQUESTED);
+            parameters.put("zip", DEFAULT_ZIP);
         } catch (JSONException e) {
-            Log.e("Error: json", "check json getNextDogs/likedDogs");
+            e.printStackTrace();
         }
         makeRequest(url, parameters, new Response.Listener<String>() {
             @Override
@@ -161,14 +173,13 @@ public class DADAPI {
 
     /**
      * Makes a DAD server request at the given URL, parses the response as a JSON
-     * object form and returns a Form containing these dogs via the given callback listener.
+     * object form and returns the Form via the given callback listener.
      *
-     * @param url a DAD endpoint that returns a JSON array of dogs
-     * @param dataListener a data listener that will receive a callback with the dogs
+     * @param url a DAD endpoint that returns a JSON object
+     * @param dataListener a data listener that will receive a callback with the form
      */
-    private void getFormAtUrl(String url, final DataListener dataListener) {
+    private void getFormAtUrl(String url, final FormDataListener dataListener) {
         JSONObject parameters = new JSONObject();
-        // Add additional parameters such as location and count here.
         makeRequest(url, parameters, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -189,7 +200,7 @@ public class DADAPI {
      *
      * @param dataListener a data listener that will receive a callback with the dogs
      */
-    public void getNextDogs(DataListener dataListener) {
+    public void getNextDogs(DogsDataListener dataListener) {
         getDogsAtUrl(GET_NEXT_DOGS_URL, dataListener);
     }
 
@@ -198,7 +209,7 @@ public class DADAPI {
      *
      * @param dataListener a data listener that will receive a callback with the dogs
      */
-    public void getLikedDogs(DataListener dataListener) {
+    public void getLikedDogs(DogsDataListener dataListener) {
         getDogsAtUrl(GET_LIKED_DOGS_URL, dataListener);
     }
 
@@ -238,17 +249,17 @@ public class DADAPI {
      * and put form object into the GUI
      * @param dataListener a data listener that will receive a callback with the dogs
      */
-    public void login(DataListener dataListener) {
+    public void login(FormDataListener dataListener) {
         getFormAtUrl(LOGIN_URL, dataListener);
     }
 
     /**
-     * When the user wants to update his/her form update Form object then send to
-     * endpoint in JSON format to rest API to be stored
-     * @param form the form to update the backend with
+     * Updates the user's profile information using the given {@code Form}.
+     *
+     * @param form the form containing the user's information
      */
     public void updateUser(Form form) {
-        makeRequest(UPDATE_USER_URL, form.asJSONParameters(), null);
+        makeRequest(UPDATE_USER_URL, form.asJSONObject(), null);
     }
 
     /**

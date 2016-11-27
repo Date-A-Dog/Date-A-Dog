@@ -95,7 +95,10 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         int id = item.getItemId();
         if (id == R.id.action_log_out) {
             LoginManager.getInstance().logOut();
-            startActivity(new Intent(this, LoginActivity.class));
+            Intent logout = new Intent(this, LoginActivity.class);
+            logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(logout);
+            finish();
             return true;
         } else if (id == R.id.action_help) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.help_website))));

@@ -32,6 +32,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
+            android:clearTaskOnLaunch="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +46,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
+            android:clearTaskOnLaunch="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ConfirmRequestActivity"

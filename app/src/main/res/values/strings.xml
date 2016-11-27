@@ -10,6 +10,7 @@
     <string name="action_log_out">Log Out</string>
     <string name="action_help">Help</string>
     <string name="find_dogs">Dogs Near Me</string>
+    <string name="welcome">Welcome!</string>
     <string name="liked_dogs">Liked</string>
     <string name="forms">Forms</string>
     <string name="request_date">Request Date</string>

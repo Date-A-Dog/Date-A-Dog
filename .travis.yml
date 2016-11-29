@@ -14,7 +14,7 @@ android:
 
 branches:
   only:
-    - production
+    - master
 
 script: ./gradlew build
 

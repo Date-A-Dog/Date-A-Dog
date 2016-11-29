@@ -20,7 +20,7 @@ public class TimePickerFragment extends DialogFragment  {
 
     private TimePicker timePicker;
     public interface TimeDialogListener {
-        void onFinishDialog(String time);
+        void onFinishDialog(int hour, int minute);
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
@@ -35,16 +35,8 @@ public class TimePickerFragment extends DialogFragment  {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                int hour = 0;
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                                    hour = timePicker.getHour();
-                                }
-                                int minute = 0;
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                                    minute = timePicker.getMinute();
-                                }
                                 TimeDialogListener activity = (TimeDialogListener) getActivity();
-                                activity.onFinishDialog(updateTime(hour,minute));
+                                activity.onFinishDialog(timePicker.getHour(), timePicker.getMinute());
                                 dismiss();
                             }
                         })

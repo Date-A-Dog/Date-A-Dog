@@ -237,7 +237,7 @@ var Shelter = function(_token, _testingMockData) {
   // param:
   //   epoch - the epoch value to be convertedinto
   function epochToString(epoch) {
-    var d = new Date(epoch * 1000);
+    var d = new Date(epoch);
     var month  = d.getMonth() + 1; // account for month offset [0,11]
     var day    = d.getDate();
     var year   = d.getFullYear();

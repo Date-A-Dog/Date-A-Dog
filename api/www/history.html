@@ -72,7 +72,10 @@
 
 	<!-- For placement of request history -->
 	<div id="accordion">
-		
+		<!-- Message for empty history page -->
+		<div class="accordionTitle" id="noRequests">
+			<h3>You have no request history.</h3>
+		</div>
 	</div>
 	<!-- Fills accordion with history display -->
 	<script type="text/javascript">
@@ -94,7 +97,11 @@
 		shelter.updateDateRequests(function(){ 
 
 			var requestsList = shelter.getHistoryRequests();
-
+			//removes the empty history page info if there is history
+			if(requestsList.length > 0){
+				$("#accordion").empty(); //remove child nodes
+			}
+			
 			for (var i = 0; i < requestsList.length; i++) {
 				var r = requestsList[i];
                                 var imgName = (r.status == "A") ? "check_icon.png": "x_icon.png";

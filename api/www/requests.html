@@ -73,7 +73,10 @@
 
 	<!-- For placement of requests -->
 	<div id="accordion">
-		
+		<!-- Message for empty requests page -->
+		<div class="accordionTitle" id="noRequests">
+			<h3>You have no pending requests.</h3>
+		</div>
 	</div>
 	<!-- fills accordion with requests and available actions -->
 	<script type="text/javascript">
@@ -97,7 +100,11 @@
 		shelter.updateDateRequests(function(){ 
 
 			var requestsList = shelter.getPendingRequests();
-
+			//removes the empty request page info if there are any requests
+			if(requestsList.length > 0){
+				$("#accordion").empty(); //remove child nodes
+			}
+			
 			for (var i = 0; i < requestsList.length; i++) {
 				var r = requestsList[i];
 			 

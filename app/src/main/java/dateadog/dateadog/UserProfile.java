@@ -3,14 +3,16 @@ package dateadog.dateadog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * This class stores the user's profile information.
  */
-public class UserProfile {
+public class UserProfile implements Serializable {
 
     private String firstName;
     private String lastName;
-    private String address;
+    private String street;
     private String email;
     private String city;
     private String state;
@@ -34,12 +36,12 @@ public class UserProfile {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getEmail() {
@@ -90,13 +92,19 @@ public class UserProfile {
         this.shelterId = shelterId;
     }
 
+    public boolean isComplete() {
+        return !(firstName.isEmpty() || lastName.isEmpty() ||  email.isEmpty()
+                 ||  street.isEmpty() ||  city.isEmpty() ||  state.isEmpty()
+                 || zip.isEmpty() ||  phone.isEmpty());
+    }
+
     public JSONObject asJSONObject() {
         JSONObject parameters = new JSONObject();
         try {
-            parameters.put("email", getEmail());
             parameters.put("fname", getFirstName());
             parameters.put("lname", getLastName());
-            parameters.put("street", getAddress());
+            parameters.put("email", getEmail());
+            parameters.put("street", getStreet());
             parameters.put("city", getCity());
             parameters.put("state", getState());
             parameters.put("zip", getZip());
@@ -107,11 +115,11 @@ public class UserProfile {
         return parameters;
     }
 
-    public UserProfile(String firstName, String lastName, String address, String email, String city, String state, String zip, String phone, String shelterId) {
+    public UserProfile(String firstName, String lastName, String email, String street, String city, String state, String zip, String phone, String shelterId) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
         this.email = email;
+        this.street = street;
         this.city = city;
         this.state = state;
         this.zip = zip;
@@ -120,21 +128,46 @@ public class UserProfile {
     }
 
     /**
-     * Constructs a profile and initializes its fields using the given JSON object.
+     * Constructs and initializes an empty user profile (empty strings for each field).
+     */
+    public UserProfile() {
+        this.firstName = "";
+        this.lastName = "";
+        this.email = "";
+        this.street = "";
+        this.city = "";
+        this.state = "";
+        this.zip = "";
+        this.phone = "";
+        this.shelterId = "";
+    }
+
+    /**
+     * Constructs and initializes a user profile using the fields of the given JSON object.
      *
      * @param json the JSON object containing the profile data
      */
     public UserProfile(JSONObject json) {
         try {
-            email = json.getString("email");
             firstName = json.getString("fname");
             lastName = json.getString("lname");
-            address = json.getString("street");
+            email = json.getString("email");
+            street = json.getString("street");
             city = json.getString("city");
             state = json.getString("state");
             zip = json.getString("zip");
             phone = json.getString("phone");
             shelterId = json.getString("shelterid");
+            // Replace missing JSON values with empty string:
+            firstName = firstName.equals("null") ? "" : firstName;
+            lastName = lastName.equals("null") ? "" : lastName;
+            email = email.equals("null") ? "" : email;
+            street = street.equals("null") ? "" : street;
+            city = city.equals("null") ? "" : city;
+            state = state.equals("null") ? "" : state;
+            zip = zip.equals("null") ? "" : zip;
+            phone = phone.equals("null") ? "" : phone;
+            shelterId = shelterId.equals("null") ? "" : shelterId;
         } catch (JSONException e) {
             e.printStackTrace();
         }

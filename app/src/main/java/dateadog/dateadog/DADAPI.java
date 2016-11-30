@@ -13,6 +13,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+
 import com.facebook.AccessToken;
 
 import org.json.JSONArray;
@@ -128,7 +129,7 @@ public class DADAPI {
     }
 
     /**
-     * Clients implement this interface to receive user profile data from DADAPI requests.
+     * Clients implement this interface to receive user profiles from DADAPI requests.
      */
     public interface UserProfileDataListener {
         /**
@@ -183,8 +184,7 @@ public class DADAPI {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonForm = (JSONObject) new JSONTokener(response).nextValue();
-                    UserProfile userProfile = new UserProfile(jsonForm);
-                    dataListener.onGotUserProfile(userProfile);
+                    dataListener.onGotUserProfile(new UserProfile(jsonForm));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -195,7 +195,7 @@ public class DADAPI {
     /**
      * Updates the user's profile information using the given {@code UserProfile}.
      *
-     * @param userProfile the userProfile containing the user's information
+     * @param userProfile contains the user profile information to send to the DAD server
      */
     public void updateUser(UserProfile userProfile) {
         makeRequest(UPDATE_USER_URL, userProfile.asJSONObject(), null);

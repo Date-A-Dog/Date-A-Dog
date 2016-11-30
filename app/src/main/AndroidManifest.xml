@@ -49,10 +49,6 @@
             android:clearTaskOnLaunch="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ConfirmRequestActivity"
-            android:label="@string/title_activity_confirm_request"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".DogProfileActivity"
             android:label="@string/title_activity_dog_profile"
             android:theme="@style/AppTheme.NoActionBar">

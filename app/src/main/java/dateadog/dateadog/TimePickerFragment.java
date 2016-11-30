@@ -15,7 +15,6 @@ import android.widget.TimePicker;
  * Use the {@link TimePickerFragment} factory method to
  * create an instance of this fragment.
  */
-
 public class TimePickerFragment extends DialogFragment  {
 
     private TimePicker timePicker;

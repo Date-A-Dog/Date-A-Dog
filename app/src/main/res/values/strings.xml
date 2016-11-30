@@ -7,12 +7,25 @@
     <string name="title_activity_login">@string/app_name</string>
     <string name="title_activity_main">@string/app_name</string>
     <string name="title_activity_dog_profile">Dog Profile</string>
+    <string name="action_edit_profile">My Profile</string>
     <string name="action_log_out">Log Out</string>
     <string name="action_help">Help</string>
     <string name="find_dogs">Dogs Near Me</string>
+    <string name="user_profile">My Profile</string>
+    <string name="user_profile_dialog">My Profile</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
     <string name="welcome">Welcome!</string>
     <string name="liked_dogs">Liked</string>
     <string name="forms">Forms</string>
     <string name="request_date">Request Date</string>
     <string name="help_website">https://date-a-dog.github.io/</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="street">Street</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="zip">Zip</string>
+    <string name="phone">Phone</string>
 </resources>

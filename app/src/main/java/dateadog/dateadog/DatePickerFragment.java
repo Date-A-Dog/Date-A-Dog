@@ -20,7 +20,6 @@ import java.util.GregorianCalendar;
  * Use the {@link DatePickerFragment} factory method to
  * create an instance of this fragment.
  */
-
 public class DatePickerFragment extends DialogFragment {
 
     private DatePicker datePicker;

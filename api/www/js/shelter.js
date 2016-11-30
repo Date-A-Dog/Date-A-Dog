@@ -220,7 +220,8 @@ var Shelter = function(_token, _testingMockData) {
       var parsedRequest = DateRequest(r.request.id,
                                       dog, dater,
                                       epochToString(r.request.epoch),
-                                      r.request.status);
+                                      r.request.status,
+                                      "placeholder Message-replace with r.request.msg");
       // add new request
       filteredArray.push(parsedRequest);
     }

@@ -121,7 +121,7 @@ public class Dog implements Serializable {
         }
     }
 
-    public String fixName(String name) {
+    private String fixName(String name) {
         if (name.toLowerCase().contains("foster")) {
             return "Dog(s) Intended for Foster Care (No Name)";
         } else if (name.toLowerCase().contains("adoption")) {
@@ -133,7 +133,7 @@ public class Dog implements Serializable {
         }
     }
 
-    public String fixSize(String size) {
+    private String fixSize(String size) {
         if (size.equals("S")) {
             return "Small Dog";
         } else if (size.equals("M")) {
@@ -145,7 +145,7 @@ public class Dog implements Serializable {
         }
     }
 
-    public String fixSex(String sex) {
+    private String fixSex(String sex) {
         if (sex.equals("F")) {
             return "Female";
         } else if (sex.equals("M")) {

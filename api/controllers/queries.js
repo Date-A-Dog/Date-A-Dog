@@ -255,7 +255,7 @@ function updateUser(req, res, next) {
 // Test queries
 function loginTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   req.user.first_name = 'Sally';
   req.user.last_name = 'Smith';
   return login(req, res, next);
@@ -263,67 +263,67 @@ function loginTest(req, res, next) {
 
 function getNextDogsTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return getNextDogs(req, res, next);
 }
 
 function getDateRequestsStatusTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return getDateRequestsStatus(req, res, next);
 }
 
 function getDogHistoryTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return getDogHistory(req, res, next);
 }
 
 function getLikedDogsTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return getLikedDogs(req, res, next);
 }
 
 function getDislikedDogsTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return getDislikedDogs(req, res, next);
 }
 
 function getShelterTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return getShelter(req, res, next);
 }
 
 function getShelterRequestsTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return getShelterRequests(req, res, next);
 }
 
 function judgeDogTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return judgeDog(req, res, next);
 }
 
 function requestDateTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return requestDate(req, res, next);
 }
 
 function updateRequestStatusTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return updateRequestStatus(req, res, next);
 }
 
 function updateUserTest(req, res, next) {
   req.user = {};
-  req.user.id = '119889308491710';
+  req.user.id = '10153811720940946';
   return updateUser(req, res, next);
 }
 

@@ -75,10 +75,15 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
         refreshLikedDogs();
     }
 
+    public void updateUI() {
+        System.out.println("LikedDogsFragment: updateUI");
+    }
+
     @Override
     public void onResume() {
         refreshLikedDogs();
         adapter.notifyDataSetChanged();
+        updateUI();
         super.onResume();
 
     }
@@ -101,7 +106,6 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
         adapter = new LikedDogsListViewAdapter(getContext(), R.layout.row, likedDogs);
         likedDogsListView.setAdapter(adapter);
         likedDogsListView.setOnItemClickListener(this);
-        refreshLikedDogs();
         return rootView;
     }
 

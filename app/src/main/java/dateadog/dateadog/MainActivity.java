@@ -17,7 +17,7 @@ import android.view.View;
 import com.facebook.login.LoginManager;
 
 public class MainActivity extends AppCompatActivity implements LikedDogsFragment.OnFragmentInteractionListener,
-                                                               SwipeActivityFragment.OnFragmentInteractionListener,
+                                                               SwipeDogsFragment.OnFragmentInteractionListener,
                                                                UserProfileDialogFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MainActivity.class.getName();
@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private DADAPI dadapi;
+    private SwipeDogsFragment swipeDogsFragment;
+    private LikedDogsFragment likedDogsFragment;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -44,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         dadapi = DADAPI.getInstance(getApplicationContext());
 
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
         // Disable horizontal scrolling of pager to prevent conflicts with
         // swiping of dog cards.
         mViewPager.setOnTouchListener(new View.OnTouchListener() {
@@ -65,6 +68,23 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    swipeDogsFragment.updateUI();
+                } else if (position == 1) {
+                    likedDogsFragment.updateUI();
+                }
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+
+            @Override
+            public void onPageScrollStateChanged(int state) { }
+        });
 
         // Set icons for tabs.
         tabLayout.getTabAt(0).setIcon(R.drawable.dog);
@@ -127,9 +147,11 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         public android.support.v4.app.Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                return SwipeActivityFragment.newInstance();
+                swipeDogsFragment = SwipeDogsFragment.newInstance();
+                return swipeDogsFragment;
             } else if (position == 1) {
-                return LikedDogsFragment.newInstance();
+                likedDogsFragment = LikedDogsFragment.newInstance();
+                return likedDogsFragment;
             } else {
                 return null;
             }

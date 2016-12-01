@@ -22,7 +22,7 @@ public class DateRequestUnitTest {
     @Before
     public void setUp() throws Exception {
         // setting up new DateRequest
-        request1 = new DateRequest(12,date1, 10, DateRequest.Status.ACCEPTED );
+        request1 = new DateRequest(12,date1, 10, DateRequest.Status.APPROVED );
 
     }
 
@@ -58,8 +58,8 @@ public class DateRequestUnitTest {
     @Test
     public void testGetStatus() throws Exception {
         // testing GetStatus
-        assertEquals(request1.getStatus(), DateRequest.Status.ACCEPTED);
-        assertNotEquals(request1.getStatus(), DateRequest.Status.DENIED);
+        assertEquals(request1.getStatus(), DateRequest.Status.APPROVED);
+        assertNotEquals(request1.getStatus(), DateRequest.Status.REJECTED);
     }
 
 

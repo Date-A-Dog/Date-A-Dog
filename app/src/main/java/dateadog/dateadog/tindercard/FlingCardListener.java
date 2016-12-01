@@ -18,8 +18,6 @@ import dateadog.dateadog.SwipeDogsFragment;
  * and project Swipe cards.
  * Use with caution dinausaurs might appear!
  */
-
-
 public class FlingCardListener implements View.OnTouchListener {
 
     private static final String TAG = FlingCardListener.class.getSimpleName();
@@ -48,7 +46,6 @@ public class FlingCardListener implements View.OnTouchListener {
     private boolean isAnimationRunning = false;
     private float MAX_COS = (float) Math.cos(Math.toRadians(45));
 
-
     public FlingCardListener(View frame, Object itemAtPosition, FlingListener flingListener) {
         this(frame, itemAtPosition, 15f, flingListener);
 
@@ -69,7 +66,6 @@ public class FlingCardListener implements View.OnTouchListener {
         this.mFlingListener = flingListener;
 
     }
-
 
     public boolean onTouch(View view, MotionEvent event) {
 
@@ -234,10 +230,8 @@ public class FlingCardListener implements View.OnTouchListener {
         return 3 * parentWidth / 4.f;
     }
 
-
     public void onSelected(final boolean isLeft,
                            float exitY, long duration) {
-
         isAnimationRunning = true;
         float exitX;
         if (isLeft) {
@@ -267,7 +261,6 @@ public class FlingCardListener implements View.OnTouchListener {
                 .rotation(getExitRotation(isLeft));
     }
 
-
     /**
      * Starts a default left exit animation.
      */
@@ -283,7 +276,6 @@ public class FlingCardListener implements View.OnTouchListener {
         if (!isAnimationRunning)
             onSelected(false, objectY, 200);
     }
-
 
     private float getExitPoint(int exitXPoint) {
         float[] x = new float[2];
@@ -311,7 +303,6 @@ public class FlingCardListener implements View.OnTouchListener {
         return rotation;
     }
 
-
     /**
      * When the object rotates it's width becomes bigger.
      * The maximum width is at 45 degrees.
@@ -321,7 +312,6 @@ public class FlingCardListener implements View.OnTouchListener {
     private float getRotationWidthOffset() {
         return objectW / MAX_COS - objectW;
     }
-
 
     public void setRotationDegrees(float degrees) {
         this.BASE_ROTATION_DEGREES = degrees;
@@ -352,8 +342,3 @@ public class FlingCardListener implements View.OnTouchListener {
     }
 
 }
-
-
-
-
-

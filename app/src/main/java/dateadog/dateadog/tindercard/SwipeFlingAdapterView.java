@@ -14,7 +14,6 @@ import android.widget.FrameLayout;
 
 import dateadog.dateadog.R;
 
-
 /**
  * Created by dionysis_lorentzos on 5/8/14
  * for package com.lorentzos.swipecards
@@ -23,7 +22,6 @@ import dateadog.dateadog.R;
  */
 
 public class SwipeFlingAdapterView extends BaseFlingAdapterView {
-
 
     private int MAX_VISIBLE = 4;
     private int MIN_ADAPTER_STACK = 6;
@@ -38,7 +36,6 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
     private OnItemClickListener mOnItemClickListener;
     private FlingCardListener flingCardListener;
     private PointF mLastTouchPoint;
-
 
     public SwipeFlingAdapterView(Context context) {
         this(context, null);
@@ -57,7 +54,6 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
         ROTATION_DEGREES = a.getFloat(R.styleable.SwipeFlingAdapterView_rotation_degrees, ROTATION_DEGREES);
         a.recycle();
     }
-
 
     /**
      * A shortcut method to set both the listeners and the adapter.
@@ -81,7 +77,6 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
     public View getSelectedView() {
         return mActiveCard;
     }
-
 
     @Override
     public void requestLayout() {
@@ -127,7 +122,6 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
         if (adapterCount <= MIN_ADAPTER_STACK) mFlingListener.onAdapterAboutToEmpty(adapterCount);
     }
 
-
     private void layoutChildren(int startingIndex, int adapterCount) {
         while (startingIndex < Math.min(adapterCount, MAX_VISIBLE)) {
             View newUnderChild = mAdapter.getView(startingIndex, null, this);
@@ -138,7 +132,6 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
             startingIndex++;
         }
     }
-
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void makeAndAddView(View child) {
@@ -204,7 +197,6 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
 
         child.layout(childLeft, childTop, childLeft + w, childTop + h);
     }
-
 
     /**
      * Set the top view and add the fling listener
@@ -272,7 +264,6 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
         return mAdapter;
     }
 
-
     @Override
     public void setAdapter(Adapter adapter) {
         if (mAdapter != null && mDataSetObserver != null) {
@@ -296,7 +287,6 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
         this.mOnItemClickListener = onItemClickListener;
     }
 
-
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new FrameLayout.LayoutParams(getContext(), attrs);
@@ -306,7 +296,6 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
     public interface OnItemClickListener {
         void onItemClicked(int itemPosition, Object dataObject);
     }
-
 
     public interface onFlingListener {
         void removeFirstObjectInAdapter();
@@ -332,6 +321,5 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
         }
 
     }
-
 
 }

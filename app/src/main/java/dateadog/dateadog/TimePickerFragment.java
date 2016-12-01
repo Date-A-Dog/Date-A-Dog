@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TimePicker;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TimePickerFragment} factory method to
@@ -18,18 +17,18 @@ import android.widget.TimePicker;
 public class TimePickerFragment extends DialogFragment  {
 
     private TimePicker timePicker;
+
     public interface TimeDialogListener {
         void onFinishDialog(int hour, int minute);
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
-        View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.fragment_time_picker,null);
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_time_picker, null);
 
         timePicker = (TimePicker) v.findViewById(R.id.dialog_time_picker);
         return new android.support.v7.app.AlertDialog.Builder(getActivity())
                 .setView(v)
-                .setTitle("Select Time")
+                .setTitle(R.string.date_time_question)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -40,31 +39,5 @@ public class TimePickerFragment extends DialogFragment  {
                             }
                         })
                 .create();
-    }
-
-    private String updateTime(int hours, int mins) {
-
-        String timeSet;
-        if (hours > 12) {
-            hours -= 12;
-            timeSet = "PM";
-        } else if (hours == 0) {
-            hours += 12;
-            timeSet = "AM";
-        } else if (hours == 12)
-            timeSet = "PM";
-        else
-            timeSet = "AM";
-
-        String minutes;
-        if (mins < 10)
-            minutes = "0" + mins;
-        else
-            minutes = String.valueOf(mins);
-
-        String myTime = new StringBuilder().append(hours).append(':')
-                .append(minutes).append(" ").append(timeSet).toString();
-
-        return myTime;
     }
 }

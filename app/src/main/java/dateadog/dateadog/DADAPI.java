@@ -42,7 +42,7 @@ public class DADAPI {
     private static String LOGIN_URL = DAD_SERVER_URL_BASE + "login";
     private static String UPDATE_USER_URL = DAD_SERVER_URL_BASE + "updateUser";
     private static String REQUEST_DATE_URL = DAD_SERVER_URL_BASE + "requestDate";
-    private static String DEFAULT_DOGS_REQUESTED = "50"; //call only 50 dogs at a time default
+    private static String DEFAULT_DOGS_REQUESTED = "20"; //call only 20 dogs at a time default
     private static String DEFUALT_ZIP = "98105"; //call default zip until we can implmement how to get user zip
 
     private Context context;

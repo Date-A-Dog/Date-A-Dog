@@ -32,7 +32,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('id is correct', function() {
       res.body.should.have.property('id');
-      res.body.id.should.equal(119889308491710);
+      res.body.id.should.equal(10153811720940946);
     });
 
     it('fname is correct', function() {
@@ -129,7 +129,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('id is correct', function() {
       res.body.should.have.property('id');
-      res.body.id.should.equal(119889308491710);
+      res.body.id.should.equal(10153811720940946);
     });
 
     it('fname is correct', function() {
@@ -611,7 +611,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     it('user.id is correct', function() {
       res.body[res.body.length - 1].user.should.have.property('id');
       res.body[res.body.length - 1].user.id.should
-      .equal(119889308491710);
+      .equal(10153811720940946);
     });
   })
 

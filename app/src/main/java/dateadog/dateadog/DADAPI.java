@@ -47,7 +47,7 @@ public class DADAPI {
     private static String UPDATE_USER_URL = DAD_SERVER_URL_BASE + "updateUser";
     private static String GET_DATE_REQUESTS_STATUS_URL = DAD_SERVER_URL_BASE + "getDateRequestsStatus";
     /** Number of dogs to request each time a request is made. */
-    private static int NUM_DOGS_REQUESTED = 50;
+    private static int NUM_DOGS_REQUESTED = 20;
     private static String DEFAULT_ZIP = "98105";
 
     private Context context;

@@ -7,6 +7,7 @@ package dateadog.dateadog;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -43,6 +45,7 @@ public class DADAPI {
     private static String REQUEST_DATE_URL = DAD_SERVER_URL_BASE + "requestDate";
     private static String LOGIN_URL = DAD_SERVER_URL_BASE + "login";
     private static String UPDATE_USER_URL = DAD_SERVER_URL_BASE + "updateUser";
+    private static String GET_DATE_REQUESTS_STATUS_URL = DAD_SERVER_URL_BASE + "getDateRequestsStatus";
     /** Number of dogs to request each time a request is made. */
     private static int NUM_DOGS_REQUESTED = 50;
     private static String DEFAULT_ZIP = "98105";
@@ -82,7 +85,6 @@ public class DADAPI {
      *                         data, or null to ignore response data
      */
     public void makeRequest(final String url, final JSONObject jsonBody, Response.Listener<String> responseListener) {
-        System.out.println(jsonBody.toString());
         if (responseListener == null) {
             // The caller would like not to receive response data. This can be done by setting an
             // empty response listener.
@@ -99,6 +101,7 @@ public class DADAPI {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         Log.e(TAG, "Request to DAD server failed.\nURL: " + url + "\nBody: " + jsonBody.toString());
+                        Toast.makeText(context, R.string.server_connection_error_message, Toast.LENGTH_LONG).show();
                     }
                 }) {
             @Override
@@ -138,6 +141,18 @@ public class DADAPI {
          * @param userProfile the requested user profile
          */
         public void onGotUserProfile(UserProfile userProfile);
+    }
+
+    /**
+     * Clients implement this interface to receive date requests from DADAPI requests.
+     */
+    public interface DateRequestsDataListener {
+        /**
+         * Called when the date requests have been retrieved.
+         *
+         * @param dateRequests the date requests
+         */
+        public void onGotDateRequests(Set<DateRequest> dateRequests);
     }
 
     /**
@@ -212,6 +227,50 @@ public class DADAPI {
     }
 
     /**
+     * Retrieves a set of date requests (approved, rejected and pending) for the user.
+     *
+     * @param dataListener a data listener that will receive a callback with the date requests.
+     */
+    public void getDateRequests(final DateRequestsDataListener dataListener) {
+        JSONObject parameters = new JSONObject();
+        makeRequest(GET_DATE_REQUESTS_STATUS_URL, parameters, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Set<DateRequest> dateRequests = new HashSet<>();
+
+                    JSONArray jsonArray = (JSONArray) new JSONTokener(response).nextValue();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        long dogId = jsonObject.getJSONObject("dog").getLong("id");
+                        long requestId = jsonObject.getJSONObject("request").getLong("id");
+                        DateRequest.Status status;
+                        switch (jsonObject.getJSONObject("request").getString("status")) {
+                            case "A":
+                                status = DateRequest.Status.APPROVED;
+                                break;
+                            case "D":
+                                status = DateRequest.Status.REJECTED;
+                                break;
+                            case "P":
+                                status = DateRequest.Status.PENDING;
+                                break;
+                            default:
+                                status = null;
+                        }
+                        Date date = new Date(jsonObject.getJSONObject("request").getLong("epoch"));
+
+                        dateRequests.add(new DateRequest(requestId, date, dogId, status));
+                    }
+                    dataListener.onGotDateRequests(dateRequests);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
      * Retrieves a set of dogs that the user has liked.
      *
      * @param dataListener a data listener that will receive a callback with the dogs
@@ -226,12 +285,14 @@ public class DADAPI {
      *
      * @param dogId the id of the dog to schedule the date with
      * @param epoch the time at which to schedule the date, expressed as milliseconds after epoch
+     * @param description a string describing the reason for the date
      */
-    public void requestDate(long dogId, long epoch) {
+    public void requestDate(long dogId, long epoch, String description) {
         JSONObject parameters = new JSONObject();
         try {
             parameters.put("id", dogId);
             parameters.put("epoch", epoch);
+            parameters.put("description", description);
         } catch (JSONException e) {
             e.printStackTrace();
             return;

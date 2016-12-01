@@ -1,7 +1,5 @@
 package dateadog.dateadog.tindercard;
 
-
-
 /**
  * **********************************************************************
  * Compilation:  javac LinearRegression.java
@@ -12,7 +10,6 @@ package dateadog.dateadog.tindercard;
  * <p/>
  * ***********************************************************************
  */
-
 
 /**
  *  The <tt>LinearRegression</tt> class performs a simple linear regression
@@ -141,6 +138,5 @@ class LinearRegression {
         s += String.format("%.2f N + %.2f", slope(), intercept());
         return s + "  (R^2 = " + String.format("%.3f", R2()) + ")";
     }
-
 
 }

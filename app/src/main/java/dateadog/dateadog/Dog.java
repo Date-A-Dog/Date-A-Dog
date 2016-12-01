@@ -1,7 +1,5 @@
 package dateadog.dateadog;
 
-import android.graphics.drawable.Drawable;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +31,15 @@ public class Dog implements Serializable {
     private String image;
     /** The shelter from where to request a date with this dog. */
     private String shelterId;
+
+    /**
+     * Returns a String describing this dog.
+     * @return
+     */
+    public String getDescription() {
+        return "Name: " + getName() + "\nAge: " + getAge() + "\nSex: " + getSex() + "\nBreeds: " +
+                getBreedsString() + "\nSize of Dog: " + getSize() + "\nDog Location: " + getCity();
+    }
 
     public long getDogId() {
         return dogId;

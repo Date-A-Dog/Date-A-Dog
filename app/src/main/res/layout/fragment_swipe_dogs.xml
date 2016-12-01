@@ -11,19 +11,20 @@
         android:background="@drawable/dog_background">
 
         <dateadog.dateadog.tindercard.SwipeFlingAdapterView
-            android:id="@+id/framefrag"
+            android:id="@+id/swipeFlingAdapterView"
             android:layout_width="wrap_content"
             android:layout_height="494dp"
             android:background="@drawable/dog_background"
             app:rotation_degrees="15.5" />
 
         <TextView
-            android:id="@+id/textnodogs"
+            android:id="@+id/noDogsText"
             android:layout_width="match_parent"
             android:gravity="center"
             android:textSize="40sp"
             android:layout_height="354dp"
-        />
+            android:text="@string/no_dogs"
+            android:visibility="invisible" />
 
     </FrameLayout>
 

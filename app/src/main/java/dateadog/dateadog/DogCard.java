@@ -5,23 +5,22 @@ package dateadog.dateadog;
  */
 public class DogCard {
 
-    private String description;
-
     private long dogId;
-
+    private String description;
     private String imagePath;
 
-    public DogCard(String imagePath, long dogId, String description) {
-        this.imagePath = imagePath;
-        this.description = description;
-        this.dogId = dogId;
+    public DogCard(Dog dog) {
+        this.dogId = dog.getDogId();
+        this.description = "Name: " + dog.getName() + "\nAge: " + dog.getAge()
+                           + "\nSex: " + dog.getSex() + "\nBreeds: " + dog.getBreedsString()
+                           + "\nSize of Dog: " + dog.getSize() + "\nDog Location: " + dog.getCity();
+        this.imagePath = dog.getImage();
     }
 
     public long getDogId() { return dogId; }
     public String getDescription() {
         return description;
     }
-
     public String getImagePath() {
         return imagePath;
     }

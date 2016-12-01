@@ -90,10 +90,13 @@
 
         </RelativeLayout>
 
-        <include
-            layout="@layout/item_divider"
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:background="#B6B6B6" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -169,8 +172,13 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/item_divider"
-            android:layout_width="match_parent" />
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:background="#B6B6B6" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -211,7 +219,13 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/item_divider" />
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:background="#B6B6B6" />
 
         <LinearLayout
             android:layout_width="match_parent"

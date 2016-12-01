@@ -29,4 +29,5 @@
     <string name="zip">Zip</string>
     <string name="phone">Phone</string>
     <string name="date_time_question">When do you want to date this dog?</string>
+    <string name="no_dogs">There are no dogs near you.</string>
 </resources>

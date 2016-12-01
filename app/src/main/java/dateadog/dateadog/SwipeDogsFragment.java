@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.graphics.Color;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -32,45 +30,32 @@ import java.util.Set;
  * Use the {@link SwipeDogsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SwipeDogsFragment extends Fragment implements FlingCardListener.ActionDownInterface{
-    public static MyAppAdapter myAppAdapter; //holds the app adapter
-    private TextView noDogs; //displays when there are no dogs left
-    public static ViewHolder viewHolder;
-    private ArrayList<Data_TinderUI> al; //the gui form of all dogs
-    private static List<Dog> pendingDogs; //the actual dog objects of all the pending dogs ot be swiped
-    private SwipeFlingAdapterView flingContainer;
+public class SwipeDogsFragment extends Fragment implements FlingCardListener.ActionDownInterface {
+
+    private static final String TAG = MainActivity.class.getName();
+
     private OnFragmentInteractionListener mListener;
-    private DADAPI DogManager;
+
+    /**
+     * The minimum number of dogs left in the stack before more dogs are retrieved from the server.
+     */
+    private static final int REFRESH_DOGS_THRESHOLD = 5;
+
+    private ArrayList<DogCard> dogCards;
+    private SwipeFlingAdapterView flingContainer;
+    private DADAPI dadapi;
+
+    public static DogCardsAdapter dogCardsAdapter;
+    public static ViewHolder viewHolder;
 
     public void updateUI() {
-        System.out.println("SwipeDogsFragment: updateUI");
-    }
-
-    public static void removeBackground() {
-        viewHolder.background.setVisibility(View.GONE);
-        myAppAdapter.notifyDataSetChanged();
-    }
-
-    //adds the Dog object values for the view to the view list
-    //takes in Dog list and UI list as parameters to transfer necessary attributes
-    private static void addDogsToAL(List<Dog> dogs, ArrayList<Data_TinderUI> al) {
-        for (Dog dog : dogs) {
-            String Breeds = dog.getBreedsString();
-            String SizeDog = dog.getSize();
-            String profileInfo = "Name: " + dog.getName() + "\nAge: " +
-                                 dog.getAge() + "\nSex: " + dog.getSex() +
-                                 "\nBreeds: " + Breeds + "\nSize of Dog: " + SizeDog +
-                                 "\nDog Location: " + dog.getCity();
-            al.add(new Data_TinderUI(dog.getImage(), dog.getDogId(), profileInfo));
-        }
-    }
-    private void getDoggies() {
-        DogManager.getNextDogs(new DADAPI.DogsDataListener() {
+        dadapi.getNextDogs(new DADAPI.DogsDataListener() {
             @Override
             public void onGotDogs(Set<Dog> dogs) {
-                pendingDogs.addAll(dogs);
-                addDogsToAL(pendingDogs, al);
-                myAppAdapter.notifyDataSetChanged();
+                for (Dog dog : dogs) {
+                    dogCards.add(new DogCard(dog));
+                }
+                dogCardsAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -80,9 +65,9 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @return A new instance of fragment SwipeDogsFragment.
+     * Use this factory method to create a new instance of this fragment.
+     *
+     * @return A new instance of fragment SwipeDogsFragment
      */
     public static SwipeDogsFragment newInstance() {
         SwipeDogsFragment fragment = new SwipeDogsFragment();
@@ -91,75 +76,61 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
         return fragment;
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DogManager = DADAPI.getInstance(getContext().getApplicationContext());
-        al = new ArrayList<Data_TinderUI>();
-        pendingDogs = new ArrayList<Dog>();
+        dadapi = DADAPI.getInstance(getContext().getApplicationContext());
+        dogCards = new ArrayList<>();
         updateUI();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_swipe_dogs, container, false);
-        noDogs = (TextView)v.findViewById(R.id.textnodogs);
-        flingContainer = (SwipeFlingAdapterView)v.findViewById(R.id.framefrag);
-        myAppAdapter = new MyAppAdapter(al, getActivity());
-        getDoggies(); //refresh doggies
-        flingContainer.setAdapter(myAppAdapter);
+        View view = inflater.inflate(R.layout.fragment_swipe_dogs, container, false);
+        flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.swipeFlingAdapterView);
+        dogCardsAdapter = new DogCardsAdapter(dogCards, getActivity());
+        flingContainer.setAdapter(dogCardsAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
-            public void removeFirstObjectInAdapter() {
-
-            }
+            public void removeFirstObjectInAdapter() { }
 
             @Override
-            //this is the reject swipe
             public void onLeftCardExit(Object dataObject) {
-                Data_TinderUI dogProfile = al.get(0);
-                DogManager.judgeDog(dogProfile.getDogId(), false);
-                al.remove(0);
-                myAppAdapter.notifyDataSetChanged();
-                if (al.size() == 0) {
-                    getDoggies();
-                    //noDogs.setText("No More Dogs.\nRefresh Page Soon!");
-                    //noDogs.setTextColor(Color.BLUE);
+                // This is a dislike dog swipe.
+                DogCard dogCard = dogCards.get(0);
+                dadapi.judgeDog(dogCard.getDogId(), false);
+                dogCards.remove(0);
+                dogCardsAdapter.notifyDataSetChanged();
+                if (dogCards.size() <= REFRESH_DOGS_THRESHOLD) {
+                    updateUI();
                 }
             }
 
             @Override
-            //this is the like a dog swipe
             public void onRightCardExit(Object dataObject) {
-                Data_TinderUI dogProfile = al.get(0);
-                DogManager.judgeDog(dogProfile.getDogId(), true);
-                al.remove(0);
-                myAppAdapter.notifyDataSetChanged();
-                if (al.size() == 0) {
-                    getDoggies();
-                    //noDogs.setText("No More Dogs.\nRefresh Page Soon!");
-                    //noDogs.setTextColor(Color.BLUE);
+                // This is a like dog swipe.
+                DogCard dogProfile = dogCards.get(0);
+                dadapi.judgeDog(dogProfile.getDogId(), true);
+                dogCards.remove(0);
+                dogCardsAdapter.notifyDataSetChanged();
+                if (dogCards.size() <= REFRESH_DOGS_THRESHOLD) {
+                    updateUI();
                 }
             }
 
             @Override
-            public void onAdapterAboutToEmpty(int itemsInAdapter) {
-
-            }
+            public void onAdapterAboutToEmpty(int itemsInAdapter) { }
 
             @Override
             public void onScroll(float scrollProgressPercent) {
-
                 View view = flingContainer.getSelectedView();
                 view.findViewById(R.id.background).setAlpha(0);
                 view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
                 view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
         });
-        return v;
+        return view;
     }
 
 
@@ -181,15 +152,11 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
     }
 
     @Override
-    public void onActionDownPerform() {
-        Log.e("action", "bingo");
-    }
+    public void onActionDownPerform() { }
 
-    public static class ViewHolder {
-        public static FrameLayout background;
-        public TextView DataText;
-        public ImageView cardImage;
-
+    public static void removeBackground() {
+        viewHolder.background.setVisibility(View.GONE);
+        dogCardsAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -206,20 +173,24 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
         void onFragmentInteraction(Uri uri);
     }
 
-    public class MyAppAdapter extends BaseAdapter {
+    public static class ViewHolder {
+        public FrameLayout background;
+        public TextView description;
+        public ImageView cardImage;
+    }
 
-
-        public List<Data_TinderUI> parkingList;
+    public class DogCardsAdapter extends BaseAdapter {
+        public List<DogCard> dogCards;
         public Context context;
 
-        private MyAppAdapter(List<Data_TinderUI> apps, Context context) {
-            this.parkingList = apps;
+        private DogCardsAdapter(List<DogCard> dogCards, Context context) {
+            this.dogCards = dogCards;
             this.context = context;
         }
 
         @Override
         public int getCount() {
-            return parkingList.size();
+            return dogCards.size();
         }
 
         @Override
@@ -234,37 +205,22 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-
-            View rowView = convertView;
-
-
-            if (rowView == null) {
+            View view = convertView;
+            if (view == null) {
                 LayoutInflater inflater = getActivity().getLayoutInflater();
-                rowView = inflater.inflate(R.layout.item, parent, false);
-                // configure view holder
+                view = inflater.inflate(R.layout.dog_card, parent, false);
                 viewHolder = new ViewHolder();
-                viewHolder.DataText = (TextView) rowView.findViewById(R.id.bookText);
-                viewHolder.DataText.setTextColor(Color.BLACK);
-                viewHolder.background = (FrameLayout) rowView.findViewById(R.id.background);
-                viewHolder.background.setBackgroundColor(Color.BLUE);
-                viewHolder.cardImage = (ImageView) rowView.findViewById(R.id.cardImage);
-                viewHolder.cardImage.setBackgroundColor(Color.BLUE);
-                rowView.setTag(viewHolder);
-
+                viewHolder.description = (TextView) view.findViewById(R.id.bookText);
+                viewHolder.background = (FrameLayout) view.findViewById(R.id.background);
+                viewHolder.cardImage = (ImageView) view.findViewById(R.id.cardImage);
+                view.setTag(viewHolder);
             } else {
-                viewHolder = (ViewHolder) convertView.getTag();
+                viewHolder = (ViewHolder) view.getTag();
             }
-            viewHolder.DataText.setText(parkingList.get(position).getDescription() + "");
+            viewHolder.description.setText(dogCards.get(position).getDescription());
+            Glide.with(getActivity()).load(dogCards.get(position).getImagePath()).into(viewHolder.cardImage);
 
-            Glide.with(getActivity()).load(parkingList.get(position).getImagePath()).into(viewHolder.cardImage);
-
-            return rowView;
+            return view;
         }
     }
 }
-
-
-
-
-
-

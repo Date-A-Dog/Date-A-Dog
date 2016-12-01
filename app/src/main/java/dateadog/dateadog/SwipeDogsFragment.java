@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +31,6 @@ import java.util.Set;
  */
 public class SwipeDogsFragment extends Fragment implements FlingCardListener.ActionDownInterface {
 
-    private static final String TAG = MainActivity.class.getName();
-
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -41,7 +38,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
      */
     private static final int REFRESH_DOGS_THRESHOLD = 5;
 
-    private ArrayList<DogCard> dogCards;
+    private List<DogCard> dogCards;
     private SwipeFlingAdapterView flingContainer;
     private DADAPI dadapi;
 
@@ -67,7 +64,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
     /**
      * Use this factory method to create a new instance of this fragment.
      *
-     * @return A new instance of fragment SwipeDogsFragment
+     * @return a new instance of fragment SwipeDogsFragment
      */
     public static SwipeDogsFragment newInstance() {
         SwipeDogsFragment fragment = new SwipeDogsFragment();

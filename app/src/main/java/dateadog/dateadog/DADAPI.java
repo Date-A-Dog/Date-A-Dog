@@ -7,6 +7,7 @@ package dateadog.dateadog;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -100,6 +101,7 @@ public class DADAPI {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         Log.e(TAG, "Request to DAD server failed.\nURL: " + url + "\nBody: " + jsonBody.toString());
+                        Toast.makeText(context, R.string.server_connection_error_message, Toast.LENGTH_LONG).show();
                     }
                 }) {
             @Override

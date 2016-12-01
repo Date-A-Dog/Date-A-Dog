@@ -34,4 +34,5 @@
     <string name="request_rejected">Date Request Rejected</string>
     <string name="request_pending">Date Request Pending</string>
     <string name="request_sent">Date Request Sent</string>
+    <string name="server_connection_error_message">Could not connect to the Date-A-Dog server.</string>
 </resources>

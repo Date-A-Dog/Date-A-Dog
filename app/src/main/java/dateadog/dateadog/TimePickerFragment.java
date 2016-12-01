@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TimePicker;
 
 /**
@@ -17,15 +18,17 @@ import android.widget.TimePicker;
 public class TimePickerFragment extends DialogFragment  {
 
     private TimePicker timePicker;
+    private EditText description;
 
     public interface TimeDialogListener {
-        void onFinishDialog(int hour, int minute);
+        void onFinishDialog(int hour, int minute, String description);
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_time_picker, null);
 
         timePicker = (TimePicker) v.findViewById(R.id.dialog_time_picker);
+        description = (EditText) v.findViewById(R.id.dateReason);
         return new android.support.v7.app.AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.date_time_question)
@@ -34,7 +37,7 @@ public class TimePickerFragment extends DialogFragment  {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 TimeDialogListener activity = (TimeDialogListener) getActivity();
-                                activity.onFinishDialog(timePicker.getHour(), timePicker.getMinute());
+                                activity.onFinishDialog(timePicker.getHour(), timePicker.getMinute(), description.getText().toString());
                                 dismiss();
                             }
                         })

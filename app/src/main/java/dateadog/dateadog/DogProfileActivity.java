@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.ImageLoader;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 public class DogProfileActivity extends AppCompatActivity implements DatePickerFragment.DateDialogListener, TimePickerFragment.TimeDialogListener, UserProfileDialogFragment.OnFragmentInteractionListener {
 
@@ -70,10 +72,12 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
     }
 
     @Override
-    public void onFinishDialog(int hour, int minute) {
+    public void onFinishDialog(int hour, int minute, String description) {
         calendar.set(Calendar.HOUR, hour);
         calendar.set(Calendar.MINUTE, minute);
-        dadapi.requestDate(dog.getDogId(), calendar.getTimeInMillis());
+        dadapi.requestDate(dog.getDogId(), calendar.getTimeInMillis(), description);
+        findViewById(R.id.requestDateButton).setEnabled(false);
+        ((TextView) findViewById(R.id.requestDateButton)).setText(R.string.request_sent);
     }
 
     Calendar calendar = Calendar.getInstance();
@@ -86,12 +90,13 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
     }
 
     @Override
-    protected void onStart() {
+    protected void onResume() {
         super.onStart();
         updateUI();
     }
 
     private void updateUI() {
+        System.out.println("DogProfileActivity: updateUI");
         VolleySingleton.getInstance(getApplicationContext()).getImageLoader()
                        .get(dog.getImage(), new ImageLoader.ImageListener() {
                     @Override
@@ -110,6 +115,34 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
         ((TextView) findViewById(R.id.breedsTextView)).setText(dog.getBreedsString());
         ((TextView) findViewById(R.id.sizeTextView)).setText(dog.getSize());
         ((TextView) findViewById(R.id.locationTextView)).setText(dog.getCity());
+        // Get and display the request status for this dog.
+        final Button requestDateButton = (Button) findViewById(R.id.requestDateButton);
+        requestDateButton.setEnabled(false);
+        dadapi.getDateRequests(new DADAPI.DateRequestsDataListener() {
+            @Override
+            public void onGotDateRequests(Set<DateRequest> dateRequests) {
+                boolean existingDateRequest = false;
+                for (DateRequest request : dateRequests) {
+                    if (request.getDogId() == dog.getDogId()) {
+                        existingDateRequest = true;
+                        DateRequest.Status status = request.getStatus();
+                        CharSequence dateString = DateUtils.getRelativeDateTimeString(DogProfileActivity.this, request.getDate().getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0);
+                        if (status == DateRequest.Status.APPROVED) {
+                            requestDateButton.setText(getString(R.string.request_approved)
+                                                      + " for " + dateString);
+                        } else if (status == DateRequest.Status.REJECTED) {
+                            requestDateButton.setText(getString(R.string.request_rejected));
+                        } else if (status == DateRequest.Status.PENDING) {
+                            requestDateButton.setText(getString(R.string.request_pending)
+                                                      + " for " + dateString);
+                        }
+                    }
+                }
+                if (!existingDateRequest) {
+                    requestDateButton.setEnabled(true);
+                }
+            }
+        });
     }
 
     @Override

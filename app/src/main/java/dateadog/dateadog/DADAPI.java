@@ -285,14 +285,14 @@ public class DADAPI {
      *
      * @param dogId the id of the dog to schedule the date with
      * @param epoch the time at which to schedule the date, expressed as milliseconds after epoch
-     * @param description a string describing the reason for the date
+     * @param reason a string describing the reason for the date
      */
-    public void requestDate(long dogId, long epoch, String description) {
+    public void requestDate(long dogId, long epoch, String reason) {
         JSONObject parameters = new JSONObject();
         try {
             parameters.put("id", dogId);
             parameters.put("epoch", epoch);
-            parameters.put("description", description);
+            parameters.put("reason", reason);
         } catch (JSONException e) {
             e.printStackTrace();
             return;

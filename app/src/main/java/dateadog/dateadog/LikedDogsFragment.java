@@ -104,6 +104,7 @@ public class LikedDogsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_liked_dogs, container, false);
 
         RecyclerView likedDogsRecyclerView = (RecyclerView) rootView.findViewById(R.id.likedDogsRecyclerView);
+        likedDogsRecyclerView.setNestedScrollingEnabled(false);
         likedDogsRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), NUM_COLUMNS));
         adapter = new LikedDogsRecyclerViewAdapter(getActivity(), likedDogs);
         likedDogsRecyclerView.setAdapter(adapter);

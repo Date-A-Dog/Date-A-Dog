@@ -73,9 +73,13 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
-                    swipeDogsFragment.updateUI();
+                    if (swipeDogsFragment != null) {
+                        swipeDogsFragment.updateUI();
+                    }
                 } else if (position == 1) {
-                    likedDogsFragment.updateUI();
+                    if (likedDogsFragment != null) {
+                        likedDogsFragment.updateUI();
+                    }
                 }
             }
 

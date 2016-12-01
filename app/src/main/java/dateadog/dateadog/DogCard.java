@@ -1,10 +1,9 @@
 package dateadog.dateadog;
 
 /**
- * This is the object created that stores the data for the tindercard
- * Created by nirav on 05/10/15.
+ * This class stores the data necessary to display a single dog card.
  */
-public class Data_TinderUI {
+public class DogCard {
 
     private String description;
 
@@ -12,7 +11,7 @@ public class Data_TinderUI {
 
     private String imagePath;
 
-    public Data_TinderUI(String imagePath, long dogId, String description) {
+    public DogCard(String imagePath, long dogId, String description) {
         this.imagePath = imagePath;
         this.description = description;
         this.dogId = dogId;

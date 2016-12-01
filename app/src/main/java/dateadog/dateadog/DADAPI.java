@@ -82,7 +82,6 @@ public class DADAPI {
      *                         data, or null to ignore response data
      */
     public void makeRequest(final String url, final JSONObject jsonBody, Response.Listener<String> responseListener) {
-        System.out.println(jsonBody.toString());
         if (responseListener == null) {
             // The caller would like not to receive response data. This can be done by setting an
             // empty response listener.

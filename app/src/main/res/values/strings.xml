@@ -30,4 +30,8 @@
     <string name="phone">Phone</string>
     <string name="date_time_question">When do you want to date this dog?</string>
     <string name="no_dogs">There are no dogs near you.</string>
+    <string name="request_approved">Date Request Approved</string>
+    <string name="request_rejected">Date Request Rejected</string>
+    <string name="request_pending">Date Request Pending</string>
+    <string name="request_sent">Date Request Sent</string>
 </resources>

@@ -37,6 +37,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.android.support:support-v4:25.0.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:recyclerview-v7:25.0.1'
 }
 
 // Resolve dependency conflicts between main and test APKs.

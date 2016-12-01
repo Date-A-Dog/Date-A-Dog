@@ -1,20 +1,22 @@
 package dateadog.dateadog;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,23 +26,24 @@ import java.util.Set;
  * Use the {@link LikedDogsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LikedDogsFragment extends Fragment implements AdapterView.OnItemClickListener {
-    private static final int MAX_DOGS_SHOWN = 100;
+public class LikedDogsFragment extends Fragment {
+
     private OnFragmentInteractionListener mListener;
+
+    private static final int NUM_COLUMNS = 2;
+
+    private DADAPI dadapi;
     private List<Dog> likedDogs;
-    private DADAPI DogManager;
-    ListView likedDogsListView;
-    LikedDogsListViewAdapter adapter;
+    private LikedDogsRecyclerViewAdapter adapter;
 
     public LikedDogsFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment.
+     * Use this factory method to create a new instance of this fragment.
      *
-     * @return A new instance of fragment LikedDogsFragment.
+     * @return a new instance of fragment LikedDogsFragment
      */
     public static LikedDogsFragment newInstance() {
         LikedDogsFragment fragment = new LikedDogsFragment();
@@ -52,48 +55,46 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DogManager = DADAPI.getInstance(getContext().getApplicationContext());
+        dadapi = DADAPI.getInstance(getContext().getApplicationContext());
         likedDogs = new ArrayList<>();
-        refreshLikedDogs();
     }
 
-    private void refreshLikedDogs() {
-        DogManager.getLikedDogs(new DADAPI.DogsDataListener() {
+    public void updateUI() {
+        dadapi.getDateRequests(new DADAPI.DateRequestsDataListener() {
             @Override
-            public void onGotDogs(Set<Dog> dogs) {
-                System.out.println("Got " + dogs.size() + " dogs back!!!");
-                likedDogs.clear();
-                likedDogs.addAll(dogs);
-                adapter.notifyDataSetChanged();
+            public void onGotDateRequests(Set<DateRequest> dateRequests) {
+                final Map<Long, DateRequest> dogIdToDateRequest = new HashMap<>();
+                for (DateRequest request : dateRequests) {
+                    dogIdToDateRequest.put(request.getDogId(), request);
+                }
+
+                dadapi.getLikedDogs(new DADAPI.DogsDataListener() {
+                    @Override
+                    public void onGotDogs(Set<Dog> dogs) {
+                        likedDogs.clear();
+                        likedDogs.addAll(dogs);
+                        Collections.sort(likedDogs, new Comparator<Dog>() {
+                            @Override
+                            public int compare(Dog dog1, Dog dog2) {
+                                return dog1.getName().compareTo(dog2.getName());
+                            }
+                        });
+                        for (Dog dog : likedDogs) {
+                            if (dogIdToDateRequest.containsKey(dog.getDogId())) {
+                                dog.setDateRequest(dogIdToDateRequest.get(dog.getDogId()));
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        refreshLikedDogs();
-    }
-
-    public void updateUI() {
-        System.out.println("LikedDogsFragment: updateUI");
-    }
-
-    @Override
     public void onResume() {
-        refreshLikedDogs();
-        adapter.notifyDataSetChanged();
         updateUI();
         super.onResume();
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Dog dog = (Dog) parent.getItemAtPosition(position);
-        Intent showDogProfile = new Intent(getContext(), DogProfileActivity.class);
-        showDogProfile.putExtra("Dog", dog);
-        startActivity(showDogProfile);
     }
 
     @Override
@@ -102,10 +103,10 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_liked_dogs, container, false);
 
-        likedDogsListView = (ListView) rootView.findViewById(R.id.likedDogsListView);
-        adapter = new LikedDogsListViewAdapter(getContext(), R.layout.row, likedDogs);
-        likedDogsListView.setAdapter(adapter);
-        likedDogsListView.setOnItemClickListener(this);
+        RecyclerView likedDogsRecyclerView = (RecyclerView) rootView.findViewById(R.id.likedDogsRecyclerView);
+        likedDogsRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), NUM_COLUMNS));
+        adapter = new LikedDogsRecyclerViewAdapter(getActivity(), likedDogs);
+        likedDogsRecyclerView.setAdapter(adapter);
         return rootView;
     }
 
@@ -137,7 +138,6 @@ public class LikedDogsFragment extends Fragment implements AdapterView.OnItemCli
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

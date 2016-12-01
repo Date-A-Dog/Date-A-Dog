@@ -27,12 +27,12 @@ import java.util.Set;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SwipeActivityFragment.OnFragmentInteractionListener} interface
+ * {@link SwipeDogsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SwipeActivityFragment#newInstance} factory method to
+ * Use the {@link SwipeDogsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SwipeActivityFragment extends Fragment implements FlingCardListener.ActionDownInterface{
+public class SwipeDogsFragment extends Fragment implements FlingCardListener.ActionDownInterface{
     public static MyAppAdapter myAppAdapter; //holds the app adapter
     private TextView noDogs; //displays when there are no dogs left
     public static ViewHolder viewHolder;
@@ -42,6 +42,9 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
     private OnFragmentInteractionListener mListener;
     private DADAPI DogManager;
 
+    public void updateUI() {
+        System.out.println("SwipeDogsFragment: updateUI");
+    }
 
     public static void removeBackground() {
         viewHolder.background.setVisibility(View.GONE);
@@ -72,17 +75,17 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         });
     }
 
-    public SwipeActivityFragment() {
+    public SwipeDogsFragment() {
         // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     * @return A new instance of fragment SwipeActivityFragment.
+     * @return A new instance of fragment SwipeDogsFragment.
      */
-    public static SwipeActivityFragment newInstance() {
-        SwipeActivityFragment fragment = new SwipeActivityFragment();
+    public static SwipeDogsFragment newInstance() {
+        SwipeDogsFragment fragment = new SwipeDogsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -96,12 +99,13 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         DogManager = DADAPI.getInstance(getContext().getApplicationContext());
         al = new ArrayList<Data_TinderUI>();
         pendingDogs = new ArrayList<Dog>();
+        updateUI();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_swipe_activity, container, false);
+        View v = inflater.inflate(R.layout.fragment_swipe_dogs, container, false);
         noDogs = (TextView)v.findViewById(R.id.textnodogs);
         flingContainer = (SwipeFlingAdapterView)v.findViewById(R.id.framefrag);
         myAppAdapter = new MyAppAdapter(al, getActivity());
@@ -158,13 +162,6 @@ public class SwipeActivityFragment extends Fragment implements FlingCardListener
         return v;
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {

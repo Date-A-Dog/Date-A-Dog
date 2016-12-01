@@ -28,4 +28,5 @@
     <string name="state">State</string>
     <string name="zip">Zip</string>
     <string name="phone">Phone</string>
+    <string name="date_time_question">When do you want to date this dog?</string>
 </resources>

@@ -104,7 +104,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       should.not.exist(res.body.phone);
     });
 
-    it('fname is correct', function() {
+    it('shelterid is correct', function() {
       res.body.should.have.property('shelterid');
       res.body.shelterid.should.equal(testUser.shelterid);
     });

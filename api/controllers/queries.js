@@ -73,7 +73,7 @@ function getNextDogs(req, res, next) {
 function getDateRequestsStatus(req, res, next) {
   var query = 'SELECT json_build_object(\'id\', r.id, \
                                         \'epoch\', r.epoch, \
-                                        \'status\', r.status \
+                                        \'status\', r.status, \
                                         \'feedback\', r.feedback) AS request, \
                       d.dog AS dog, \
                       s.shelter AS shelter, \
@@ -148,7 +148,7 @@ function getDislikedDogs(req, res, next) {
 function getShelterRequests(req, res, next) {
   var query = 'SELECT json_build_object(\'id\', r.id, \
                                         \'epoch\', r.epoch, \
-                                        \'status\', r.status \
+                                        \'status\', r.status, \
                                         \'reason\', r.reason) AS request, \
                       d.dog AS dog, \
                       s.shelter AS shelter, \

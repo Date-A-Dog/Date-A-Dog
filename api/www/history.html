@@ -98,7 +98,11 @@
           shelter = Shelter(fbResponse.authResponse.accessToken);
           shelter.updateDateRequests(function(){ 
             var requestsList = shelter.getHistoryRequests();
-
+            
+            // removes empty request page info if there are any requests
+            if (requestsList.length > 0) {
+               $("#accordion").empty(); // remove child nodes
+            }
             for (var i = 0; i < requestsList.length; i++) {
               var newDiv = buildDiv(requestsList[i]);
               $("#accordion").append(newDiv);

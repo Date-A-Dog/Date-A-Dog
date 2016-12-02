@@ -244,6 +244,7 @@ public class DADAPI {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         long dogId = jsonObject.getJSONObject("dog").getLong("id");
                         long requestId = jsonObject.getJSONObject("request").getLong("id");
+                        String feedback = jsonObject.getJSONObject("request").getString("feedback");
                         DateRequest.Status status;
                         switch (jsonObject.getJSONObject("request").getString("status")) {
                             case "A":
@@ -260,7 +261,7 @@ public class DADAPI {
                         }
                         Date date = new Date(jsonObject.getJSONObject("request").getLong("epoch"));
 
-                        dateRequests.add(new DateRequest(requestId, date, dogId, status));
+                        dateRequests.add(new DateRequest(requestId, date, dogId, status, feedback));
                     }
                     dataListener.onGotDateRequests(dateRequests);
                 } catch (JSONException e) {

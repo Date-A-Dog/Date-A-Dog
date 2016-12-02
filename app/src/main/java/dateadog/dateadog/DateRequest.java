@@ -23,6 +23,8 @@ public class DateRequest implements Serializable {
     private long dogId;
     /** The current status of the date request. */
     private Status status;
+    /** The feedback about the date request to the user**/
+    private String feedback;
 
     /**
      * Constructs and initializes a new {@code DateRequest} with the given data.
@@ -32,11 +34,12 @@ public class DateRequest implements Serializable {
      * @param dogId the ID of the dog the date is with
      * @param status the status of the date request (accepted, denied or pending)
      */
-    public DateRequest(long requestId, Date date, long dogId, Status status) {
+    public DateRequest(long requestId, Date date, long dogId, Status status, String feedback) {
         this.requestId = requestId;
         this.date = new Date(date.getTime());
         this.dogId = dogId;
         this.status = status;
+        this.feedback = feedback;
     }
 
     /**
@@ -73,6 +76,15 @@ public class DateRequest implements Serializable {
      */
     public Status getStatus() {
         return status;
+    }
+
+    /**
+     * Returns the feedback of the date request.
+     *
+     * @return the current status of the date request
+     */
+    public String getFeedback() {
+        return feedback;
     }
 
 }

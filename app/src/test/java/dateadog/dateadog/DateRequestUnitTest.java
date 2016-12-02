@@ -22,7 +22,7 @@ public class DateRequestUnitTest {
     @Before
     public void setUp() throws Exception {
         // setting up new DateRequest
-        request1 = new DateRequest(12,date1, 10, DateRequest.Status.APPROVED );
+        request1 = new DateRequest(12,date1, 10, DateRequest.Status.APPROVED, "you are a bad owner" );
 
     }
 

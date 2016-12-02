@@ -1,11 +1,13 @@
 package dateadog.dateadog;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
@@ -29,6 +31,8 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
      * */
     private Dog dog;
     private DADAPI dadapi;
+    private TextView feedbackTitle;
+    private TextView feedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,8 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
         setSupportActionBar(toolbar);
 
         Button requestDateButton = (Button) findViewById(R.id.requestDateButton);
+        feedbackTitle = (TextView) findViewById(R.id.title_feedback);
+        feedback = (TextView) findViewById(R.id.feedback);
         requestDateButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -84,9 +90,25 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
 
     @Override
     public void onFinishDialog(Date date) {
+        Calendar curr = Calendar.getInstance();
+        Date today = curr.getTime();
+        curr.setTime(today);
         calendar.setTime(date);
-        TimePickerFragment timeDialog = new TimePickerFragment();
-        timeDialog.show(getSupportFragmentManager(), "TimeDialog");
+        if (date.before(today)) {
+            AlertDialog alertDialog = new AlertDialog.Builder(DogProfileActivity.this).create();
+            alertDialog.setTitle("You Can't Blast to the Past!");
+            alertDialog.setMessage("Doggie date needs to be made at least one day in advance!\nPlease select another date.");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        } else {
+            TimePickerFragment timeDialog = new TimePickerFragment();
+            timeDialog.show(getSupportFragmentManager(), "TimeDialog");
+        }
     }
 
     @Override
@@ -130,8 +152,14 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
                         if (status == DateRequest.Status.APPROVED) {
                             requestDateButton.setText(getString(R.string.request_approved)
                                                       + " for " + dateString);
+                            feedbackTitle.setText("Dog Date Feedback from Shelter");
+                            feedback.setText(request.getFeedback());
+
+
                         } else if (status == DateRequest.Status.REJECTED) {
                             requestDateButton.setText(getString(R.string.request_rejected));
+                            feedbackTitle.setText("Dog Date Feedback from Shelter");
+                            feedback.setText(request.getFeedback());
                         } else if (status == DateRequest.Status.PENDING) {
                             requestDateButton.setText(getString(R.string.request_pending)
                                                       + " for " + dateString);

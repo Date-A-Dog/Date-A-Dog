@@ -239,8 +239,27 @@
                 android:text="@string/request_date"
                 android:id="@+id/requestDateButton"
                 android:enabled="false" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:id="@+id/title_feedback"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#212121" />
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/feedback"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#727272" />
 
         </LinearLayout>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

@@ -20,7 +20,7 @@ var db = pgp(cn);
 
 function cleanTestRequests(id, next) {
   var query = 'DELETE FROM requests \
-               WHERE userid=$1';
+               WHERE userid = $1';
   db.none(query, id)
       .then(function () {
         return next();
@@ -32,7 +32,19 @@ function cleanTestRequests(id, next) {
 
 function cleanTestJudged(id, next) {
   var query = 'DELETE FROM judged \
-               WHERE userid=$1';
+               WHERE userid = $1';
+  db.none(query, id)
+      .then(function () {
+        return next();
+      })
+      .catch(function (err) {
+          return next(err);
+      });
+}
+
+function removeTestUser(id, next) {
+  var query = 'DELETE FROM judged \
+               WHERE userid = $1';
   db.none(query, id)
       .then(function () {
         return next();
@@ -46,4 +58,5 @@ module.exports = {
   // Test specific queries
   cleanTestRequests: cleanTestRequests,
   cleanTestJudged: cleanTestJudged,
+  removeTestUser: removeTestUser,
 };

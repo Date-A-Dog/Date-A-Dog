@@ -713,8 +713,8 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       chai.request(server)
       .post('/api/updateUserTest')
       .send({
-        'fname': 'Sally',
-        'lname': 'Smith',
+        'fname': testUser.fname,
+        'lname': testUser.lname,
       })
       .end(function(err, response){
         res = response;

@@ -23,6 +23,7 @@ function cleanTestRequests(id, next) {
                WHERE userid=$1';
   db.none(query, id)
       .then(function () {
+        return next();
       })
       .catch(function (err) {
           return next(err);
@@ -34,6 +35,7 @@ function cleanTestJudged(id, next) {
                WHERE userid=$1';
   db.none(query, id)
       .then(function () {
+        return next();
       })
       .catch(function (err) {
           return next(err);

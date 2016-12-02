@@ -729,11 +729,16 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
   describe("Cleap up test requests /api/requestDate", function() {
     var error;
-    db.cleanTestRequests(testUser.id, function(err) {
-      if (err) {
-        var error = err;
-      }
-    })
+    before(function(done) {
+      db.cleanTestRequests(testUser.id, function(err) {
+        if (err) {
+          var error = err;
+        } else {
+          done();
+        }
+      })
+    });
+
 
     it('Result is OK', function() {
       should.not.exist(error);
@@ -742,11 +747,16 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
   describe("Cleap up test judges /api/judgeDog", function() {
     var error;
-    db.cleanTestJudged(testUser.id, function(err) {
-      if (err) {
-        var error = err;
-      }
-    })
+    before(function(done) {
+      db.cleanTestJudged(testUser.id, function(err) {
+        if (err) {
+          var error = err;
+        } else {
+          done();
+        }
+      })
+    });
+
 
     it('Result is OK', function() {
       should.not.exist(error);

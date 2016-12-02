@@ -14,13 +14,13 @@ var cn = {
     database: 'dateadog',
     user: 'dadadmin',
     password: 'zOg8sUs87TOu',
-    poolSize: 25
+    poolSize: 2
 };
 var db = pgp(cn);
 
 function cleanTestRequests(id, next) {
   var query = 'DELETE FROM requests \
-               WHERE userid=$1';
+               WHERE userid= $1';
   db.none(query, [id])
       .then(function () {
       })
@@ -31,7 +31,7 @@ function cleanTestRequests(id, next) {
 
 function cleanTestJudged(id, next) {
   var query = 'DELETE FROM judged \
-               WHERE userid=$1';
+               WHERE userid= $1';
   db.none(query, [id])
       .then(function () {
       })

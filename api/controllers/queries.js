@@ -73,7 +73,8 @@ function getNextDogs(req, res, next) {
 function getDateRequestsStatus(req, res, next) {
   var query = 'SELECT json_build_object(\'id\', r.id, \
                                         \'epoch\', r.epoch, \
-                                        \'status\', r.status) AS request, \
+                                        \'status\', r.status \
+                                        \'feedback\', r.feedback) AS request, \
                       d.dog AS dog, \
                       s.shelter AS shelter, \
                       json_build_object(\'id\', u.id, \
@@ -147,7 +148,8 @@ function getDislikedDogs(req, res, next) {
 function getShelterRequests(req, res, next) {
   var query = 'SELECT json_build_object(\'id\', r.id, \
                                         \'epoch\', r.epoch, \
-                                        \'status\', r.status) AS request, \
+                                        \'status\', r.status \
+                                        \'reason\', r.reason) AS request, \
                       d.dog AS dog, \
                       s.shelter AS shelter, \
                       json_build_object(\'id\', u.id, \
@@ -218,16 +220,29 @@ function requestDate(req, res, next) {
 }
 
 function updateRequestStatus(req, res, next) {
-  var query = 'UPDATE requests \
-               SET status = $1 \
-               WHERE id = $2';
-  db.none(query, [req.body.status, req.body.id])
-    .then(function () {
-      res.sendStatus(200);
-    })
-    .catch(function (err) {
-      return next(err);
-    });
+  if (typeof(req.reason) != "undefined") {
+    var query = 'UPDATE requests \
+                 SET status = $1, reason = $2 \
+                 WHERE id = $3';
+    db.none(query, [req.body.status, req.body.reason, req.body.id])
+      .then(function () {
+        res.sendStatus(200);
+      })
+      .catch(function (err) {
+        return next(err);
+      });
+  } else if (typeof(req.feedback) != 'undefined') {
+    var query = 'UPDATE requests \
+                 SET status = $1, feedback = $2 \
+                 WHERE id = $3';
+    db.none(query, [req.body.status, req.body.feedback, req.body.id])
+      .then(function () {
+        res.sendStatus(200);
+      })
+      .catch(function (err) {
+        return next(err);
+      });
+  }
 }
 
 function updateUser(req, res, next) {

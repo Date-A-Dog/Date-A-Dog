@@ -267,78 +267,91 @@ function updateUser(req, res, next) {
         });
 }
 
+// Test user
+var testUser = {};
+testUser.id = 10153811720940946;
+testUser.email = 'amarpal@dateadog.com';
+testUser.fname ='Amarpal';
+testUser.lname = 'Singh';
+testUser.street = 'Paul G. Allen Center for Computer Science & Engineering (Cse)';
+testUser.city = 'Seattle';
+testUser.state = 'WA';
+testUser.zip = '98105';
+testUser.phone = '(206) 850-6944';
+testUser.shelterid = 'WA214';
+
 // Test queries
 function loginTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
-  req.user.first_name = 'Sally';
-  req.user.last_name = 'Smith';
+  req.user.id = testUser.id;
+  req.user.first_name = testUser.fname;
+  req.user.last_name = testUser.lname;
   return login(req, res, next);
 }
 
 function getNextDogsTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return getNextDogs(req, res, next);
 }
 
 function getDateRequestsStatusTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return getDateRequestsStatus(req, res, next);
 }
 
 function getDogHistoryTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return getDogHistory(req, res, next);
 }
 
 function getLikedDogsTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return getLikedDogs(req, res, next);
 }
 
 function getDislikedDogsTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return getDislikedDogs(req, res, next);
 }
 
 function getShelterTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return getShelter(req, res, next);
 }
 
 function getShelterRequestsTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return getShelterRequests(req, res, next);
 }
 
 function judgeDogTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return judgeDog(req, res, next);
 }
 
 function requestDateTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return requestDate(req, res, next);
 }
 
 function updateRequestStatusTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return updateRequestStatus(req, res, next);
 }
 
 function updateUserTest(req, res, next) {
   req.user = {};
-  req.user.id = '10153811720940946';
+  req.user.id = testUser.id;
   return updateUser(req, res, next);
 }
 

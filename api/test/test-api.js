@@ -23,7 +23,7 @@ testUser.phone = '(206) 850-6944';
 testUser.shelterid = 'WA214';
 
 var testDog = {};
-testDog.id = 22406048;
+testDog.id = '22406048';
 
 var testShelter = {};
 testShelter.id = 'WA214';
@@ -198,7 +198,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('phone is correct', function() {
       res.body.should.have.property('phone');
-      res.body.phone.should.equal(testUser.zip);
+      res.body.phone.should.equal(testUser.phone);
     });
 
     it('fname is correct', function() {

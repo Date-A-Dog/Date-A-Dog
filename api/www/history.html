@@ -80,78 +80,72 @@
 	<!-- Fills accordion with history display -->
 	<script type="text/javascript">
 
-		jQuery(function() { 
-		  jQuery( "#accordion" ).accordion({
-                    collapsible: true,  // enable collapse all
-                    active: false // collapsed by default   
-                  });
-		});
-		var siteUrl = '/'; 
-          function logout() {
-            FB.logout();
-            window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html"; 
-          };
-          var shelter;         
-          function loadData(fbResponse) {
-		shelter = Shelter(fbResponse.authResponse.accessToken);
-		shelter.updateDateRequests(function(){ 
+	jQuery(function() { 
+          jQuery( "#accordion" ).accordion({
+            collapsible: true,  // enable collapse all
+            active: false // collapsed by default   
+          });
+	});
 
-			var requestsList = shelter.getHistoryRequests();
+	var siteUrl = '/'; 
+        function logout() {
+          FB.logout();
+          window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html"; 
+        };
 
-			//removes the empty history page info if there is history
-			if(requestsList.length > 0){
-				$("#accordion").empty(); //remove child nodes
-			}
-			
-			for (var i = 0; i < requestsList.length; i++) {
-				var r = requestsList[i];
-                                var imgName = (r.status == "A") ? "check_icon.png": "x_icon.png";
-                                var newDiv = "<div class=\"accordionTitle\"><img src=" + imgName +" width=\"30\" height=\"38\"><h3> Dog Name: " + r.dogProfile.name + "</h3>"+
-                                                        "<h3>Dater: " + r.daterProfile.fName +" " + r.daterProfile.lName + "</h3>"+
-                                                        "<h3>When: "+ r.dateTime + "</h3>"+
-                                                        "</div> " + 
-                                                        "<div class=\"accordionEle\"> " +
-                                                        "<p>" +
-                                                        "<h3> Shelter Notes/Denial Message </h3>" + r.shelterMessage + 
-                                                        "</p>" + 
-                                                        "<p>" +
-                                                        "<h3> Requester Details </h3><br>" + 
-                                                        "Name:  <strong>"  + r.daterProfile.fName +" " + r.daterProfile.lName +"</strong><br>" +
-                                                        "Phone: <strong>" + r.daterProfile.phone + "</strong><br>" +
-                                                        "Email: <strong>" + r.daterProfile.email + "</strong><br>" +
-                                                        "Street: <strong>" + r.daterProfile.address.street + "</strong><br>" +
-                                                        "City: <strong>" + r.daterProfile.address.city + "</strong><br>" +
-                                                        "State: <strong>" + r.daterProfile.address.state + "</strong><br>" + 
-                                                        "Zipcode: <strong>"+r.daterProfile.address.zipcode+"</strong>"+ 
-                                                        "</p>" + 
-                                                        "<h3>Date requested with: </h3><br>" +
-                                                        "<p><img class=\"accordion-img\" src=\""+ r.dogProfile.photoURL +"\" alt=\"dog image\">  " + 
-                                                        "<strong>"+r.dogProfile.name+"</strong> </p>" +
-                                                        "Age: <strong>" + r.dogProfile.age + "</strong><br>" +
-                                                        "Sex: <strong>" + r.dogProfile.sex + "</strong><br>" +
-                                                        "Dog Id: <strong>" + r.dogProfile.id + "</strong><br>" + 
-							"<p class=\"request-button-container\"> " + 
-				                        "<button id =\"U" + r.id + "\" class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + r.id + ")\"> Undo</button> " + 
-							 "</p>" +
-							 "</div>"; 
-				$("#accordion").append(newDiv);
-			}
-			$("#accordion").accordion("refresh");
-			$("#accordion").accordion();
+        var shelter;         
+        function loadData(fbResponse) {
+          shelter = Shelter(fbResponse.authResponse.accessToken);
+          shelter.updateDateRequests(function(){ 
+            var requestsList = shelter.getHistoryRequests();
 
-			jQuery( document ).ready(function() {
-				//alert( "document loaded" );
-			});
- 
-		});
-
-           };  // end of loadData()
+            for (var i = 0; i < requestsList.length; i++) {
+              var newDiv = buildDiv(requestsList[i]);
+              $("#accordion").append(newDiv);
+            }
+            $("#accordion").accordion("refresh");
+            $("#accordion").accordion();
+          });
+        };  // end of loadData()
 
         function undoRequest(reqId){  
           var undoButton = document.getElementById("U" + reqId);
           undoButton.disabled = true;
           shelter.updateRequestStatus(reqId, "P");
           alert("Undoing request: " + reqId);
+        };
+
+        function buildDiv(request) {
+          var imgName = (request.status == "A") ? "check_icon.png": "x_icon.png";
+          var newDiv = "<div class=\"accordionTitle\"><img src=" + imgName +" width=\"30\" height=\"38\"><h3> Dog Name: " + request.dogProfile.name + "</h3>"+
+                       "<h3>Dater: " + request.daterProfile.fName +" " + request.daterProfile.lName + "</h3>"+
+                       "<h3>When: "+ request.dateTime + "</h3>"+
+                       "</div> " + 
+                       "<div class=\"accordionEle\"> " +
+                       "<p>" +
+                       "<h3> Requester Details </h3><br>" + 
+                       "Name:  <strong>"  + request.daterProfile.fName +" " + request.daterProfile.lName +"</strong><br>" +
+                       "Phone: <strong>" + request.daterProfile.phone + "</strong><br>" +
+                       "Email: <strong>" + request.daterProfile.email + "</strong><br>" +
+                       "Street: <strong>" + request.daterProfile.address.street + "</strong><br>" +
+                       "City: <strong>" + request.daterProfile.address.city + "</strong><br>" +
+                       "State: <strong>" + request.daterProfile.address.state + "</strong><br>" + 
+                       "Zipcode: <strong>"+ request.daterProfile.address.zipcode+"</strong>"+ 
+                       "</p>" + 
+                       "<h3>Date requested with: </h3><br>" +
+                       "<p><img class=\"accordion-img\" src=\""+ request.dogProfile.photoURL +"\" alt=\"dog image\">  " + 
+                       "<strong>"+ request.dogProfile.name+"</strong> </p>" +
+                       "Age: <strong>" + request.dogProfile.age + "</strong><br>" +
+                       "Sex: <strong>" + request.dogProfile.sex + "</strong><br>" +
+                       "Dog Id: <strong>" + request.dogProfile.id + "</strong><br>" + 
+                       "<p>" +
+                       "<h3> Shelter Notes/Denial Message </h3>" + request.feedback + 
+                       "</p>" + 
+	               "<p class=\"request-button-container\"> " + 
+	               "<button id =\"U" + request.id + "\" class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + request.id + ")\"> Undo</button> " + 
+	               "</p>" +
+	               "</div>";
+          return newDiv; 
         };
 	</script>
 	

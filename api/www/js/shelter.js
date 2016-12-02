@@ -116,7 +116,12 @@ var Shelter = function(_token, _testingMockData) {
   // Makes appropiate call to database/API to update
   // status for the specified requestId - careful to update
   // the current screen to reflect changes
-  shelter.updateRequestStatus = function(requestId, newStatus) {
+  shelter.updateRequestStatus = function(requestId, newStatus, feedback) {
+    if (typeof(feedback) === "undefined") {
+      // we reset feedback if none provided
+      feedback = "";
+    }
+    console.log("Your feedback: " + feedback);
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function() {
       if (httpRequest.readyState === 4 && httpRequest.status === 200) {
@@ -127,7 +132,7 @@ var Shelter = function(_token, _testingMockData) {
     httpRequest.open('POST', '/api/updateRequestStatus');
     httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     httpRequest.setRequestHeader("access_token", token);
-    httpRequest.send(JSON.stringify({"id": requestId, "status": newStatus}));
+    httpRequest.send(JSON.stringify({"id": requestId, "status": newStatus, "feedback": feedback}));
   };
 
   // Private helper function which filters daterequests
@@ -221,7 +226,9 @@ var Shelter = function(_token, _testingMockData) {
                                       dog, dater,
                                       epochToString(r.request.epoch),
                                       r.request.status,
-                                      "placeholder Message-replace with r.request.msg");
+                                      r.request.reason,
+                                      r.request.feedback);
+                                     
       // add new request
       filteredArray.push(parsedRequest);
     }

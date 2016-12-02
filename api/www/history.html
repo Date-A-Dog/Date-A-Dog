@@ -74,7 +74,7 @@
 	<div id="accordion">
 		<!-- Message for empty history page -->
 		<div class="accordionTitle" id="noRequests">
-			<h3>You have no request history.</h3>
+			<h3 id="accordionheader">Loading request history...</h3>
 		</div>
 	</div>
 	<!-- Fills accordion with history display -->
@@ -101,7 +101,10 @@
             
             // removes empty request page info if there are any requests
             if (requestsList.length > 0) {
-               $("#accordion").empty(); // remove child nodes
+               $("#accordion").empty(); // remove loading header 
+            } else {
+               // the list is empty, so we update accordion header
+               document.getElementById('accordionheader').innerHTML = "You have no request history";
             }
             for (var i = 0; i < requestsList.length; i++) {
               var newDiv = buildDiv(requestsList[i]);

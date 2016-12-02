@@ -72,9 +72,9 @@
 
 	<!-- For placement of requests -->
 	<div id="accordion">
-		<!-- Message for empty requests page -->
+		<!-- Message for loading or empty requests page -->
 		<div class="accordionTitle" id="noRequests">
-			<h3>You have no pending requests.</h3>
+			<h3 id='accordionheader'>Loading requests...</h3>
 		</div>
 	</div>
 	<!-- fills accordion with requests and available actions -->
@@ -101,8 +101,11 @@
 			
             //removes the empty request page info if there are any requests
 			if(requestsList.length > 0){
-				$("#accordion").empty(); //remove child nodes
-			}
+				$("#accordion").empty(); //remove loading header 
+			} else {
+                                // the list is empty, so we update accordion header
+                                document.getElementById('accordionheader').innerHTML = "You have no pending requests"; 
+                        }
 			
             // add an accordion div for each date request
             for (var i = 0; i < requestsList.length; i++) {

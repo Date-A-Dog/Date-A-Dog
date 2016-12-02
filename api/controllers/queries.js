@@ -219,7 +219,7 @@ function requestDate(req, res, next) {
 }
 
 function updateRequestStatus(req, res, next) {
-  if (typeof(req.reason) != "undefined") {
+  if (typeof(req.body.reason) != "undefined") {
     var query = 'UPDATE requests \
                  SET status = $1, reason = $2 \
                  WHERE id = $3';
@@ -230,7 +230,7 @@ function updateRequestStatus(req, res, next) {
       .catch(function (err) {
         return next(err);
       });
-  } else if (typeof(req.feedback) != 'undefined') {
+  } else if (typeof(req.body.feedback) != 'undefined') {
     var query = 'UPDATE requests \
                  SET status = $1, feedback = $2 \
                  WHERE id = $3';

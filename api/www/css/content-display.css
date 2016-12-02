@@ -62,6 +62,11 @@ body {
 	border-bottom: 1px solid var(--nav-text-color);
 }
 
+#accordion #noRequests {
+	border-bottom: 0px;
+	text-align: center;
+}
+
 /* text in request bars */
 #accordion .accordionTitle h3{
 	text-align: center;
@@ -76,4 +81,14 @@ body {
 
 #accordion .request-button-container{
 	text-align: center;
+}
+
+/* for requester section of accordion info */
+#accordion .accordionRequester{
+
+}
+
+/* for dog section of accordion info */
+#accordion .accordionDog{
+
 }

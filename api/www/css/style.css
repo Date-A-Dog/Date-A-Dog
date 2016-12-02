@@ -1,3 +1,6 @@
+/* Change colors in body variable declarations only please, add vars here as needed
+ * login page instructions have separate color lower in file
+ */
 body {
 	--bg-color: #E3EFC9;
 	--login-img-bg: #C6F7F3;
@@ -13,15 +16,12 @@ body {
 	--nav-bg-color: var(--palest);
 	--nav-hover-color: var(--pale-title-color);
 	--site-title-color: var(--nav-text-color);
-
-	
-
 }
 
+/* for login page background image behavior */
 html {
 	min-height: 100%;
 }
-
 .login-page {
 	background-color: var(--login-img-bg) !important;
 	background-image: url("../dog-bg.png") !important;
@@ -40,8 +40,21 @@ html {
 	padding-bottom: 1em;
 }
 
+/* special css for title on login page */
+#dad #login-title{
+	font-size: 3em;
+	padding-bottom: 0;
+}
+
+/* style for the instructions on the login screen */
+#dad #login-instructions {
+	font-size: 1.7em;
+	color: green;
+}
+
+/* basic look for paragraphs on the website */
 #dad p {
-	background: #ffffff;
+	background: #ffffff; /* gives them white rectangle background, remove if not wanted*/
 	display: block;
 	padding: 0.5em 0.5em 0.5em 0.5em;
 	width: 90%;
@@ -51,56 +64,23 @@ html {
 	text-align: center;
 }
 
-#nav-mainsite{
-	font-weight: bold;
-	float: left;
-}
-
-nav{
-	width: 100%;
-	background: var(--nav-bg-color);
-}
-
-nav ul{
-	margin: 0px;
-	padding: 0px;
-	line-height: 2em;
-	margin-bottom: 0.2em;
-	float: right;
-	display: block;
-}
-
-nav li{
-	display: inline;
-	list-style: none;
-	line-height: 2em;
-}
-
-nav li a{
-	padding-top: 0.4em;
-	padding-bottom: 0.4em;
-	padding-left: 2em;
-	padding-right: 2em;
+/* style per link in nav bar, both unvisited and visited */
+#dad nav li a:link, nav li a:visited{
+	text-decoration: none;
 	border-bottom: 0.2em solid var(--nav-hover-color);
 }
 
-#dad nav li a:link, nav li a:visited{
-	text-decoration: none;
-	color: var(--nav-text-color);
-}
-
+/* style changes for when mouse hovers over nav link */
 #dad nav li a:hover{
 	background-color: var(--nav-hover-color);
 }
 
-#loginout {
-	text-align: right;
-}
-
-
+/* for title in navbar */
 #dad .navbar-brand{
 	color: var(--site-title-color);
 }
+
+/* color characteristic needs to be here to overwrite bootstrap */
 #dad .navbar-nav li a{
 	color: var(--nav-text-color);
 	padding-left: 2em;
@@ -118,7 +98,6 @@ nav li a{
 	background-color: var(--bg-color);
 	margin: 0px;
 	padding: 0px;
-	/*background: var(--bg-color);*/
 	color: var(--text-color);
 	font-family: var(--main-font);
 }

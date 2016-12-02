@@ -763,4 +763,22 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     });
   });
 
+  describe("Cleap up test judges /api/judgeDog", function() {
+    var error;
+    before(function(done) {
+      db.removeTestUser(testUser.id, function(err) {
+        if (err) {
+          var error = err;
+        } else {
+          done();
+        }
+      })
+    });
+
+
+    it('Result is OK', function() {
+      should.not.exist(error);
+    });
+  });
+
 });

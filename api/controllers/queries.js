@@ -149,7 +149,8 @@ function getShelterRequests(req, res, next) {
   var query = 'SELECT json_build_object(\'id\', r.id, \
                                         \'epoch\', r.epoch, \
                                         \'status\', r.status, \
-                                        \'reason\', r.reason) AS request, \
+                                        \'reason\', r.reason, \
+                                        \'feedback\', r.feedback) AS request, \
                       d.dog AS dog, \
                       s.shelter AS shelter, \
                       json_build_object(\'id\', u.id, \

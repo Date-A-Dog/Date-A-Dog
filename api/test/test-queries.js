@@ -20,8 +20,8 @@ var db = pgp(cn);
 
 function cleanTestRequests(id, next) {
   var query = 'DELETE FROM requests \
-               WHERE userid= $1';
-  db.none(query, [id])
+               WHERE userid=$1';
+  db.none(query, id)
       .then(function () {
       })
       .catch(function (err) {
@@ -31,8 +31,8 @@ function cleanTestRequests(id, next) {
 
 function cleanTestJudged(id, next) {
   var query = 'DELETE FROM judged \
-               WHERE userid= $1';
-  db.none(query, [id])
+               WHERE userid=$1';
+  db.none(query, id)
       .then(function () {
       })
       .catch(function (err) {

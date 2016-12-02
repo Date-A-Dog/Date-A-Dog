@@ -242,6 +242,17 @@ function updateRequestStatus(req, res, next) {
       .catch(function (err) {
         return next(err);
       });
+  } else {
+    var query = 'UPDATE requests \
+                 SET status = $1 \
+                 WHERE id = $2';
+    db.none(query, [req.body.status, req.body.id])
+      .then(function () {
+        res.sendStatus(200);
+      })
+      .catch(function (err) {
+        return next(err);
+      });
   }
 }
 

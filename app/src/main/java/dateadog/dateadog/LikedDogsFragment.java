@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.LongSparseArray;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,11 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -60,30 +57,25 @@ public class LikedDogsFragment extends Fragment {
     }
 
     public void updateUI() {
+        System.out.println("LikedDogsFragment: updateUI()");
         dadapi.getDateRequests(new DADAPI.DateRequestsDataListener() {
             @Override
             public void onGotDateRequests(Set<DateRequest> dateRequests) {
-                final Map<Long, DateRequest> dogIdToDateRequest = new HashMap<>();
+                final LongSparseArray<DateRequest> dogIdToDateRequest = new LongSparseArray<>();
                 for (DateRequest request : dateRequests) {
                     dogIdToDateRequest.put(request.getDogId(), request);
                 }
 
                 dadapi.getLikedDogs(new DADAPI.DogsDataListener() {
                     @Override
-                    public void onGotDogs(Set<Dog> dogs) {
-                        likedDogs.clear();
-                        likedDogs.addAll(dogs);
-                        Collections.sort(likedDogs, new Comparator<Dog>() {
-                            @Override
-                            public int compare(Dog dog1, Dog dog2) {
-                                return dog1.getName().compareTo(dog2.getName());
-                            }
-                        });
-                        for (Dog dog : likedDogs) {
-                            if (dogIdToDateRequest.containsKey(dog.getDogId())) {
+                    public void onGotDogs(List<Dog> dogs) {
+                        for (Dog dog : dogs) {
+                            if (dogIdToDateRequest.get(dog.getDogId()) != null) {
                                 dog.setDateRequest(dogIdToDateRequest.get(dog.getDogId()));
                             }
                         }
+                        likedDogs.clear();
+                        likedDogs.addAll(dogs);
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -92,9 +84,17 @@ public class LikedDogsFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    public void onStart() {
+        super.onStart();
         updateUI();
-        super.onResume();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            updateUI();
+        }
     }
 
     @Override

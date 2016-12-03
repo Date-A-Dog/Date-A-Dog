@@ -90,6 +90,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
 
     @Override
     public void onFinishDialog(Date date) {
+        calendar.setTime(date);
         Date today = Calendar.getInstance().getTime();
         if (date.before(today)) {
             // The user is attempting to set a date for today or earlier.

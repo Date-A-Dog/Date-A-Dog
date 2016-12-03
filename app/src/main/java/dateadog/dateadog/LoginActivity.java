@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -83,9 +83,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("LoginActivity: onStart()");
         // Bypass LoginActivity if the user is already logged in:
-        if (AccessToken.getCurrentAccessToken() != null) {
+        if (Profile.getCurrentProfile() != null) {
             startActivity(new Intent(this, MainActivity.class));
         }
     }

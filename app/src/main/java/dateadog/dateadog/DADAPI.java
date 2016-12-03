@@ -14,7 +14,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
 import com.facebook.AccessToken;
 
 import org.json.JSONArray;
@@ -22,9 +21,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -144,7 +145,7 @@ public class DADAPI {
          *
          * @param dogs the requested dogs
          */
-        public void onGotDogs(Set<Dog> dogs);
+        public void onGotDogs(List<Dog> dogs);
     }
 
     /**
@@ -163,7 +164,10 @@ public class DADAPI {
     }
 
     /**
-     * Clients implement this interface to receive date requests from DADAPI requests.
+     * Clients implement this interface to receive date requests from DADAPI requests. An object
+     * that implements this interface is passed by the client to methods that return date requests.
+     * The clients uses the {@code onGotDateRequests} method to receive the date requests from
+     * the DADAPI request.
      */
     public interface DateRequestsDataListener {
         /**
@@ -195,7 +199,7 @@ public class DADAPI {
             @Override
             public void onResponse(String response) {
                 try {
-                    Set<Dog> result = new HashSet<>();
+                    List<Dog> result = new ArrayList<>();
                     JSONArray dogsArray = (JSONArray) new JSONTokener(response).nextValue();
                     for (int i = 0; i < dogsArray.length(); i++) {
                         result.add(new Dog(dogsArray.getJSONObject(i)));

@@ -21,7 +21,7 @@ var db = pgp(cn);
 function assignTestUserToShelter(user, next) {
   var query = 'UPDATE users SET shelterid = $1 \
                WHERE id = $2';
-  db.none(query, [user.id, user.shelterid])
+  db.none(query, [user.shelterid, user.id])
       .then(function () {
         return next();
       })

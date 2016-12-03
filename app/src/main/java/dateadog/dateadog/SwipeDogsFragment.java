@@ -135,7 +135,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
             public void onLeftCardExit(Object dataObject) {
                 // This is a dislike dog swipe.
                 DogCard dogCard = dogCards.get(0);
-                dadapi.judgeDog(dogCard.getDogId(), false);
+                dadapi.likeDog(dogCard.getDogId());
                 dogCards.remove(0);
                 ((BaseAdapter) flingContainer.getAdapter()).notifyDataSetChanged();
                 if (dogCards.size() <= REFRESH_DOGS_THRESHOLD) {
@@ -147,7 +147,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
             public void onRightCardExit(Object dataObject) {
                 // This is a like dog swipe.
                 DogCard dogProfile = dogCards.get(0);
-                dadapi.judgeDog(dogProfile.getDogId(), true);
+                dadapi.dislikeDog(dogProfile.getDogId());
                 dogCards.remove(0);
                 ((BaseAdapter) flingContainer.getAdapter()).notifyDataSetChanged();
                 if (dogCards.size() <= REFRESH_DOGS_THRESHOLD) {

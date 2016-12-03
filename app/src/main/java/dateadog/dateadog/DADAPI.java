@@ -56,6 +56,13 @@ public class DADAPI {
     private static String LIKED_PARAMETER = "liked";
     private static String COUNT_PARAMETER = "count";
     private static String ZIP_PARAMETER = "zip";
+    /** JSON object names for backend. */
+    private static String DOG_OBJECT = "dog";
+    private static String FEEDBACK_OBJECT = "feedback";
+    private static String REQUEST_OBJECT = "request";
+    private static String STATUS_OBJECT = "status";
+    private static String ID_OBJECT = "id";
+    private static String TIME_OBJECT = "epoch";
 
     private Context context;
 
@@ -253,11 +260,10 @@ public class DADAPI {
      */
     public void getDateRequests(final DateRequestsDataListener dataListener) {
         JSONObject parameters = new JSONObject();
-        // The status codes returned by the backend.
-        final String APPROVED = "A";
-        final String REJECTED = "D";
-        final String PENDING = "P";
-
+        // Request status codes from backend.
+        final String APPROVED_STATUS_CODE = "A";
+        final String REJECTED_STATUS_CODE = "D";
+        final String PENDING_STATUS_CODE = "P";
         makeRequest(GET_DATE_REQUESTS_STATUS_URL, parameters, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -266,24 +272,24 @@ public class DADAPI {
                     JSONArray jsonArray = (JSONArray) new JSONTokener(response).nextValue();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        long dogId = jsonObject.getJSONObject("dog").getLong("id");
-                        long requestId = jsonObject.getJSONObject("request").getLong("id");
-                        String feedback = jsonObject.getJSONObject("request").getString("feedback");
+                        long dogId = jsonObject.getJSONObject(DOG_OBJECT).getLong(ID_OBJECT);
+                        long requestId = jsonObject.getJSONObject(REQUEST_OBJECT).getLong(ID_OBJECT);
+                        String feedback = jsonObject.getJSONObject(REQUEST_OBJECT).getString(FEEDBACK_OBJECT);
                         DateRequest.Status status;
-                        switch (jsonObject.getJSONObject("request").getString("status")) {
-                            case APPROVED:
+                        switch (jsonObject.getJSONObject(REQUEST_OBJECT).getString(STATUS_OBJECT)) {
+                            case APPROVED_STATUS_CODE:
                                 status = DateRequest.Status.APPROVED;
                                 break;
-                            case REJECTED:
+                            case REJECTED_STATUS_CODE:
                                 status = DateRequest.Status.REJECTED;
                                 break;
-                            case PENDING:
+                            case PENDING_STATUS_CODE:
                                 status = DateRequest.Status.PENDING;
                                 break;
                             default:
                                 status = null;
                         }
-                        Date date = new Date(jsonObject.getJSONObject("request").getLong("epoch"));
+                        Date date = new Date(jsonObject.getJSONObject(REQUEST_OBJECT).getLong(TIME_OBJECT));
 
                         dateRequests.add(new DateRequest(requestId, date, dogId, status, feedback));
                     }

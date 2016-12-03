@@ -134,7 +134,9 @@ public class DADAPI {
     }
 
     /**
-     * Clients implement this interface to receive dogs from DADAPI requests.
+     * Clients implement this interface to receive dogs from DADAPI requests. An object
+     * that implements this interface is passed by the client to methods that return dogs.
+     * The client uses the {@code onGotDogs} method to receive the dogs from the DADAPI request.
      */
     public interface DogsDataListener {
         /**
@@ -146,7 +148,10 @@ public class DADAPI {
     }
 
     /**
-     * Clients implement this interface to receive user profiles from DADAPI requests.
+     * Clients implement this interface to receive user profiles from DADAPI requests. An object
+     * that implements this interface is passed by the client to methods that return a user profile.
+     * The client uses the {@code onGotUserProfile} method to receive the user profile from the
+     * DADAPI request.
      */
     public interface UserProfileDataListener {
         /**

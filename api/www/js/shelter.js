@@ -264,7 +264,7 @@ var Shelter = function(_token, _testingMockData) {
     // Verify request properties
     if (typeof(r.request.id) === "undefined" || r.request.id === null || r.request.id === "") { r.request.id = "None provided";}
     if (typeof(r.request.status) === "undefined" || r.request.status === null || r.request.status === "") { r.request.status = "P";}
-    if (typeof(r.request.epoch) === "undefined" || r.request.epoch === null || r.request.epoch) { r.request.epoch = "None provided";}
+    if (typeof(r.request.epoch) === "undefined" || r.request.epoch === null || r.request.epoch === "") { r.request.epoch = "None provided";}
     if (typeof(r.request.reason) === "undefined" || r.request.reason === null || r.request.reason === "") { r.request.reason = "None provided";}
     if (typeof(r.request.feedback) === "undefined" || r.request.feedback === "") { r.request.feedback = "None provided";}
     return r;

@@ -202,7 +202,7 @@ var Shelter = function(_token, _testingMockData) {
     // parse data into array of dateRequests objects. Here we
     // extract the desired fields to build each dateRequest
     for (var i = 0; i < data.length; i++) {
-      var r = data[i];   // current result
+      var r =  validateRequestProperties(data[i]);   // current result
 
       // parse user's address
       var address = Address(r.user.street,
@@ -235,6 +235,40 @@ var Shelter = function(_token, _testingMockData) {
 
     return filteredArray;
   };
+
+  
+  // Validates request properties for undefined, null, or empty strings
+  // param: r - the request object to verify
+  // 
+  // return:
+  //  A request object with invalid fields replaced with "Non provided"
+  //
+  function validateRequestProperties (r) {
+    // Verify user profile properties
+    if (typeof(r.user.street) === "undefined" || r.user.street === null || r.user.street === "") { r.user.street = "None provided";}
+    if (typeof(r.user.city) === "undefined" || r.user.city === null || r.user.city === "") { r.user.city = "None provided";}
+    if (typeof(r.user.state) === "undefined" || r.user.state === null || r.user.state === "") { r.user.state = "None provided";}
+    if (typeof(r.user.zip) === "undefined" || r.user.zip === null || r.user.zip === "") { r.user.zip = "None provided";}
+    if (typeof(r.user.fname) === "undefined" || r.user.fname === null || r.user.fname === "") { r.user.fname = "None provided";}
+    if (typeof(r.user.lname) === "undefined" || r.user.lname === null || r.user.lname === "") { r.user.lname = "None provided";}
+    if (typeof(r.user.email) === "undefined" || r.user.email === null || r.user.email === "") { r.user.email = "None provided";}
+    if (typeof(r.user.phone) === "undefined" || r.user.phone=== null || r.user.phone === "") { r.user.phone = "None provided";}
+
+    // Verify dog profile properties
+    if (typeof(r.dog.id) === "undefined" || r.dog.id === null || r.dog.id === "" ) { r.dog.id = "None provided";}
+    if (typeof(r.dog.name) === "undefined" || r.dog.name === null || r.dog.name === "") { r.dog.name = "None provided";}
+    if (typeof(r.dog.sex) === "undefined" || r.dog.sex === null || r.dog.sex === "") { r.dog.sex = "None provided";}
+    if (typeof(r.dog.age) === "undefined" || r.dog.age === null || r.dog.age === "") { r.dog.age = "None provided";}
+    if (typeof(r.dog.media.photos[1]) === "undefined") { r.dog.media.photos[1] = "Non provided";}
+   
+    // Verify request properties
+    if (typeof(r.request.id) === "undefined" || r.request.id === null || r.request.id === "") { r.request.id = "None provided";}
+    if (typeof(r.request.status) === "undefined" || r.request.status === null || r.request.status === "") { r.request.status = "P";}
+    if (typeof(r.request.epoch) === "undefined" || r.request.epoch === null || r.request.epoch) { r.request.epoch = "None provided";}
+    if (typeof(r.request.reason) === "undefined" || r.request.reason === null || r.request.reason === "") { r.request.reason = "None provided";}
+    if (typeof(r.request.feedback) === "undefined" || r.request.feedback === "") { r.request.feedback = "None provided";}
+    return r;
+  }
 
   // Formats epoch and returns a human readable date:time
   // Private helper function which formats the given epoch

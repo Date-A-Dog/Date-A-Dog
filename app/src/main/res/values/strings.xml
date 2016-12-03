@@ -35,4 +35,8 @@
     <string name="request_pending">Date Request Pending</string>
     <string name="request_sent">Date Request Sent</string>
     <string name="server_connection_error_message">Could not connect to the Date-A-Dog server.</string>
+    <string name="past_date_error_title">You Can\'t Blast to the Past!</string>
+    <string name="past_date_error_message">Doggie date needs to be made at least one day in advance! Please select another date.</string>
+    <string name="complete_profile_message">Complete your profile first</string>
+    <string name="feedback_title">Dog Date Feedback from Shelter</string>
 </resources>

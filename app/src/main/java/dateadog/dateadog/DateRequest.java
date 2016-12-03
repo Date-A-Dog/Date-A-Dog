@@ -23,7 +23,7 @@ public class DateRequest implements Serializable {
     private long dogId;
     /** The current status of the date request. */
     private Status status;
-    /** The feedback about the date request to the user**/
+    /** The feedback about the date request to the user. **/
     private String feedback;
 
     /**
@@ -33,6 +33,7 @@ public class DateRequest implements Serializable {
      * @param date the date/time at which the user will have a date with the given dog
      * @param dogId the ID of the dog the date is with
      * @param status the status of the date request (accepted, denied or pending)
+     * @param feedback the feedback from the shelter about the date request
      */
     public DateRequest(long requestId, Date date, long dogId, Status status, String feedback) {
         this.requestId = requestId;
@@ -79,9 +80,9 @@ public class DateRequest implements Serializable {
     }
 
     /**
-     * Returns the feedback of the date request.
+     * Returns the shelter's feedback for the date request.
      *
-     * @return the current status of the date request
+     * @return the shelter's feedback for the date request
      */
     public String getFeedback() {
         return feedback;

@@ -57,7 +57,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
                             DatePickerFragment dateDialog = new DatePickerFragment();
                             dateDialog.show(getSupportFragmentManager(), "DateDialog");
                         } else {
-                            Snackbar.make(findViewById(android.R.id.content), "Complete your profile first", Snackbar.LENGTH_LONG)
+                            Snackbar.make(findViewById(android.R.id.content), R.string.complete_profile_message, Snackbar.LENGTH_LONG)
                                     .setAction("Edit Profile", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -90,14 +90,12 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
 
     @Override
     public void onFinishDialog(Date date) {
-        Calendar curr = Calendar.getInstance();
-        Date today = curr.getTime();
-        curr.setTime(today);
-        calendar.setTime(date);
+        Date today = Calendar.getInstance().getTime();
         if (date.before(today)) {
+            // The user is attempting to set a date for today or earlier.
             AlertDialog alertDialog = new AlertDialog.Builder(DogProfileActivity.this).create();
-            alertDialog.setTitle("You Can't Blast to the Past!");
-            alertDialog.setMessage("Doggie date needs to be made at least one day in advance!\nPlease select another date.");
+            alertDialog.setTitle(R.string.past_date_error_title);
+            alertDialog.setMessage(getString(R.string.past_date_error_message));
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -152,13 +150,13 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
                         if (status == DateRequest.Status.APPROVED) {
                             requestDateButton.setText(getString(R.string.request_approved)
                                                       + " for " + dateString);
-                            feedbackTitle.setText("Dog Date Feedback from Shelter");
+                            feedbackTitle.setText(R.string.feedback_title);
                             feedback.setText(request.getFeedback());
 
 
                         } else if (status == DateRequest.Status.REJECTED) {
                             requestDateButton.setText(getString(R.string.request_rejected));
-                            feedbackTitle.setText("Dog Date Feedback from Shelter");
+                            feedbackTitle.setText(R.string.feedback_title);
                             feedback.setText(request.getFeedback());
                         } else if (status == DateRequest.Status.PENDING) {
                             requestDateButton.setText(getString(R.string.request_pending)

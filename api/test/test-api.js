@@ -110,6 +110,24 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     });
   });
 
+  describe("Assign test user account shelterId WA214", function() {
+    var error;
+    before(function(done) {
+      db.assignTestUserToShelter(testUser, function(err) {
+        if (err) {
+          var error = err;
+        } else {
+          done();
+        }
+      })
+    });
+
+
+    it('Result is OK', function() {
+      should.not.exist(error);
+    });
+  });
+
   describe("Test endpoint /api/updateUser", function() {
     var res;
     before(function(done) {;

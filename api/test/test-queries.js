@@ -18,6 +18,18 @@ var cn = {
 };
 var db = pgp(cn);
 
+function assignTestUserToShelter(user, next) {
+  var query = 'UPDATE users SET shelterid = $1 \
+               WHERE id = $2';
+  db.none(query, [user.id, user.shelterid])
+      .then(function () {
+        return next();
+      })
+      .catch(function (err) {
+          return next(err);
+      });
+}
+
 function cleanTestRequests(id, next) {
   var query = 'DELETE FROM requests \
                WHERE userid = $1';
@@ -56,6 +68,7 @@ function removeTestUser(id, next) {
 
 module.exports = {
   // Test specific queries
+  assignTestUserToShelter: assignTestUserToShelter,
   cleanTestRequests: cleanTestRequests,
   cleanTestJudged: cleanTestJudged,
   removeTestUser: removeTestUser,

@@ -161,12 +161,14 @@ public class DADAPI {
      *
      * @param url a DAD endpoint that returns a JSON array of dogs
      * @param dataListener a data listener that will receive a callback with the dogs
+     * @param numDogs the number of dogs to request
+     * @param zip the zip of the location in which to search for dogs
      */
-    private void getDogsAtUrl(String url, final DogsDataListener dataListener) {
+    private void getDogsAtUrl(String url, final DogsDataListener dataListener, int numDogs, String zip) {
         JSONObject parameters = new JSONObject();
         try {
-            parameters.put("count", NUM_DOGS_REQUESTED);
-            parameters.put("zip", DEFAULT_ZIP);
+            parameters.put("count", numDogs);
+            parameters.put("zip", zip);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -185,6 +187,17 @@ public class DADAPI {
                 }
             }
         });
+    }
+
+    /**
+     * Makes a DAD server request at the given URL, parses the response as a JSON
+     * array of dogs and returns a set containing these dogs via the given callback listener.
+     *
+     * @param url a DAD endpoint that returns a JSON array of dogs
+     * @param dataListener a data listener that will receive a callback with the dogs
+     */
+    private void getDogsAtUrl(String url, final DogsDataListener dataListener) {
+        getDogsAtUrl(url, dataListener, NUM_DOGS_REQUESTED, DEFAULT_ZIP);
     }
 
     /**

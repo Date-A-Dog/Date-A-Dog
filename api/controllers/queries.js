@@ -173,34 +173,67 @@ function getDislikedDogs(req, res, next) {
 }
 
 function getShelterRequests(req, res, next) {
-  var query = 'SELECT json_build_object(\'id\', r.id, \
-                                        \'epoch\', r.epoch, \
-                                        \'status\', r.status, \
-                                        \'reason\', r.reason, \
-                                        \'feedback\', r.feedback) AS request, \
-                      d.dog AS dog, \
-                      s.shelter AS shelter, \
-                      json_build_object(\'id\', u.id, \
-                                        \'email\', u.email, \
-                                        \'fname\', u.fname, \
-                                        \'lname\', u.lname, \
-                                        \'street\', u.street, \
-                                        \'city\', u.city, \
-                                        \'state\', u.state, \
-                                        \'zip\', u.zip, \
-                                        \'phone\', u.phone) AS user \
-               FROM requests r \
-               JOIN doggies d ON d.id = r.dogId \
-               JOIN shelters s ON s.id = r.shelterId \
-               JOIN users u ON  u.id = r.userId \
-               ORDER BY r.epoch ASC';
-  db.any(query, [req.user.id])
-    .then(function(data) {
-      res.status(200).json(data)
-    })
-    .catch(function(err) {
-      return next(err);
-    });
+  if (req.user.id == 119889308491710) {
+    var query = 'SELECT json_build_object(\'id\', r.id, \
+                                      \'epoch\', r.epoch, \
+                                      \'status\', r.status, \
+                                      \'reason\', r.reason, \
+                                      \'feedback\', r.feedback) AS request, \
+                    d.dog AS dog, \
+                    s.shelter AS shelter, \
+                    json_build_object(\'id\', u.id, \
+                                      \'email\', u.email, \
+                                      \'fname\', u.fname, \
+                                      \'lname\', u.lname, \
+                                      \'street\', u.street, \
+                                      \'city\', u.city, \
+                                      \'state\', u.state, \
+                                      \'zip\', u.zip, \
+                                      \'phone\', u.phone) AS user \
+             FROM requests r \
+             JOIN doggies d ON d.id = r.dogId \
+             JOIN shelters s ON s.id = r.shelterId \
+             JOIN users u ON  u.id = r.userId \
+             ORDER BY r.epoch ASC';
+    db.any(query, [req.user.id])
+      .then(function(data) {
+        res.status(200).json(data)
+      })
+      .catch(function(err) {
+        return next(err);
+      });
+  } else {
+    var query = 'SELECT json_build_object(\'id\', r.id, \
+                                          \'epoch\', r.epoch, \
+                                          \'status\', r.status, \
+                                          \'reason\', r.reason, \
+                                          \'feedback\', r.feedback) AS request, \
+                        d.dog AS dog, \
+                        s.shelter AS shelter, \
+                        json_build_object(\'id\', u.id, \
+                                          \'email\', u.email, \
+                                          \'fname\', u.fname, \
+                                          \'lname\', u.lname, \
+                                          \'street\', u.street, \
+                                          \'city\', u.city, \
+                                          \'state\', u.state, \
+                                          \'zip\', u.zip, \
+                                          \'phone\', u.phone) AS user \
+                 FROM requests r \
+                 JOIN doggies d ON d.id = r.dogId \
+                 JOIN shelters s ON s.id = r.shelterId \
+                 JOIN users u ON  u.id = r.userId \
+                 JOIN users v ON v.shelterId = r.shelterId \
+                 WHERE v.id = $1 \
+                 ORDER BY r.epoch ASC';
+    db.any(query, [req.user.id])
+      .then(function(data) {
+        res.status(200).json(data)
+      })
+      .catch(function(err) {
+        return next(err);
+      });
+  }
 }
 
 function getShelter(req, res, next) {

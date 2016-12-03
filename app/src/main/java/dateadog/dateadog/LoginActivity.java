@@ -78,7 +78,12 @@ public class LoginActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        System.out.println("LoginActivity: onStart()");
         // Bypass LoginActivity if the user is already logged in:
         if (AccessToken.getCurrentAccessToken() != null) {
             startActivity(new Intent(this, MainActivity.class));

@@ -49,6 +49,13 @@ public class DADAPI {
     /** Number of dogs to request each time a request is made. */
     private static int NUM_DOGS_REQUESTED = 20;
     private static String DEFAULT_ZIP = "98105";
+    /** Parameter names for backend. */
+    private static String REASON_PARAMETER = "reason";
+    private static String ID_PARAMETER = "id";
+    private static String TIME_PARAMETER = "epoch";
+    private static String LIKED_PARAMETER = "liked";
+    private static String COUNT_PARAMETER = "count";
+    private static String ZIP_PARAMETER = "zip";
 
     private Context context;
 
@@ -167,8 +174,8 @@ public class DADAPI {
     private void getDogsAtUrl(String url, final DogsDataListener dataListener, int numDogs, String zip) {
         JSONObject parameters = new JSONObject();
         try {
-            parameters.put("count", numDogs);
-            parameters.put("zip", zip);
+            parameters.put(COUNT_PARAMETER, numDogs);
+            parameters.put(ZIP_PARAMETER, zip);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -182,8 +189,8 @@ public class DADAPI {
                         result.add(new Dog(dogsArray.getJSONObject(i)));
                     }
                     dataListener.onGotDogs(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -246,12 +253,16 @@ public class DADAPI {
      */
     public void getDateRequests(final DateRequestsDataListener dataListener) {
         JSONObject parameters = new JSONObject();
+        // The status codes returned by the backend.
+        final String APPROVED = "A";
+        final String REJECTED = "D";
+        final String PENDING = "P";
+
         makeRequest(GET_DATE_REQUESTS_STATUS_URL, parameters, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     Set<DateRequest> dateRequests = new HashSet<>();
-
                     JSONArray jsonArray = (JSONArray) new JSONTokener(response).nextValue();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -260,13 +271,13 @@ public class DADAPI {
                         String feedback = jsonObject.getJSONObject("request").getString("feedback");
                         DateRequest.Status status;
                         switch (jsonObject.getJSONObject("request").getString("status")) {
-                            case "A":
+                            case APPROVED:
                                 status = DateRequest.Status.APPROVED;
                                 break;
-                            case "D":
+                            case REJECTED:
                                 status = DateRequest.Status.REJECTED;
                                 break;
-                            case "P":
+                            case PENDING:
                                 status = DateRequest.Status.PENDING;
                                 break;
                             default:
@@ -298,15 +309,15 @@ public class DADAPI {
      * given {@code dogId} at the time given by {@code epoch}.
      *
      * @param dogId the id of the dog to schedule the date with
-     * @param epoch the time at which to schedule the date, expressed as milliseconds after epoch
+     * @param time the time at which to schedule the date, expressed as milliseconds after epoch
      * @param reason a string describing the reason for the date
      */
-    public void requestDate(long dogId, long epoch, String reason) {
+    public void requestDate(long dogId, long time, String reason) {
         JSONObject parameters = new JSONObject();
         try {
-            parameters.put("id", dogId);
-            parameters.put("epoch", epoch);
-            parameters.put("reason", reason);
+            parameters.put(ID_PARAMETER, dogId);
+            parameters.put(TIME_PARAMETER, time);
+            parameters.put(REASON_PARAMETER, reason);
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -323,9 +334,9 @@ public class DADAPI {
     public void judgeDog(long dogId, boolean like) {
         JSONObject parameters = new JSONObject();
         try {
-            parameters.put("id", dogId);
-            parameters.put("liked", like);
-            parameters.put("epoch", System.currentTimeMillis());
+            parameters.put(ID_PARAMETER, dogId);
+            parameters.put(LIKED_PARAMETER, like);
+            parameters.put(TIME_PARAMETER, System.currentTimeMillis());
         } catch (JSONException e) {
             e.printStackTrace();
             return;

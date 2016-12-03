@@ -150,10 +150,6 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
                         if (status == DateRequest.Status.APPROVED) {
                             requestDateButton.setText(getString(R.string.request_approved)
                                                       + " for " + dateString);
-                            feedbackTitle.setText(R.string.feedback_title);
-                            feedback.setText(request.getFeedback());
-
-
                         } else if (status == DateRequest.Status.REJECTED) {
                             requestDateButton.setText(getString(R.string.request_rejected));
                             feedbackTitle.setText(R.string.feedback_title);

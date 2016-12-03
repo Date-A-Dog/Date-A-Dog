@@ -116,7 +116,6 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
     }
 
     private void updateUI() {
-        System.out.println("DogProfileActivity: updateUI");
         VolleySingleton.getInstance(getApplicationContext()).getImageLoader()
                        .get(dog.getImage(), new ImageLoader.ImageListener() {
                     @Override

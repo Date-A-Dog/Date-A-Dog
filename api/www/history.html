@@ -124,34 +124,39 @@
 
         function buildDiv(request) {
           var imgName = (request.status == "A") ? "check_icon.png": "x_icon.png";
-          var newDiv = "<div class=\"accordionTitle\"><img src=" + imgName +" width=\"30\" height=\"38\"><h3> Dog Name: " + request.dogProfile.name + "</h3>"+
-                       "<h3>Dater: " + request.daterProfile.fName +" " + request.daterProfile.lName + "</h3>"+
-                       "<h3>When: "+ request.dateTime + "</h3>"+
+          var newDiv = "<div class=\"accordionTitle\">"+
+						   "<img src=" + imgName +" width=\"30\" height=\"38\">"+
+						   "<h3> Dog Name: " + request.dogProfile.name + "</h3>"+
+						   "<h3>Dater: " + request.daterProfile.fName +" " + request.daterProfile.lName + "</h3>"+
+						   "<h3>When: "+ request.dateTime + "</h3>"+
                        "</div> " + 
                        "<div class=\"accordionEle\"> " +
-                       "<p>" +
-                       "<h3> Requester Details </h3><br>" + 
-                       "Name:  <strong>"  + request.daterProfile.fName +" " + request.daterProfile.lName +"</strong><br>" +
-                       "Phone: <strong>" + request.daterProfile.phone + "</strong><br>" +
-                       "Email: <strong>" + request.daterProfile.email + "</strong><br>" +
-                       "Street: <strong>" + request.daterProfile.address.street + "</strong><br>" +
-                       "City: <strong>" + request.daterProfile.address.city + "</strong><br>" +
-                       "State: <strong>" + request.daterProfile.address.state + "</strong><br>" + 
-                       "Zipcode: <strong>"+ request.daterProfile.address.zipcode+"</strong>"+ 
-                       "</p>" + 
-                       "<h3>Date requested with: </h3><br>" +
-                       "<p><img class=\"accordion-img\" src=\""+ request.dogProfile.photoURL +"\" alt=\"dog image\">  " + 
-                       "<strong>"+ request.dogProfile.name+"</strong> </p>" +
-                       "Age: <strong>" + request.dogProfile.age + "</strong><br>" +
-                       "Sex: <strong>" + request.dogProfile.sex + "</strong><br>" +
-                       "Dog Id: <strong>" + request.dogProfile.id + "</strong><br>" + 
-                       "<p>" +
-                       "<h3> Shelter Notes/Denial Message </h3>" + request.feedback + 
-                       "</p>" + 
-	               "<p class=\"request-button-container\"> " + 
-	               "<button id =\"U" + request.id + "\" class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + request.id + ")\"> Undo</button> " + 
-	               "</p>" +
-	               "</div>";
+						   "<h3> Requester Details </h3>" +//<br>" + 
+						   "<p>" +
+							   "Name:  <strong>"  + request.daterProfile.fName +" " + request.daterProfile.lName +"</strong><br>" +
+							   "Phone: <strong>" + request.daterProfile.phone + "</strong><br>" +
+							   "Email: <strong>" + request.daterProfile.email + "</strong><br>" +
+							   "Street: <strong>" + request.daterProfile.address.street + "</strong><br>" +
+							   "City: <strong>" + request.daterProfile.address.city + "</strong><br>" +
+							   "State: <strong>" + request.daterProfile.address.state + "</strong><br>" + 
+							   "Zipcode: <strong>"+ request.daterProfile.address.zipcode+"</strong>"+ 
+						   "</p>" +
+						   "<h3>Date requested with: </h3>"+//<br>" +
+						   "<p>" +
+							   "<img class=\"accordion-img\" src=\""+ request.dogProfile.photoURL +"\" alt=\"dog image\">  " + 
+							   "<strong>"+ request.dogProfile.name+"</strong>" +
+						   "</p>" +
+						   "<p>" +
+							   "Age: <strong>" + request.dogProfile.age + "</strong><br>" +
+							   "Sex: <strong>" + request.dogProfile.sex + "</strong><br>" +
+							   "Dog Id: <strong>" + request.dogProfile.id + "</strong><br>" + 
+						   "</p>" +
+						   "<h3> Shelter Notes/Denial Message </h3>" +
+						   "<p>"+request.feedback + "</p>"+
+						   "<p class=\"request-button-container\"> " + 
+							    "<button id =\"U" + request.id + "\" class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + request.id + ")\"> Undo</button> " + 
+						   "</p>" +
+					   "</div>";
           return newDiv; 
         };
 	</script>

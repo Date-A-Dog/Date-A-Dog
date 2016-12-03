@@ -3,6 +3,7 @@ package dateadog.dateadog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import dateadog.dateadog.tindercard.FlingCardListener;
-import dateadog.dateadog.tindercard.SwipeFlingAdapterView;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import dateadog.dateadog.tindercard.FlingCardListener;
+import dateadog.dateadog.tindercard.SwipeFlingAdapterView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,17 +42,17 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
     private SwipeFlingAdapterView flingContainer;
     private DADAPI dadapi;
 
-    public static DogCardsAdapter dogCardsAdapter;
     public static ViewHolder viewHolder;
 
     public void updateUI() {
+        System.out.println("SwipeDogsFragment: updateUI()");
         dadapi.getNextDogs(new DADAPI.DogsDataListener() {
             @Override
-            public void onGotDogs(Set<Dog> dogs) {
+            public void onGotDogs(List<Dog> dogs) {
                 for (Dog dog : dogs) {
                     dogCards.add(new DogCard(dog));
                 }
-                dogCardsAdapter.notifyDataSetChanged();
+                ((BaseAdapter) flingContainer.getAdapter()).notifyDataSetChanged();
             }
         });
     }
@@ -78,6 +78,11 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
         super.onCreate(savedInstanceState);
         dadapi = DADAPI.getInstance(getContext().getApplicationContext());
         dogCards = new ArrayList<>();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         updateUI();
     }
 
@@ -86,8 +91,42 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_swipe_dogs, container, false);
         flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.swipeFlingAdapterView);
-        dogCardsAdapter = new DogCardsAdapter(dogCards, getActivity());
-        flingContainer.setAdapter(dogCardsAdapter);
+        flingContainer.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return dogCards.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return position;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(final int position, View convertView, ViewGroup parent) {
+                View view = convertView;
+                if (view == null) {
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
+                    view = inflater.inflate(R.layout.dog_card, parent, false);
+                    viewHolder = new ViewHolder();
+                    viewHolder.description = (TextView) view.findViewById(R.id.bookText);
+                    viewHolder.background = (FrameLayout) view.findViewById(R.id.background);
+                    viewHolder.cardImage = (ImageView) view.findViewById(R.id.cardImage);
+                    view.setTag(viewHolder);
+                } else {
+                    viewHolder = (ViewHolder) view.getTag();
+                }
+                viewHolder.description.setText(dogCards.get(position).getDescription());
+                Glide.with(getActivity()).load(dogCards.get(position).getImagePath()).into(viewHolder.cardImage);
+
+                return view;
+            }
+        });
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() { }
@@ -98,7 +137,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
                 DogCard dogCard = dogCards.get(0);
                 dadapi.judgeDog(dogCard.getDogId(), false);
                 dogCards.remove(0);
-                dogCardsAdapter.notifyDataSetChanged();
+                ((BaseAdapter) flingContainer.getAdapter()).notifyDataSetChanged();
                 if (dogCards.size() <= REFRESH_DOGS_THRESHOLD) {
                     updateUI();
                 }
@@ -110,7 +149,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
                 DogCard dogProfile = dogCards.get(0);
                 dadapi.judgeDog(dogProfile.getDogId(), true);
                 dogCards.remove(0);
-                dogCardsAdapter.notifyDataSetChanged();
+                ((BaseAdapter) flingContainer.getAdapter()).notifyDataSetChanged();
                 if (dogCards.size() <= REFRESH_DOGS_THRESHOLD) {
                     updateUI();
                 }
@@ -127,6 +166,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
                 view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
         });
+
         return view;
     }
 
@@ -151,11 +191,6 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
     @Override
     public void onActionDownPerform() { }
 
-    public static void removeBackground() {
-        viewHolder.background.setVisibility(View.GONE);
-        dogCardsAdapter.notifyDataSetChanged();
-    }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -176,48 +211,4 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
         public ImageView cardImage;
     }
 
-    public class DogCardsAdapter extends BaseAdapter {
-        public List<DogCard> dogCards;
-        public Context context;
-
-        private DogCardsAdapter(List<DogCard> dogCards, Context context) {
-            this.dogCards = dogCards;
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return dogCards.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            View view = convertView;
-            if (view == null) {
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                view = inflater.inflate(R.layout.dog_card, parent, false);
-                viewHolder = new ViewHolder();
-                viewHolder.description = (TextView) view.findViewById(R.id.bookText);
-                viewHolder.background = (FrameLayout) view.findViewById(R.id.background);
-                viewHolder.cardImage = (ImageView) view.findViewById(R.id.cardImage);
-                view.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) view.getTag();
-            }
-            viewHolder.description.setText(dogCards.get(position).getDescription());
-            Glide.with(getActivity()).load(dogCards.get(position).getImagePath()).into(viewHolder.cardImage);
-
-            return view;
-        }
-    }
 }

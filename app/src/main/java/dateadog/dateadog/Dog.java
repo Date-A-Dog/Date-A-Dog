@@ -1,7 +1,5 @@
 package dateadog.dateadog;
 
-import android.graphics.drawable.Drawable;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +31,58 @@ public class Dog implements Serializable {
     private String image;
     /** The shelter from where to request a date with this dog. */
     private String shelterId;
+    /** A DateRequest associated with this dog, or null if a date has not been requested with it. */
+    private DateRequest dateRequest;
+
+    public DateRequest getDateRequest() {
+        return dateRequest;
+    }
+
+    public void setDateRequest(DateRequest dateRequest) {
+        this.dateRequest = dateRequest;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Dog dog = (Dog) o;
+
+        if (dogId != dog.dogId) return false;
+        if (!name.equals(dog.name)) return false;
+        if (!sex.equals(dog.sex)) return false;
+        if (!size.equals(dog.size)) return false;
+        if (!age.equals(dog.age)) return false;
+        if (!breeds.equals(dog.breeds)) return false;
+        if (!city.equals(dog.city)) return false;
+        if (!image.equals(dog.image)) return false;
+        return shelterId.equals(dog.shelterId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (dogId ^ (dogId >>> 32));
+        result = 31 * result + name.hashCode();
+        result = 31 * result + sex.hashCode();
+        result = 31 * result + size.hashCode();
+        result = 31 * result + age.hashCode();
+        result = 31 * result + breeds.hashCode();
+        result = 31 * result + city.hashCode();
+        result = 31 * result + image.hashCode();
+        result = 31 * result + shelterId.hashCode();
+        return result;
+    }
+
+    /**
+     * Returns a String describing this dog.
+     * @return
+     */
+    public String getDescription() {
+        return "Name: " + getName() + "\nAge: " + getAge() + "\nSex: " + getSex() + "\nBreeds: " +
+                getBreedsString() + "\nSize of Dog: " + getSize() + "\nDog Location: " + getCity();
+    }
 
     public long getDogId() {
         return dogId;

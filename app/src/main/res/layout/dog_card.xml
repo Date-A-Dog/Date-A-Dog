@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -13,7 +12,8 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0">
+        android:alpha="0"
+        android:background="#0000ff">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,13 +50,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-
             <ImageView
                 android:id="@+id/cardImage"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
                 android:padding="4dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:background="#0000ff" />
         </FrameLayout>
 
         <LinearLayout
@@ -75,14 +75,12 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:padding="4dp"
-                    android:textColor="#787878"
-                    android:textSize="16sp"
-                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
             </ScrollView>
         </LinearLayout>
 
     </LinearLayout>
-
 
     <View
         android:id="@+id/item_swipe_left_indicator"

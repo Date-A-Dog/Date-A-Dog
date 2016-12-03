@@ -264,12 +264,12 @@ function judgeDog(req, res, next) {
 }
 
 function requestDate(req, res, next) {
-    var query = 'INSERT INTO requests (dogId, userId, shelterId, epoch) \
-                 SELECT $1, $2, d.dog->>\'shelterId\' AS shelterId, $3\
+    var query = 'INSERT INTO requests (dogId, userId, shelterId, epoch, reason) \
+                 SELECT $1, $2, d.dog->>\'shelterId\' AS shelterId, $3, $4 \
                  FROM doggies d \
                  WHERE d.id = $1 \
                  ON CONFLICT DO NOTHING';
-    db.none(query, [req.body.id, req.user.id, req.body.epoch])
+    db.none(query, [req.body.id, req.user.id, req.body.epoch, req.body.reason])
       .then(function() {
           res.sendStatus(200);
       })

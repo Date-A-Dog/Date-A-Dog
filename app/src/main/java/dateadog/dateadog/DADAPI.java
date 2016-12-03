@@ -189,8 +189,8 @@ public class DADAPI {
                         result.add(new Dog(dogsArray.getJSONObject(i)));
                     }
                     dataListener.onGotDogs(result);
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });

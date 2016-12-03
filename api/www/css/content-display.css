@@ -74,6 +74,11 @@ body {
 	margin-right: 2em;
 }
 
+/* For modifying the element of the requests */
+#accordion .accordionEle {
+
+}
+
 .request-buttons{
 	margin-left: 0.2em;
 	margin-right: 0.2em;
@@ -81,4 +86,14 @@ body {
 
 #accordion .request-button-container{
 	text-align: center;
+}
+
+/* for requester section of accordion info */
+#accordion .accordionRequester{
+
+}
+
+/* for dog section of accordion info */
+#accordion .accordionDog{
+
 }

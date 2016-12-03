@@ -3,11 +3,40 @@ var chaiHttp = require('chai-http');
 var chaiThings = require('chai-things');
 var server = require('../app');
 var should = chai.should();
+var db = require('./test-queries')
 // var expect  = chai.expect;
 // var request = require("request");
 
 chai.use(chaiHttp);
 chai.use(chaiThings);
+
+var testUser = {};
+testUser.id = 10153811720940946;
+testUser.email = 'amarpal@dateadog.com';
+testUser.fname ='Amarpal';
+testUser.lname = 'Singh';
+testUser.street = 'Paul G. Allen Center for Computer Science & Engineering (Cse)';
+testUser.city = 'Seattle';
+testUser.state = 'WA';
+testUser.zip = '98105';
+testUser.phone = '(206) 850-6944';
+testUser.shelterid = 'WA214';
+
+var testDog = {};
+testDog.id = '22406048';
+
+var testShelter = {};
+testShelter.id = 'WA214';
+testShelter.fax = 'www.washingtongsd.org';
+testShelter.zip = '98104';
+testShelter.city = 'Seattle';
+testShelter.name = 'Washington German Shepherd Rescue';``
+testShelter.email = 'washingtonshepherds@yahoo.com';
+testShelter.phone = '(206) 445-5151';
+testShelter.state = 'WA';
+testShelter.country = 'US';
+testShelter.latitude = '47.604';
+testShelter.longitude = '-122.326';
 
 describe("Date-a-Dog Server Rest API Tests", function() {
   describe("Test endpoint /api/login", function() {
@@ -32,17 +61,17 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('id is correct', function() {
       res.body.should.have.property('id');
-      res.body.id.should.equal(10153811720940946);
+      res.body.id.should.equal(testUser.id);
     });
 
     it('fname is correct', function() {
       res.body.should.have.property('fname');
-      res.body.fname.should.equal('Sally');
+      res.body.fname.should.equal(testUser.fname);
     });
 
     it('lname is correct', function() {
       res.body.should.have.property('lname');
-      res.body.lname.should.equal('Smith');
+      res.body.lname.should.equal(testUser.lname);
     });
 
     it('email is correct', function() {
@@ -75,9 +104,27 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       should.not.exist(res.body.phone);
     });
 
-    it('fname is correct', function() {
+    it('shelterid is correct', function() {
       res.body.should.have.property('shelterid');
-      res.body.shelterid.should.equal('WA214');
+      res.body.shelterid.should.equal(testUser.shelterid);
+    });
+  });
+
+  describe("Assign test user account shelterId WA214", function() {
+    var error;
+    before(function(done) {
+      db.assignTestUserToShelter(testUser, function(err) {
+        if (err) {
+          var error = err;
+        } else {
+          done();
+        }
+      })
+    });
+
+
+    it('Result is OK', function() {
+      should.not.exist(error);
     });
   });
 
@@ -87,14 +134,14 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       chai.request(server)
       .post('/api/updateUserTest')
       .send({
-        'email': 'dateadog@gmail.com',
-        'fname': 'Sally',
-        'lname': 'Smith',
-        'street': 'Paul G. Allen Center for Computer Science & Engineering (Cse)',
-        'city': 'Seattle',
-        'state': 'WA',
-        'zip': '98195',
-        'phone': '(206) 543-1695',
+        'email': testUser.email,
+        'fname': testUser.fname,
+        'lname': testUser.lname,
+        'street': testUser.street,
+        'city': testUser.city,
+        'state': testUser.state,
+        'zip': testUser.zip,
+        'phone': testUser.phone,
       })
       .end(function(err, response){
         res = response;
@@ -129,52 +176,52 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('id is correct', function() {
       res.body.should.have.property('id');
-      res.body.id.should.equal(10153811720940946);
+      res.body.id.should.equal(testUser.id);
     });
 
     it('fname is correct', function() {
       res.body.should.have.property('fname');
-      res.body.fname.should.equal('Sally');
+      res.body.fname.should.equal(testUser.fname);
     });
 
     it('lname is correct', function() {
       res.body.should.have.property('lname');
-      res.body.lname.should.equal('Smith');
+      res.body.lname.should.equal(testUser.lname);
     });
 
     it('email is correct', function() {
       res.body.should.have.property('email');
-      res.body.email.should.equal('dateadog@gmail.com');
+      res.body.email.should.equal(testUser.email);
     });
 
     it('street is correct', function() {
       res.body.should.have.property('street');
-      res.body.street.should.equal('Paul G. Allen Center for Computer Science & Engineering (Cse)');
+      res.body.street.should.equal(testUser.street);
     });
 
     it('city is correct', function() {
       res.body.should.have.property('city');
-      res.body.city.should.equal('Seattle');
+      res.body.city.should.equal(testUser.city);
     });
 
     it('state is correct', function() {
       res.body.should.have.property('state');
-      res.body.state.should.equal('WA');
+      res.body.state.should.equal(testUser.state);
     });
 
     it('zip is correct', function() {
       res.body.should.have.property('zip');
-      res.body.zip.should.equal('98195');
+      res.body.zip.should.equal(testUser.zip);
     });
 
     it('phone is correct', function() {
       res.body.should.have.property('phone');
-      res.body.phone.should.equal('(206) 543-1695');
+      res.body.phone.should.equal(testUser.phone);
     });
 
     it('fname is correct', function() {
       res.body.should.have.property('shelterid');
-      res.body.shelterid.should.equal('WA214');
+      res.body.shelterid.should.equal(testUser.shelterid);
     });
   });
 
@@ -430,7 +477,6 @@ describe("Date-a-Dog Server Rest API Tests", function() {
   })
 
   var requestid;
-  var dogid2 = '22406048';
   var epoch = (new Date).getTime();
   describe("Test endpoint /api/requestDate", function() {
     var res;
@@ -438,7 +484,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       chai.request(server)
       .post('/api/requestDateTest')
       .send({
-        'id': dogid2,
+        'id': testDog.id,
         'epoch': epoch,
       })
       .end(function(err, response){
@@ -458,7 +504,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       chai.request(server)
       .post('/api/getShelterTest')
       .send({
-        'shelterId': 'WA214',
+        'shelterId': testShelter.id,
       })
       .end(function(err, response){
         res = response;
@@ -486,53 +532,53 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('shelter.fax is correct', function() {
       res.body.shelter.should.have.property('fax');
-      res.body.shelter.fax.should.equal('www.washingtongsd.org');
+      res.body.shelter.fax.should.equal(testShelter.fax);
     });
 
     it('shelter.zip is correct', function() {
       res.body.shelter.should.have.property('zip');
-      res.body.shelter.zip.should.equal('98104');
+      res.body.shelter.zip.should.equal(testShelter.zip);
     });
 
     it('shelter.city is correct', function() {
       res.body.shelter.should.have.property('city');
-      res.body.shelter.city.should.equal('Seattle');
+      res.body.shelter.city.should.equal(testShelter.city);
     });
 
 
     it('shelter.name is correct', function() {
       res.body.shelter.should.have.property('name');
-      res.body.shelter.name.should.equal('Washington German Shepherd Rescue');
+      res.body.shelter.name.should.equal(testShelter.name);
     });
 
     it('shelter.email is correct', function() {
       res.body.shelter.should.have.property('email');
-      res.body.shelter.email.should.equal('washingtonshepherds@yahoo.com');
+      res.body.shelter.email.should.equal(testShelter.email);
     });
 
     it('shelter.phone is correct', function() {
       res.body.shelter.should.have.property('phone');
-      res.body.shelter.phone.should.equal('(206) 445-5151');
+      res.body.shelter.phone.should.equal(testShelter.phone);
     });
 
     it('shelter.state is correct', function() {
       res.body.shelter.should.have.property('state');
-      res.body.shelter.state.should.equal('WA');
+      res.body.shelter.state.should.equal(testShelter.state);
     });
 
     it('shelter.country is correct', function() {
       res.body.shelter.should.have.property('country');
-      res.body.shelter.country.should.equal('US');
+      res.body.shelter.country.should.equal(testShelter.country);
     });
 
     it('shelter.latitude is correct', function() {
       res.body.shelter.should.have.property('latitude');
-      res.body.shelter.latitude.should.equal('47.604');
+      res.body.shelter.latitude.should.equal(testShelter.latitude);
     });
 
     it('shelter.longitude is correct', function() {
       res.body.shelter.should.have.property('longitude');
-      res.body.shelter.longitude.should.equal('-122.326');
+      res.body.shelter.longitude.should.equal(testShelter.longitude);
     });
   })
 
@@ -591,7 +637,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('dog.id is correct', function() {
       res.body[res.body.length - 1].dog.should.have.property('id');
-      res.body[res.body.length - 1].dog.id.should.equal(dogid2);
+      res.body[res.body.length - 1].dog.id.should.equal(testDog.id);
     });
 
     it('shelter exists', function() {
@@ -611,7 +657,7 @@ describe("Date-a-Dog Server Rest API Tests", function() {
     it('user.id is correct', function() {
       res.body[res.body.length - 1].user.should.have.property('id');
       res.body[res.body.length - 1].user.id.should
-      .equal(10153811720940946);
+      .equal(testUser.id);
     });
   })
 
@@ -685,8 +731,8 @@ describe("Date-a-Dog Server Rest API Tests", function() {
       chai.request(server)
       .post('/api/updateUserTest')
       .send({
-        'fname': 'Sally',
-        'lname': 'Smith',
+        'fname': testUser.fname,
+        'lname': testUser.lname,
       })
       .end(function(err, response){
         res = response;
@@ -696,6 +742,60 @@ describe("Date-a-Dog Server Rest API Tests", function() {
 
     it('Response is OK', function() {
       res.should.have.status(200);
+    });
+  });
+
+  describe("Cleap up test requests /api/requestDate", function() {
+    var error;
+    before(function(done) {
+      db.cleanTestRequests(testUser.id, function(err) {
+        if (err) {
+          var error = err;
+        } else {
+          done();
+        }
+      })
+    });
+
+
+    it('Result is OK', function() {
+      should.not.exist(error);
+    });
+  });
+
+  describe("Cleap up test judges /api/judgeDog", function() {
+    var error;
+    before(function(done) {
+      db.cleanTestJudged(testUser.id, function(err) {
+        if (err) {
+          var error = err;
+        } else {
+          done();
+        }
+      })
+    });
+
+
+    it('Result is OK', function() {
+      should.not.exist(error);
+    });
+  });
+
+  describe("Remove test user account", function() {
+    var error;
+    before(function(done) {
+      db.removeTestUser(testUser.id, function(err) {
+        if (err) {
+          var error = err;
+        } else {
+          done();
+        }
+      })
+    });
+
+
+    it('Result is OK', function() {
+      should.not.exist(error);
     });
   });
 

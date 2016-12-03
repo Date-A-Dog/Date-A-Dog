@@ -56,7 +56,7 @@
   logInWithFacebook = function() {
     FB.login(function(response) {
       if (response.authResponse) {
-        alert('You are logged in &amp; cookie set!');
+        alert('You are logged in \u0026 cookie set!');
         // Now you can redirect the user or do an AJAX request to
         // a PHP script that grabs the signed request from the cookie.
         window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/requests.html";

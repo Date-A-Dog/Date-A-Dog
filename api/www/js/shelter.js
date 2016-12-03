@@ -116,7 +116,12 @@ var Shelter = function(_token, _testingMockData) {
   // Makes appropiate call to database/API to update
   // status for the specified requestId - careful to update
   // the current screen to reflect changes
-  shelter.updateRequestStatus = function(requestId, newStatus) {
+  shelter.updateRequestStatus = function(requestId, newStatus, feedback) {
+    if (typeof(feedback) === "undefined") {
+      // we reset feedback if none provided
+      feedback = "";
+    }
+    console.log("Your feedback: " + feedback);
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function() {
       if (httpRequest.readyState === 4 && httpRequest.status === 200) {
@@ -127,7 +132,7 @@ var Shelter = function(_token, _testingMockData) {
     httpRequest.open('POST', '/api/updateRequestStatus');
     httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     httpRequest.setRequestHeader("access_token", token);
-    httpRequest.send(JSON.stringify({"id": requestId, "status": newStatus}));
+    httpRequest.send(JSON.stringify({"id": requestId, "status": newStatus, "feedback": feedback}));
   };
 
   // Private helper function which filters daterequests
@@ -220,7 +225,10 @@ var Shelter = function(_token, _testingMockData) {
       var parsedRequest = DateRequest(r.request.id,
                                       dog, dater,
                                       epochToString(r.request.epoch),
-                                      r.request.status);
+                                      r.request.status,
+                                      r.request.reason,
+                                      r.request.feedback);
+                                     
       // add new request
       filteredArray.push(parsedRequest);
     }
@@ -237,7 +245,7 @@ var Shelter = function(_token, _testingMockData) {
   // param:
   //   epoch - the epoch value to be convertedinto
   function epochToString(epoch) {
-    var d = new Date(epoch * 1000);
+    var d = new Date(epoch);
     var month  = d.getMonth() + 1; // account for month offset [0,11]
     var day    = d.getDate();
     var year   = d.getFullYear();

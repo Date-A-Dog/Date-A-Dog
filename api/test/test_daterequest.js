@@ -7,6 +7,8 @@ describe("Date Request", function() {
   var REQUEST_ID = 238359;
   var STATUS = "P";
   var DATE = "11/12/2016";
+  var REASON = "user reason";
+  var FEEDBACK = "shelter feedback";
   var DATER_PROFILE = {
       fName: "joe",
       lName: "rippper",
@@ -33,20 +35,22 @@ describe("Date Request", function() {
   */
   describe("DateRequest constructor", function() {
     it("Builds DateRequest object", function() {
-      var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS);
+      var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS, REASON, FEEDBACK);
       var expectedDateRequest = {
         id: REQUEST_ID,
         dogProfile: DOG_PROFILE,
         daterProfile: DATER_PROFILE,
         dateTime: DATE,
-        status: STATUS
+        status: STATUS,
+        reason: REASON,
+        feedback: FEEDBACK
       }
       expect(dr).to.deep.equal(expectedDateRequest);
     });
   });
 
   describe("DateRequest Property Consistency", function() {
-    var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS);
+    var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS, REASON, FEEDBACK);
     it("0. requestId", function() {
       assert(dr.id, REQUEST_ID);
     });
@@ -61,6 +65,14 @@ describe("Date Request", function() {
     });
     it("4. status", function() {
       assert(dr.status, STATUS);
+    });
+    
+    it("5. reason", function() {
+      assert(dr.status, REASON);
+    });
+    
+    it("6. feedback", function() {
+      assert(dr.status, FEEDBACK);
     });
   });
 

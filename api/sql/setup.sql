@@ -45,6 +45,8 @@ CREATE TABLE requests (
   shelterId text,  -- consider constraint check on shelterId
   epoch bigint NOT NULL,
   status char(1) DEFAULT 'P',
+  reason text,
+  feedback text,
   PRIMARY KEY (id),
   FOREIGN KEY (dogId) REFERENCES doggies (id),
   FOREIGN KEY (userId) REFERENCES users (id),

@@ -31,14 +31,12 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private DADAPI dadapi;
-    private SwipeDogsFragment swipeDogsFragment;
-    private LikedDogsFragment likedDogsFragment;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+    private DADAPI dadapi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,27 +66,6 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    if (swipeDogsFragment != null) {
-                        swipeDogsFragment.updateUI();
-                    }
-                } else if (position == 1) {
-                    if (likedDogsFragment != null) {
-                        likedDogsFragment.updateUI();
-                    }
-                }
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
-
-            @Override
-            public void onPageScrollStateChanged(int state) { }
-        });
 
         // Set icons for tabs.
         tabLayout.getTabAt(0).setIcon(R.drawable.dog);
@@ -159,11 +136,9 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         public android.support.v4.app.Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                swipeDogsFragment = SwipeDogsFragment.newInstance();
-                return swipeDogsFragment;
+                return SwipeDogsFragment.newInstance();
             } else if (position == 1) {
-                likedDogsFragment = LikedDogsFragment.newInstance();
-                return likedDogsFragment;
+                return LikedDogsFragment.newInstance();
             } else {
                 return null;
             }

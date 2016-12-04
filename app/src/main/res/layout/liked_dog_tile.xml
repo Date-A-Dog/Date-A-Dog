@@ -33,7 +33,8 @@
             android:textAlignment="center"
             android:layout_weight="1.02"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@android:color/black" />
     </LinearLayout>
 
     <ImageView

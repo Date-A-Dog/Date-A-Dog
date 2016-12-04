@@ -1,6 +1,7 @@
 package dateadog.dateadog;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -11,14 +12,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -31,6 +35,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
      * */
     private Dog dog;
     private DADAPI dadapi;
+    private Button requestDateButton;
     private TextView feedbackTitle;
     private TextView feedback;
 
@@ -42,8 +47,21 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
         setContentView(R.layout.activity_dog_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-        Button requestDateButton = (Button) findViewById(R.id.requestDateButton);
+        requestDateButton = (Button) findViewById(R.id.requestDateButton);
+        RelativeLayout locationRelativeLayout = (RelativeLayout) findViewById(R.id.locationRelativeLayout);
+        locationRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("geo:0,0?q=" + URLEncoder.encode(dog.getCity())));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
         feedbackTitle = (TextView) findViewById(R.id.title_feedback);
         feedback = (TextView) findViewById(R.id.feedback);
         requestDateButton.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +129,16 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onResume() {
         super.onStart();
         updateUI();
@@ -136,7 +164,6 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
         ((TextView) findViewById(R.id.sizeTextView)).setText(dog.getSize());
         ((TextView) findViewById(R.id.locationTextView)).setText(dog.getCity());
         // Get and display the request status for this dog.
-        final Button requestDateButton = (Button) findViewById(R.id.requestDateButton);
         requestDateButton.setEnabled(false);
         dadapi.getDateRequests(new DADAPI.DateRequestsDataListener() {
             @Override

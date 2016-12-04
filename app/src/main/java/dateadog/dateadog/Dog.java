@@ -174,7 +174,8 @@ public class Dog implements Serializable {
 
     protected String fixName(String name) {
         if (name.trim().split("\\s+").length > MAX_WORDS_IN_NAME
-                || name.contains("*") || name.contains("#") || name.contains("-")) {
+            || name.contains("*") || name.contains("#") || name.contains("-")
+            || name.equals(name.toUpperCase())) {
             valid = false;
         }
         if (name.toLowerCase().contains("foster")) {

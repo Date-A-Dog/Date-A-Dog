@@ -56,20 +56,6 @@ public class DatePickerFragment extends DialogFragment {
                         })
                 .create();
 
-        /*
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override public void onShow(DialogInterface dialog) {
-                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                final Window window = getDialog().getWindow();
-                lp.copyFrom(window.getAttributes());
-                final View picker = window.findViewById(R.id.dialog_date_date_picker);
-                lp.width = picker.getWidth();
-                lp.height = picker.getHeight();
-                window.setAttributes(lp);
-            }
-        });
-        */
-
         return dialog;
     }
 }

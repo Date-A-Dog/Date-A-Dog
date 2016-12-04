@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="430dp"
     android:layout_gravity="center"
     android:layout_marginBottom="48dp"
     android:layout_marginLeft="20dp"
@@ -52,11 +52,11 @@
 
             <ImageView
                 android:id="@+id/cardImage"
-                android:layout_width="300dp"
-                android:layout_height="200dp"
                 android:padding="4dp"
                 android:scaleType="centerCrop"
-                android:background="#0000ff" />
+                android:background="@color/colorPrimary"
+                android:layout_width="300dp"
+                android:layout_height="250dp" />
         </FrameLayout>
 
         <LinearLayout
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:padding="4dp"
+                    android:padding="12dp"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
             </ScrollView>
@@ -87,7 +87,6 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:alpha="0"
-
         android:background="@drawable/green_like_paw" />
 
     <View
@@ -96,8 +95,6 @@
         android:layout_height="150dp"
         android:layout_gravity="right"
         android:alpha="0"
-
-
         android:background="@drawable/red_dislike_paw" />
 
 </FrameLayout>

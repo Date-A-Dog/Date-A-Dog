@@ -23,7 +23,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/com_facebook_button_send_background_color"
+            android:background="@color/colorPrimary"
             android:padding="3dp" />
 
         <TextView

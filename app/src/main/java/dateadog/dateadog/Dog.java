@@ -33,6 +33,10 @@ public class Dog implements Serializable {
     private String shelterId;
     /** A DateRequest associated with this dog, or null if a date has not been requested with it. */
     private DateRequest dateRequest;
+    /** True if this is a valid Dog (i.e., it is presentable to a user). */
+    private boolean valid = true;
+    /** The maximum number of words in a dog's name to be considered valid. */
+    private static final int MAX_WORDS_IN_NAME = 3;
 
     public DateRequest getDateRequest() {
         return dateRequest;
@@ -73,6 +77,10 @@ public class Dog implements Serializable {
         result = 31 * result + image.hashCode();
         result = 31 * result + shelterId.hashCode();
         return result;
+    }
+
+    public boolean isValid() {
+        return valid;
     }
 
     /**
@@ -165,11 +173,18 @@ public class Dog implements Serializable {
     }
 
     protected String fixName(String name) {
+        if (name.trim().split("\\s+").length > MAX_WORDS_IN_NAME
+                || name.contains("*") || name.contains("#") || name.contains("-")) {
+            valid = false;
+        }
         if (name.toLowerCase().contains("foster")) {
+            valid = false;
             return "Dog(s) Intended for Foster Care (No Name)";
         } else if (name.toLowerCase().contains("adoption")) {
+            valid = false;
             return "Dog(s) Intended for Adoption (No Name)";
         } else if (name.toLowerCase().contains("donations")) {
+            valid = false;
             return "Dog(s) Needing Donations (No Name)";
         } else {
             return name;

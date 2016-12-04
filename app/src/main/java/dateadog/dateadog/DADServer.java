@@ -202,7 +202,10 @@ public class DADServer {
                     List<Dog> result = new ArrayList<>();
                     JSONArray dogsArray = (JSONArray) new JSONTokener(response).nextValue();
                     for (int i = 0; i < dogsArray.length(); i++) {
-                        result.add(new Dog(dogsArray.getJSONObject(i)));
+                        Dog dog = new Dog(dogsArray.getJSONObject(i));
+                        if (dog.isValid()) {
+                            result.add(dog);
+                        }
                     }
                     dataListener.onGotDogs(result);
                 } catch (JSONException e) {

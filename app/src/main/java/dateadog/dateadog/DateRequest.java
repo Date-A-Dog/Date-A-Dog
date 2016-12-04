@@ -88,4 +88,28 @@ public class DateRequest implements Serializable {
         return feedback;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DateRequest that = (DateRequest) o;
+
+        if (requestId != that.requestId) return false;
+        if (dogId != that.dogId) return false;
+        if (!date.equals(that.date)) return false;
+        if (status != that.status) return false;
+        return feedback != null ? feedback.equals(that.feedback) : that.feedback == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (requestId ^ (requestId >>> 32));
+        result = 31 * result + date.hashCode();
+        result = 31 * result + (int) (dogId ^ (dogId >>> 32));
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (feedback != null ? feedback.hashCode() : 0);
+        return result;
+    }
 }

@@ -47,8 +47,7 @@
         <activity
             android:name=".DogProfileActivity"
             android:label="@string/title_activity_dog_profile"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

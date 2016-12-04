@@ -38,12 +38,12 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
      */
     private ViewPager mViewPager;
 
-    private DADAPI dadapi;
+    private DADServer server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dadapi = DADAPI.getInstance(getApplicationContext());
+        server = server.getInstance(getApplicationContext());
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         } else if (id == R.id.action_help) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.help_website))));
         } else if (id == R.id.action_user_profile) {
-            dadapi.getUser(new DADAPI.UserProfileDataListener() {
+            server.getUser(new DADServer.UserProfileDataListener() {
                 @Override
                 public void onGotUserProfile(UserProfile userProfile) {
                     UserProfileDialogFragment dialog = UserProfileDialogFragment.newInstance(userProfile);

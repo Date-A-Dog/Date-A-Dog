@@ -40,13 +40,13 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
 
     private List<DogCard> dogCards;
     private SwipeFlingAdapterView flingContainer;
-    private DADAPI dadapi;
+    private DADServer server;
 
     public static ViewHolder viewHolder;
 
     public void updateUI() {
         System.out.println("SwipeDogsFragment: updateUI()");
-        dadapi.getNextDogs(new DADAPI.DogsDataListener() {
+        server.getNextDogs(new DADServer.DogsDataListener() {
             @Override
             public void onGotDogs(List<Dog> dogs) {
                 for (Dog dog : dogs) {
@@ -76,7 +76,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dadapi = DADAPI.getInstance(getContext().getApplicationContext());
+        server = server.getInstance(getContext().getApplicationContext());
         dogCards = new ArrayList<>();
     }
 
@@ -135,7 +135,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
             public void onLeftCardExit(Object dataObject) {
                 // This is a dislike dog swipe.
                 DogCard dogCard = dogCards.get(0);
-                dadapi.dislikeDog(dogCard.getDogId());
+                server.dislikeDog(dogCard.getDogId());
                 dogCards.remove(0);
                 ((BaseAdapter) flingContainer.getAdapter()).notifyDataSetChanged();
                 if (dogCards.size() <= REFRESH_DOGS_THRESHOLD) {
@@ -147,7 +147,7 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
             public void onRightCardExit(Object dataObject) {
                 // This is a like dog swipe.
                 DogCard dogProfile = dogCards.get(0);
-                dadapi.likeDog(dogProfile.getDogId());
+                server.likeDog(dogProfile.getDogId());
                 dogCards.remove(0);
                 ((BaseAdapter) flingContainer.getAdapter()).notifyDataSetChanged();
                 if (dogCards.size() <= REFRESH_DOGS_THRESHOLD) {

@@ -34,7 +34,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
      * this activity.
      * */
     private Dog dog;
-    private DADAPI dadapi;
+    private DADServer server;
     private Button requestDateButton;
     private TextView feedbackTitle;
     private TextView feedback;
@@ -42,7 +42,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dadapi = DADAPI.getInstance(getApplicationContext());
+        server = server.getInstance(getApplicationContext());
 
         setContentView(R.layout.activity_dog_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -68,7 +68,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                dadapi.getUser(new DADAPI.UserProfileDataListener() {
+                server.getUser(new DADServer.UserProfileDataListener() {
                     @Override
                     public void onGotUserProfile(final UserProfile userProfile) {
                         if (userProfile.isComplete()) {
@@ -99,7 +99,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
     public void onFinishDialog(int hour, int minute, String description) {
         calendar.set(Calendar.HOUR, hour);
         calendar.set(Calendar.MINUTE, minute);
-        dadapi.requestDate(dog.getDogId(), calendar.getTimeInMillis(), description);
+        server.requestDate(dog.getDogId(), calendar.getTimeInMillis(), description);
         findViewById(R.id.requestDateButton).setEnabled(false);
         ((TextView) findViewById(R.id.requestDateButton)).setText(R.string.request_sent);
     }
@@ -165,7 +165,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
         ((TextView) findViewById(R.id.locationTextView)).setText(dog.getCity());
         // Get and display the request status for this dog.
         requestDateButton.setEnabled(false);
-        dadapi.getDateRequests(new DADAPI.DateRequestsDataListener() {
+        server.getDateRequests(new DADServer.DateRequestsDataListener() {
             @Override
             public void onGotDateRequests(Set<DateRequest> dateRequests) {
                 boolean existingDateRequest = false;

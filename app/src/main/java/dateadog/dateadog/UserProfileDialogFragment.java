@@ -21,7 +21,7 @@ import android.view.ViewGroup;
  */
 public class UserProfileDialogFragment extends DialogFragment {
 
-    private DADAPI dadapi;
+    private DADServer server;
     private static final String USER_PROFILE_ARG = "UserProfile";
 
     private OnFragmentInteractionListener mListener;
@@ -56,7 +56,7 @@ public class UserProfileDialogFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dadapi = DADAPI.getInstance(getContext().getApplicationContext());
+        server = server.getInstance(getContext().getApplicationContext());
     }
 
     /**
@@ -73,7 +73,7 @@ public class UserProfileDialogFragment extends DialogFragment {
         profile.setState(stateText.getText().toString());
         profile.setZip(zipText.getText().toString());
         profile.setPhone(phoneText.getText().toString());
-        dadapi.updateUser(profile);
+        server.updateUser(profile);
 
     }
 

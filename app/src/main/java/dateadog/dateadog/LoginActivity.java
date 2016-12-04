@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private TextView welcomeText;
     private CallbackManager callbackManager;
-    private DADAPI dadapi;
+    private DADServer server;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (LoginButton) findViewById(R.id.login_button);
         welcomeText = (TextView) findViewById(R.id.welcome_text);
         callbackManager = CallbackManager.Factory.create();
-        dadapi = DADAPI.getInstance(getApplicationContext());
+        server = server.getInstance(getApplicationContext());
 
         // Registers a callback from the FB login button.
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 loginButton.setVisibility(View.GONE);
                 welcomeText.setVisibility(View.VISIBLE);
-                dadapi.getUser(new DADAPI.UserProfileDataListener() {
+                server.getUser(new DADServer.UserProfileDataListener() {
                     @Override
                     public void onGotUserProfile(UserProfile userProfile) {
                         Intent main = new Intent(LoginActivity.this, MainActivity.class);

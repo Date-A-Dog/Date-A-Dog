@@ -29,7 +29,7 @@ public class LikedDogsFragment extends Fragment {
 
     private static final int NUM_COLUMNS = 2;
 
-    private DADAPI dadapi;
+    private DADServer server;
     private List<Dog> likedDogs;
     private LikedDogsRecyclerViewAdapter adapter;
 
@@ -52,13 +52,13 @@ public class LikedDogsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dadapi = DADAPI.getInstance(getContext().getApplicationContext());
+        server = server.getInstance(getContext().getApplicationContext());
         likedDogs = new ArrayList<>();
     }
 
     public void updateUI() {
         System.out.println("LikedDogsFragment: updateUI()");
-        dadapi.getDateRequests(new DADAPI.DateRequestsDataListener() {
+        server.getDateRequests(new DADServer.DateRequestsDataListener() {
             @Override
             public void onGotDateRequests(Set<DateRequest> dateRequests) {
                 final LongSparseArray<DateRequest> dogIdToDateRequest = new LongSparseArray<>();
@@ -66,7 +66,7 @@ public class LikedDogsFragment extends Fragment {
                     dogIdToDateRequest.put(request.getDogId(), request);
                 }
 
-                dadapi.getLikedDogs(new DADAPI.DogsDataListener() {
+                server.getLikedDogs(new DADServer.DogsDataListener() {
                     @Override
                     public void onGotDogs(List<Dog> dogs) {
                         for (Dog dog : dogs) {

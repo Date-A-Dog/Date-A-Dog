@@ -30,14 +30,14 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * DADAPI communicates with the DAD server to retrieve and update data about dog profiles and users.
+ * DADServer communicates with the DAD server to retrieve and update data about dog profiles and users.
  */
-public class DADAPI {
+public class DADServer {
 
     /** Holds the sole instance of this class. */
-    private static DADAPI instance;
+    private static DADServer instance;
     /** Used to identify this class in logging messages. */
-    private static String TAG = DADAPI.class.getName();
+    private static String TAG = DADServer.class.getName();
     /** URLs for server endpoints. */
     private static String DAD_SERVER_URL_BASE = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/api/";
     private static String GET_NEXT_DOGS_URL = DAD_SERVER_URL_BASE + "getNextDogs";
@@ -68,23 +68,23 @@ public class DADAPI {
     private Context context;
 
     /**
-     * Constructs an instance of the DADAPI class with the given context.
+     * Constructs an instance of the DADServer class with the given context.
      *
      * @param context the application context in which this class will be used
      */
-    public DADAPI(Context context) {
+    public DADServer(Context context) {
         this.context = context;
     }
 
     /**
-     * Returns an instance of the {@code DADAPI} class.
+     * Returns an instance of the {@code DADServer} class.
      *
      * @param context the application context in which this class will be used
-     * @return an instance of the {@code DADAPI} class
+     * @return an instance of the {@code DADServer} class
      */
-    public static DADAPI getInstance(Context context) {
+    public static DADServer getInstance(Context context) {
         if (instance == null) {
-            instance = new DADAPI(context);
+            instance = new DADServer(context);
         }
         return instance;
     }
@@ -135,9 +135,9 @@ public class DADAPI {
     }
 
     /**
-     * Clients implement this interface to receive dogs from DADAPI requests. An object
+     * Clients implement this interface to receive dogs from DADServer requests. An object
      * that implements this interface is passed by the client to methods that return dogs.
-     * The client uses the {@code onGotDogs} method to receive the dogs from the DADAPI request.
+     * The client uses the {@code onGotDogs} method to receive the dogs from the DADServer request.
      */
     public interface DogsDataListener {
         /**
@@ -149,10 +149,10 @@ public class DADAPI {
     }
 
     /**
-     * Clients implement this interface to receive user profiles from DADAPI requests. An object
+     * Clients implement this interface to receive user profiles from DADServer requests. An object
      * that implements this interface is passed by the client to methods that return a user profile.
      * The client uses the {@code onGotUserProfile} method to receive the user profile from the
-     * DADAPI request.
+     * DADServer request.
      */
     public interface UserProfileDataListener {
         /**
@@ -164,10 +164,10 @@ public class DADAPI {
     }
 
     /**
-     * Clients implement this interface to receive date requests from DADAPI requests. An object
+     * Clients implement this interface to receive date requests from DADServer requests. An object
      * that implements this interface is passed by the client to methods that return date requests.
      * The clients uses the {@code onGotDateRequests} method to receive the date requests from
-     * the DADAPI request.
+     * the DADServer request.
      */
     public interface DateRequestsDataListener {
         /**

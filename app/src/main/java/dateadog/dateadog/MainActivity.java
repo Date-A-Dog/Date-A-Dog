@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,11 +17,7 @@ import android.view.View;
 
 import com.facebook.login.LoginManager;
 
-public class MainActivity extends AppCompatActivity implements LikedDogsFragment.OnFragmentInteractionListener,
-                                                               SwipeDogsFragment.OnFragmentInteractionListener,
-                                                               UserProfileDialogFragment.OnFragmentInteractionListener {
-
-    private static final String TAG = MainActivity.class.getName();
+public class MainActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -129,11 +124,6 @@ public class MainActivity extends AppCompatActivity implements LikedDogsFragment
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.i(TAG, uri.toString());
     }
 
     /**

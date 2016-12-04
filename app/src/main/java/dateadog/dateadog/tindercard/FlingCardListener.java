@@ -33,7 +33,6 @@ public class FlingCardListener implements View.OnTouchListener {
     private final int TOUCH_ABOVE = 0;
     private final int TOUCH_BELOW = 1;
     private final Object obj = new Object();
-    public ActionDownInterface actionDownInterface;
     private float BASE_ROTATION_DEGREES;
     private float aPosX;
     private float aPosY;
@@ -329,10 +328,6 @@ public class FlingCardListener implements View.OnTouchListener {
         void onClick(Object dataObject);
 
         void onScroll(float scrollProgressPercent);
-    }
-
-    public interface ActionDownInterface {
-        public void onActionDownPerform();
     }
 
 }

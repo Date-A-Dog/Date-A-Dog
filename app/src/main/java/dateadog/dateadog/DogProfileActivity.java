@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
-public class DogProfileActivity extends AppCompatActivity implements DatePickerFragment.DateDialogListener, TimePickerFragment.TimeDialogListener, UserProfileDialogFragment.OnFragmentInteractionListener {
+public class DogProfileActivity extends AppCompatActivity implements DatePickerFragment.DateDialogListener, TimePickerFragment.TimeDialogListener {
 
     /**
      * The dog that this profile displays information for. Passed via an intent when starting
@@ -194,8 +194,4 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
         });
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }

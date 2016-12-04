@@ -1,7 +1,5 @@
 package dateadog.dateadog;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,20 +16,13 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-import dateadog.dateadog.tindercard.FlingCardListener;
 import dateadog.dateadog.tindercard.SwipeFlingAdapterView;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SwipeDogsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
  * Use the {@link SwipeDogsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SwipeDogsFragment extends Fragment implements FlingCardListener.ActionDownInterface {
-
-    private OnFragmentInteractionListener mListener;
+public class SwipeDogsFragment extends Fragment {
 
     /**
      * The minimum number of dogs left in the stack before more dogs are retrieved from the server.
@@ -44,17 +35,10 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
 
     public static ViewHolder viewHolder;
 
-    public void updateUI() {
-        System.out.println("SwipeDogsFragment: updateUI()");
-        server.getNextDogs(new DADServer.DogsDataListener() {
-            @Override
-            public void onGotDogs(List<Dog> dogs) {
-                for (Dog dog : dogs) {
-                    dogCards.add(new DogCard(dog));
-                }
-                ((BaseAdapter) flingContainer.getAdapter()).notifyDataSetChanged();
-            }
-        });
+    public static class ViewHolder {
+        public FrameLayout background;
+        public TextView description;
+        public ImageView cardImage;
     }
 
     public SwipeDogsFragment() {
@@ -78,12 +62,6 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
         super.onCreate(savedInstanceState);
         server = server.getInstance(getContext().getApplicationContext());
         dogCards = new ArrayList<>();
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        updateUI();
     }
 
     @Override
@@ -170,45 +148,22 @@ public class SwipeDogsFragment extends Fragment implements FlingCardListener.Act
         return view;
     }
 
-
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        updateUI();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
-    public void onActionDownPerform() { }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
-
-    public static class ViewHolder {
-        public FrameLayout background;
-        public TextView description;
-        public ImageView cardImage;
+    public void updateUI() {
+        server.getNextDogs(new DADServer.DogsDataListener() {
+            @Override
+            public void onGotDogs(List<Dog> dogs) {
+                for (Dog dog : dogs) {
+                    dogCards.add(new DogCard(dog));
+                }
+                ((BaseAdapter) flingContainer.getAdapter()).notifyDataSetChanged();
+            }
+        });
     }
 
 }

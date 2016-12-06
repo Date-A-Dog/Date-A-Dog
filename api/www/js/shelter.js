@@ -232,8 +232,8 @@ var Shelter = function(_token, _testingMockData) {
                                       r.request.feedback,
                                       isActive(r.request.epoch));
 
-      // We automatically deny pending requests which have expired
-      if (!parsedRequest.isActive && parsedRequest.status === "P") {
+      // We automatically deny pending requests which have expired - only when not testing
+      if (!parsedRequest.isActive && parsedRequest.status === "P" && !testingMockData) {
         var feedbackMessage = "Date request expired before shelter made decision.";
         
         // set to "denied" status

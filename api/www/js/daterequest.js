@@ -3,7 +3,7 @@
  * from a user to date a dog from a shelter.
  *
  */
-DateRequest = function(requestId, dogProfile, daterProfile, dateTime, status, reason, feedback) {
+DateRequest = function(requestId, dogProfile, daterProfile, dateTime, status, reason, feedback, isActive) {
   var request = {};
 
   //TODO: verify argument types {DogProfile, DaterProfile} before constructing
@@ -13,7 +13,8 @@ DateRequest = function(requestId, dogProfile, daterProfile, dateTime, status, re
   request.dateTime     = dateTime;
   request.status       = status;
   request.reason       = reason;
-  request.feedback     = feedback;  
+  request.feedback     = feedback;
+  request.isActive     = isActive;  // if logically determined to be before current time 
   return request;
 };
 

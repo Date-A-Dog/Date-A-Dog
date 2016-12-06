@@ -9,6 +9,7 @@ describe("Date Request", function() {
   var DATE = "11/12/2016";
   var REASON = "user reason";
   var FEEDBACK = "shelter feedback";
+  var ISACTIVE = false;
   var DATER_PROFILE = {
       fName: "joe",
       lName: "rippper",
@@ -35,7 +36,7 @@ describe("Date Request", function() {
   */
   describe("DateRequest constructor", function() {
     it("Builds DateRequest object", function() {
-      var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS, REASON, FEEDBACK);
+      var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS, REASON, FEEDBACK, ISACTIVE);
       var expectedDateRequest = {
         id: REQUEST_ID,
         dogProfile: DOG_PROFILE,
@@ -43,16 +44,17 @@ describe("Date Request", function() {
         dateTime: DATE,
         status: STATUS,
         reason: REASON,
-        feedback: FEEDBACK
+        feedback: FEEDBACK,
+        isActive: ISACTIVE
       }
       expect(dr).to.deep.equal(expectedDateRequest);
     });
   });
 
   describe("DateRequest Property Consistency", function() {
-    var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS, REASON, FEEDBACK);
+    var dr = DateRequest(REQUEST_ID, DOG_PROFILE, DATER_PROFILE, DATE, STATUS, REASON, FEEDBACK, ISACTIVE);
     it("0. requestId", function() {
-      assert(dr.id, REQUEST_ID);
+      assert.equal(dr.id, REQUEST_ID);
     });
     it("1. dogProfile", function() {
       expect(dr.dogProfile).to.deep.equal(DOG_PROFILE);
@@ -61,18 +63,21 @@ describe("Date Request", function() {
       expect(dr.daterProfile).to.deep.equal(DATER_PROFILE);
     });
     it("3. dateTime", function() {
-      assert(dr.dateTime, DATE);
+      assert.equal(dr.dateTime, DATE);
     });
     it("4. status", function() {
-      assert(dr.status, STATUS);
+      assert.equal(dr.status, STATUS);
     });
     
     it("5. reason", function() {
-      assert(dr.status, REASON);
+      assert.equal(dr.reason, REASON);
     });
     
     it("6. feedback", function() {
-      assert(dr.status, FEEDBACK);
+      assert.equal(dr.feedback, FEEDBACK);
+    });
+    it("7. isActive", function() {
+      assert.equal(dr.isActive, ISACTIVE);
     });
   });
 

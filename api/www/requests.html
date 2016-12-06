@@ -23,6 +23,7 @@
  </head>
 <body id="dad">
   <script> 
+    // facebook auth API logic
     window.fbAsyncInit = function() {
        FB.init({
          appId: '1105437202885536',
@@ -94,21 +95,29 @@
         };
         
         var shelter;
+        // Builds shelter object and attaches shelter's date requests
+        // to the site's accordion list
+        // param: 
+        //   fbResponse - the facebook authentication response object
         function loadData(fbResponse) {
+          // we pass the user token to identefy shelter 
           shelter = Shelter(fbResponse.authResponse.accessToken);
+
+          // get updated history date requests asynchronously
           shelter.updateDateRequests(function(){ 
             var requestsList = shelter.getPendingRequests();
 			
             //removes the empty request page info if there are any requests
-			if(requestsList.length > 0){
-				$("#accordion").empty(); //remove loading header 
-			} else {
-                                // the list is empty, so we update accordion header
-                                document.getElementById('accordionheader').innerHTML = "You have no pending requests"; 
-                        }
+            if (requestsList.length > 0){
+              $("#accordion").empty(); //remove loading header 
+            } else {
+               // the list is empty, so we update accordion header
+               document.getElementById('accordionheader').innerHTML = "You have no pending requests"; 
+            }
 			
             // add an accordion div for each date request
             for (var i = 0; i < requestsList.length; i++) {
+              // build the html div and attach to accordion
               var newDiv = buildDiv(requestsList[i]);
               $("#accordion").append(newDiv);
             }
@@ -118,12 +127,20 @@
           });
         };// end of loadData
 
+        // performs actions to approve the request
+        // identified by the given request Id
+        // param:
+        //    reqId - the id for request to be approved
 	function aproveRequest(reqId) { 
 	  updateButtons(reqId, "approve");
           shelter.updateRequestStatus(reqId, "A");
 	  alert("Approving request: " + reqId);
 	}
 
+        // performs actions to deny the request
+        // identified by the given request Id
+        // param:
+        //    reqId - the id for request to be denied 
 	function denyRequest(reqId) {   
           var shelterMessage = "";
           // while no message is provided or user cancels
@@ -140,6 +157,11 @@
 	  alert("Denying request: " + reqId);
 	}
 
+
+        // performs actions to re-set request status to 'pending'
+        // identified by the given request Id
+        // param:
+        //    reqId - the id for request to be denied 
 	function undoRequest(reqId) {  
           updateButtons(reqId, "undo");
           // reset status and shelter message to empty string
@@ -147,6 +169,18 @@
           alert("Undoing request: " + reqId);
 	}
 
+        // Updates the button veiw for the request identified
+        // by the given reqId
+        // param:
+        //   reqId - The id for request for which buttons view 
+        //           will be updated
+        //   clickedButton - The html id tag for the button that
+        //           was clicked, which will determine how the
+        //           buttons will be updated.
+        //           i.e;
+        //           if "undo" - enable all buttons
+        //           if "approve" - disable approve , enable deny, and undo
+        //           if "deny" - disable deny, enable approve and undo
 	function updateButtons(reqId, clickedButton) {
 	  var buttonID_A = "A" + reqId;
 	  var buttonID_D = "D" + reqId;  
@@ -172,9 +206,12 @@
               denyButton.disabled = false;
 	      undoButton.diabled = false;
               break;
+            default:
+              console.log("Error: Unable to recognize clicked button");
 	  }  
 	}
         
+        // Builds a new HTML div intended for use in the site's accordion        
         function buildDiv(request) {
           var newDiv = "<div class=\"accordionTitle\">" +
 						   "<h3> " +

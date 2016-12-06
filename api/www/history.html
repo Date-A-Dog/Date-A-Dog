@@ -24,6 +24,7 @@
 <body id="dad">
 
   <script> 
+    // facebook auth API logic 
     window.fbAsyncInit = function() {
       FB.init({
         appId: '1105437202885536',
@@ -93,11 +94,20 @@
           window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html"; 
         };
 
-        var shelter;         
+        var shelter;      
+
+        // Builds shelter object and attaches shelter's date requests
+        // to the accordion list. The list is sorted from most recent requests
+        // to oldest requests according to date.
         function loadData(fbResponse) {
+          // we pass the user token to identify shelter
           shelter = Shelter(fbResponse.authResponse.accessToken);
-          shelter.updateDateRequests(function(){ 
-            var requestsList = shelter.getHistoryRequests();
+
+          // Get updated history date requests asynchroniously
+          shelter.updateDateRequests(function(){
+            // we reverse the order, this results with request history displayed
+            // with most recent requests at top of accordion list
+            var requestsList = (shelter.getHistoryRequests()).reverse();
             
             // removes empty request page info if there are any requests
             if (requestsList.length > 0) {
@@ -107,23 +117,34 @@
                document.getElementById('accordionheader').innerHTML = "You have no request history";
             }
             for (var i = 0; i < requestsList.length; i++) {
+              // build the html div and attach to accordion
               var newDiv = buildDiv(requestsList[i]);
               $("#accordion").append(newDiv);
             }
+
             $("#accordion").accordion("refresh");
             $("#accordion").accordion();
           });
         };  // end of loadData()
 
+        
+        // Resets the request identified by the given param
+        // to a "pending" status, deleting the previous feedback
+        // shelter comment. 
         function undoRequest(reqId){  
           var undoButton = document.getElementById("U" + reqId);
           undoButton.disabled = true;
-          shelter.updateRequestStatus(reqId, "P");
+          shelter.updateRequestStatus(reqId, "P", "");
           alert("Undoing request: " + reqId);
         };
 
+        // Builds a new HTML div intended for use in the site's accordion
         function buildDiv(request) {
+          var currentDate = new Date();
           var imgName = (request.status == "A") ? "check_icon.png": "x_icon.png";
+
+          // disable undo button if request has expired 
+          var buttonViewState = (request.isActive) ? " enabled ":" disabled ";     
           var newDiv = "<div class=\"accordionTitle\">"+
 						   "<img src=" + imgName +" width=\"30\" height=\"38\">"+
 						   "<h3> Dog Name: " + request.dogProfile.name + "</h3>"+
@@ -131,7 +152,7 @@
 						   "<h3>When: "+ request.dateTime + "</h3>"+
                        "</div> " + 
                        "<div class=\"accordionEle\"> " +
-						   "<h3> Requester Details </h3>" +//<br>" + 
+						   "<h3> Requester Details: </h3>" +//<br>" + 
 						   "<p>" +
 							   "Name:  <strong>"  + request.daterProfile.fName +" " + request.daterProfile.lName +"</strong><br>" +
 							   "Phone: <strong>" + request.daterProfile.phone + "</strong><br>" +
@@ -151,10 +172,12 @@
 							   "Sex: <strong>" + request.dogProfile.sex + "</strong><br>" +
 							   "Dog Id: <strong>" + request.dogProfile.id + "</strong><br>" + 
 						   "</p>" +
-						   "<h3> Shelter Notes/Denial Message </h3>" +
+						   "<h3> Reason From Requester:  </h3>" +
+						   "<p>"+request.reason + "</p>"+
+					           "<h3> Shelter Notes/Denial Message: </h3>" +
 						   "<p>"+request.feedback + "</p>"+
 						   "<p class=\"request-button-container\"> " + 
-							    "<button id =\"U" + request.id + "\" class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + request.id + ")\"> Undo</button> " + 
+							    "<button id =\"U" + request.id + "\"" + buttonViewState + "class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + request.id + ")\"> Undo</button> " + 
 						   "</p>" +
 					   "</div>";
           return newDiv; 

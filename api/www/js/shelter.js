@@ -170,6 +170,8 @@ var Shelter = function(_token, _testingMockData) {
   //     "id": 187326,
   //     "dateTime": "tomorrow",
   //     "status": "P",
+  //     "reason": "user reason to date",
+  //     "feedback": "shelter feedback",
   //     "daterProfile": {
   //       "fName": "Mike",
   //       "lName": "Jones",
@@ -227,8 +229,21 @@ var Shelter = function(_token, _testingMockData) {
                                       epochToString(r.request.epoch),
                                       r.request.status,
                                       r.request.reason,
-                                      r.request.feedback);
-                                     
+                                      r.request.feedback,
+                                      isActive(r.request.epoch));
+
+      // We automatically deny pending requests which have expired
+      if (!parsedRequest.isActive && parsedRequest.status === "P") {
+        var feedbackMessage = "Date request expired before shelter made decision.";
+        
+        // set to "denied" status
+        parsedRequest.status = "D";
+        parsedRequest.feedback = feedbackMessage;
+        
+        // now we comunicate status change to backend
+        shelter.updateRequestStatus(parsedRequest.id, "D", feedbackMessage);
+
+      }                               
       // add new request
       filteredArray.push(parsedRequest);
     }
@@ -236,6 +251,19 @@ var Shelter = function(_token, _testingMockData) {
     return filteredArray;
   };
 
+  // Determines if current date is greater than the
+  // request date given in epoch
+  // param: 
+  //   requestDateTime - the epoch to compare against current
+  //                     time.
+  // return:
+  //   boolean - true if requestDatTime > current time (meaning request is in future),
+  //             false otherwise.
+  function isActive(requestDateTime) {
+    var currDate = new Date();
+    var t = currDate.getTime();
+    return parseInt(currDate.getTime(), 10) < parseInt(requestDateTime, 10);
+  }
   
   // Validates request properties for undefined, null, or empty strings
   // param: r - the request object to verify

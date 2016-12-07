@@ -9,19 +9,17 @@ pf.getDogs('98105', 1000, function(err, dogs) {
     }
   }
   console.log('Inserting doggies into database...');
-  db.updateDoggie(dogs, function(err) {
-    db.getShelterIds(function(err, shelterIds) {
-      shelters = [];
-      var shelterIdsLength = shelterIds.length;
-      for (var i = 0; i < shelterIdsLength; i++) {
-        pf.getShelter(shelterIds[i].shelterid, function(err, shelter) {
-          db.updateShelter(shelter);
-        })
-      }
-    })
-  });
+  db.updateDoggie(dogs);
   console.log('Complete.')
-
+  db.getShelterIds(function(err, shelterIds) {
+    shelters = [];
+    var shelterIdsLength = shelterIds.length;
+    for (var i = 0; i < shelterIdsLength; i++) {
+      pf.getShelter(shelterIds[i].shelterid, function(err, shelter) {
+        db.updateShelter(shelter);
+      })
+    }
+  })
 });
 
 // First get dogs to populate dog table

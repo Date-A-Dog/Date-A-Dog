@@ -5,20 +5,22 @@
  *
  */
 var DogProfile = function(dogId, name, sex, age, photoURL) {
-  // object profile properties
-  var profile = {};
+    // object profile properties
+    var profile = {};
 
-  // declare/init dog properties
-  profile.id       = dogId;
-  profile.name     = name;
-  profile.sex      = sex;
-  profile.age      = age;
-  profile.photoURL = photoURL;
+    // declare/init dog properties
+    profile.id = dogId;
+    profile.name = name;
+    profile.sex = sex;
+    profile.age = age;
+    profile.photoURL = photoURL;
 
-  return profile;
+    return profile;
 };
+
+/* Export this file only when testing */
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
- module.exports = DogProfile;
+    module.exports = DogProfile;
 } else {
-  window.DogProfile = DogProfile;
+    window.DogProfile = DogProfile;
 }

@@ -1,178 +1,186 @@
 <!DOCTYPE html>
- <html lang="en">
- <head>
-	<meta charset="utf-8"/>
-	<title>Date a Dog</title>
-	<link rel="icon" href="sample.png">
-	
-	<link rel ="stylesheet" type="text/css" href="css/style.css" />
-	<link rel ="stylesheet" type="text/css" href="css/content-display.css" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="js/fbinit.js"></script>
-	<script src="js/fblogin.js"></script>
-	<script src="js/address.js"></script>
-	<script src="js/dogprofile.js"></script>
-	<script src="js/daterprofile.js"></script>
-	<script src="js/daterequest.js"></script>
-	<script src="js/shelter.js"></script>
- </head>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Date a Dog</title>
+    <link rel="icon" href="sample.png">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/content-display.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="js/fbinit.js"></script> -->
+    <!-- <script src="js/fblogin.js"></script>  -->
+    <script src="js/address.js"></script>
+    <script src="js/dogprofile.js"></script>
+    <script src="js/daterprofile.js"></script>
+    <script src="js/daterequest.js"></script>
+    <script src="js/shelter.js"></script>
+</head>
+
 <body id="dad">
-  <script> 
-    // facebook auth API logic
-    window.fbAsyncInit = function() {
-       FB.init({
-         appId: '1105437202885536',
-         cookie: true, // This is important, it's not enabled by default
-         version: 'v2.2'
-       });
-    
-       FB.getLoginStatus(function (response) {
-         if (response.status === 'connected') {
-     	   console.log("Logged in as" + response.authResponse.accessToken);
-           loadData(response);
-         } else {
-           // log in again code
-           console.log("Expired token");
-           logout();
-         }
+    <script>
+        // facebook auth API logic
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: '1105437202885536',
+                cookie: true, // This is important, it's not enabled by default
+                version: 'v2.2'
+            });
 
-      });
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    console.log("Login successful.");
+                    loadData(response);
+                } else {
+                    // log in again code
+                    console.log("Expired token");
+                    logout();
+                }
 
-    };
+            });
 
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));
-  </script>
-
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="index.html">Date A Dog</a>
-			</div>
-			
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="https://date-a-dog.github.io/">Help</a></li>
-				<li><a href="requests.html">Requests</a></li>
-				<li><a href="history.html">History</a></li>
-				<li><a href="index.html" onclick="logout()">Logout</a></li>
-			</ul>
-		</div>
-	</nav>
-
-	<h1>Requests</h1>
-
-	<!-- For placement of requests -->
-	<div id="accordion">
-		<!-- Message for loading or empty requests page -->
-		<div class="accordionTitle" id="noRequests">
-			<h3 id='accordionheader'>Loading requests...</h3>
-		</div>
-	</div>
-	<!-- fills accordion with requests and available actions -->
-	<script type="text/javascript">
-
-		jQuery(function() { 
-	          jQuery( "#accordion" ).accordion({
-                        collapsible: true,
-                        active: false
-                 });
-		});
-		var siteUrl = '/'; 
-
-        function logout() {
-          FB.logout();
-          window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html"; 
         };
-        
-        var shelter;
+        // facebook defined function
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        a
+    </script>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">Date A Dog</a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://date-a-dog.github.io/">Help</a></li>
+                <li><a href="requests.html">Requests</a></li>
+                <li><a href="history.html">History</a></li>
+                <li><a href="index.html" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1>Requests</h1>
+
+    <!-- For placement of requests -->
+    <div id="accordion">
+        <!-- Message for loading or empty requests page -->
+        <div class="accordionTitle" id="noRequests">
+            <h3 id='accordionheader'>Loading requests...</h3>
+        </div>
+    </div>
+    <!-- Declare ccordion where we attach requests and available actions -->
+    <script type="text/javascript">
+        jQuery(function() {
+            jQuery("#accordion").accordion({
+                collapsible: true,
+                active: false
+            });
+        });
+
+        // Logs out suer from facebook, and automatically redirects to index page
+        function logout() {
+            FB.logout();
+            window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html";
+        };
+
+        var shelter; // object variable used to interact with back end
+
         // Builds shelter object and attaches shelter's date requests
         // to the site's accordion list
-        // param: 
+        // param:
         //   fbResponse - the facebook authentication response object
         function loadData(fbResponse) {
-          // we pass the user token to identefy shelter 
-          shelter = Shelter(fbResponse.authResponse.accessToken);
+            // we pass the user token to identefy shelter
+            shelter = Shelter(fbResponse.authResponse.accessToken);
 
-          // get updated history date requests asynchronously
-          shelter.updateDateRequests(function(){ 
-            var requestsList = shelter.getPendingRequests();
-			
-            //removes the empty request page info if there are any requests
-            if (requestsList.length > 0){
-              $("#accordion").empty(); //remove loading header 
-            } else {
-               // the list is empty, so we update accordion header
-               document.getElementById('accordionheader').innerHTML = "You have no pending requests"; 
-            }
-			
-            // add an accordion div for each date request
-            for (var i = 0; i < requestsList.length; i++) {
-              // build the html div and attach to accordion
-              var newDiv = buildDiv(requestsList[i]);
-              $("#accordion").append(newDiv);
-            }
+            // get updated history date requests asynchronously
+            shelter.updateDateRequests(function() {
+                var requestsList = shelter.getPendingRequests();
 
-	    $("#accordion").accordion("refresh");
-	    $("#accordion").accordion();
-          });
-        };// end of loadData
+                //removes the empty request page info if there are any requests
+                if (requestsList.length > 0) {
+                    $("#accordion").empty(); //remove loading header
+                } else {
+                    // the list is empty, so we update accordion header
+                    document.getElementById('accordionheader').innerHTML = "You have no pending requests";
+                }
+
+                // add an accordion div for each date request
+                for (var i = 0; i < requestsList.length; i++) {
+                    // build the html div and attach to accordion
+                    var newDiv = buildDiv(requestsList[i]);
+                    $("#accordion").append(newDiv);
+                }
+
+                $("#accordion").accordion("refresh");
+                $("#accordion").accordion();
+            });
+        }; // end of loadData()
 
         // performs actions to approve the request
         // identified by the given request Id
         // param:
         //    reqId - the id for request to be approved
-	function aproveRequest(reqId) { 
-	  updateButtons(reqId, "approve");
-          shelter.updateRequestStatus(reqId, "A");
-	  alert("Approving request: " + reqId);
-	}
+        function aproveRequest(reqId) {
+            updateButtons(reqId, "approve");
+            // Set shelter request to denied, no feedback required, so we pass ""
+            shelter.updateRequestStatus(reqId, "A", "");
+            alert("Approving request: " + reqId);
+        }
 
         // performs actions to deny the request
         // identified by the given request Id
         // param:
-        //    reqId - the id for request to be denied 
-	function denyRequest(reqId) {   
-          var shelterMessage = "";
-          // while no message is provided or user cancels
-          while(shelterMessage == "") {
-            shelterMessage = prompt("Please provide reason for denying request:");
-            if (shelterMessage == null) {
-              // action cancelled, just return 
-              return;
+        //    reqId - the id for request to be denied
+        function denyRequest(reqId) {
+            var shelterMessage = "";
+            // while no message is provided or user cancels
+            while (shelterMessage == "") {
+                shelterMessage = prompt("Please provide reason for denying request:");
+                if (shelterMessage == null) {
+                    // action cancelled, just return
+                    return;
+                }
             }
-          }
 
-          updateButtons(reqId, "deny");
-          shelter.updateRequestStatus(reqId, "D", shelterMessage);
-	  alert("Denying request: " + reqId);
-	}
+            updateButtons(reqId, "deny");
+            // Set shelter request to denied, with the given message as feedback
+            shelter.updateRequestStatus(reqId, "D", shelterMessage);
+            alert("Denying request: " + reqId);
+        }
 
 
         // performs actions to re-set request status to 'pending'
         // identified by the given request Id
         // param:
-        //    reqId - the id for request to be denied 
-	function undoRequest(reqId) {  
-          updateButtons(reqId, "undo");
-          // reset status and shelter message to empty string
-          shelter.updateRequestStatus(reqId, "P", "");
-          alert("Undoing request: " + reqId);
-	}
+        //    reqId - the id for request to be denied
+        function undoRequest(reqId) {
+            updateButtons(reqId, "undo");
+            // reset shelter request to pending, and empty string as feedback
+            shelter.updateRequestStatus(reqId, "P", "");
+            alert("Undoing request: " + reqId);
+        }
 
-        // Updates the button veiw for the request identified
+        // Updates the button view for the request identified
         // by the given reqId
         // param:
-        //   reqId - The id for request for which buttons view 
+        //   reqId - The id for request for which buttons view
         //           will be updated
         //   clickedButton - The html id tag for the button that
         //           was clicked, which will determine how the
@@ -181,76 +189,78 @@
         //           if "undo" - enable all buttons
         //           if "approve" - disable approve , enable deny, and undo
         //           if "deny" - disable deny, enable approve and undo
-	function updateButtons(reqId, clickedButton) {
-	  var buttonID_A = "A" + reqId;
-	  var buttonID_D = "D" + reqId;  
-	  var buttonID_U = "U" + reqId;
-			
-	  var approveButton = document.getElementById(buttonID_A);
-	  var denyButton = document.getElementById(buttonID_D);
-	  var undoButton = document.getElementById(buttonID_U);
+        function updateButtons(reqId, clickedButton) {
+            // We precede the request id with a char to distinguish between buttons
+            var buttonID_A = "A" + reqId;
+            var buttonID_D = "D" + reqId;
+            var buttonID_U = "U" + reqId;
 
-	  switch(clickedButton) {
-            case "approve": 
-              approveButton.disabled = true;
-              denyButton.disabled = false;
-              undoButton.diabled = false;
-              break;
-            case "deny":
-              approveButton.disabled = false;
-              denyButton.disabled = true;
-              undoButton.diabled = false;
-	      break;
-            case "undo":
-              approveButton.disabled = false;
-              denyButton.disabled = false;
-	      undoButton.diabled = false;
-              break;
-            default:
-              console.log("Error: Unable to recognize clicked button");
-	  }  
-	}
-        
-        // Builds a new HTML div intended for use in the site's accordion        
+            // obtain the button elements
+            var approveButton = document.getElementById(buttonID_A);
+            var denyButton = document.getElementById(buttonID_D);
+            var undoButton = document.getElementById(buttonID_U);
+
+            switch (clickedButton) {
+                case "approve":
+                    approveButton.disabled = true;
+                    denyButton.disabled = false;
+                    undoButton.diabled = false;
+                    break;
+                case "deny":
+                    approveButton.disabled = false;
+                    denyButton.disabled = true;
+                    undoButton.diabled = false;
+                    break;
+                case "undo":
+                    approveButton.disabled = false;
+                    denyButton.disabled = false;
+                    undoButton.diabled = false;
+                    break;
+                default:
+                    console.log("Error: Unable to recognize clicked button");
+            }
+        } // end of updateButtons()
+
+        // Builds a new HTML div intended for use in the site's accordion
         function buildDiv(request) {
-          var newDiv = "<div class=\"accordionTitle\">" +
-						   "<h3> " +
-							   "Dog Name: " + request.dogProfile.name + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
-							   "Dater: " + request.daterProfile.fName +" " + request.daterProfile.lName + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
-							   "When: "+ request.dateTime + 
-						   "</h3>"+
-					   "</div> " + 
-					   "<div class=\"accordionEle\"> " + 
-						   "<h3> Requester Details </h3>" + //<br>" + 
-						   "<p>" +
-							   "Name:  <strong>"  + request.daterProfile.fName +" " + request.daterProfile.lName +"</strong><br>" +
-							   "Phone: <strong>" + request.daterProfile.phone + "</strong><br>" +
-							   "Email: <strong>" + request.daterProfile.email + "</strong><br>" +
-							   "Street: <strong>" + request.daterProfile.address.street + "</strong><br>" +
-							   "City: <strong>" + request.daterProfile.address.city + "</strong><br>" +
-							   "State: <strong>" + request.daterProfile.address.state + "</strong><br>" + 
-							   "Zipcode: <strong>"+ request.daterProfile.address.zipcode+"</strong>"+ 
-						   "</p>" +
-						   "<h3>Date requested with: </h3>"+//<br>" +
-						   "<p>" +
-							   "<img class=\"accordion-img\" src=\""+ request.dogProfile.photoURL +"\" alt=\"dog image\">  " + 
-							   "<strong>"+ request.dogProfile.name+"</strong>" +
-						   "</p>" +
-						   "<p>" +
-							   "Age: <strong>" + request.dogProfile.age + "</strong><br>" +
-							   "Sex: <strong>" + request.dogProfile.sex + "</strong><br>" +
-							   "Dog Id: <strong>" + request.dogProfile.id + "</strong><br>" +
-						   "</p>" +
-						   "<h3> Reason for Date </h3>" +
-						   "<p>"+request.reason + "</p>" +
-						   "<p class=\"request-button-container\"> " + 
-							   // buttons
-							   "<button id =\"A" + request.id + "\" class=\"request-buttons btn btn-success btn-lg\" onclick=\"aproveRequest(" + request.id + ")\"> Approve</button>" +
-							   "<button id =\"D" + request.id + "\" class=\"request-buttons btn btn-warning btn-lg\" onclick=\"denyRequest(" + request.id + ")\"> Deny</button>" +
-							   "<button id =\"U" + request.id + "\" class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + request.id + ")\"> Undo</button> " + 
-						   "</p>" +
-					   "</div>";
-          return newDiv;
-        }
-	</script>
- </body>
+            var newDiv = "<div class=\"accordionTitle\">" +
+                "<h3> " +
+                "Dog Name: " + request.dogProfile.name + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                "Dater: " + request.daterProfile.fName + " " + request.daterProfile.lName + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                "When: " + request.dateTime +
+                "</h3>" +
+                "</div> " +
+                "<div class=\"accordionEle\"> " +
+                "<h3> Requester Details </h3>" + //<br>" +
+                "<p>" +
+                "Name:  <strong>" + request.daterProfile.fName + " " + request.daterProfile.lName + "</strong><br>" +
+                "Phone: <strong>" + request.daterProfile.phone + "</strong><br>" +
+                "Email: <strong>" + request.daterProfile.email + "</strong><br>" +
+                "Street: <strong>" + request.daterProfile.address.street + "</strong><br>" +
+                "City: <strong>" + request.daterProfile.address.city + "</strong><br>" +
+                "State: <strong>" + request.daterProfile.address.state + "</strong><br>" +
+                "Zipcode: <strong>" + request.daterProfile.address.zipcode + "</strong>" +
+                "</p>" +
+                "<h3>Date requested with: </h3>" + //<br>" +
+                "<p>" +
+                "<img class=\"accordion-img\" src=\"" + request.dogProfile.photoURL + "\" alt=\"dog image\">  " +
+                "<strong>" + request.dogProfile.name + "</strong>" +
+                "</p>" +
+                "<p>" +
+                "Age: <strong>" + request.dogProfile.age + "</strong><br>" +
+                "Sex: <strong>" + request.dogProfile.sex + "</strong><br>" +
+                "Dog Id: <strong>" + request.dogProfile.id + "</strong><br>" +
+                "</p>" +
+                "<h3> Reason for Date </h3>" +
+                "<p>" + request.reason + "</p>" +
+                "<p class=\"request-button-container\"> " +
+                // buttons
+                "<button id =\"A" + request.id + "\" class=\"request-buttons btn btn-success btn-lg\" onclick=\"aproveRequest(" + request.id + ")\"> Approve</button>" +
+                "<button id =\"D" + request.id + "\" class=\"request-buttons btn btn-warning btn-lg\" onclick=\"denyRequest(" + request.id + ")\"> Deny</button>" +
+                "<button id =\"U" + request.id + "\" class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + request.id + ")\"> Undo</button> " +
+                "</p>" +
+                "</div>";
+            return newDiv;
+        }; // end of buildDIv()
+    </script>
+</body>

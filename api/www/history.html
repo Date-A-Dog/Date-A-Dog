@@ -1,187 +1,196 @@
 <!DOCTYPE html>
- <html lang="en">
- <head>
-	<meta charset="utf-8"/>
-	<title>Date a Dog</title>
+<html lang="en">
 
-	<link rel="icon" href="sample.png">
-	
-	<link rel ="stylesheet" type="text/css" href="css/style.css" />
-	<link rel ="stylesheet" type="text/css" href="css/content-display.css" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="js/fbinit.js"></script>
-	<script src="js/fblogin.js"></script>
-	<script src="js/address.js"></script>
-	<script src="js/dogprofile.js"></script>
-	<script src="js/daterprofile.js"></script>
-	<script src="js/daterequest.js"></script>
-	<script src="js/shelter.js"></script>
- </head>
+<head>
+    <meta charset="utf-8" />
+    <title>Date a Dog</title>
+
+    <link rel="icon" href="sample.png">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/content-display.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--  <script src="js/fbinit.js"></script> -->
+    <!--  <script src="js/fblogin.js"></script>  -->
+    <script src="js/address.js"></script>
+    <script src="js/dogprofile.js"></script>
+    <script src="js/daterprofile.js"></script>
+    <script src="js/daterequest.js"></script>
+    <script src="js/shelter.js"></script>
+</head>
+
 <body id="dad">
 
-  <script> 
-    // facebook auth API logic 
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId: '1105437202885536',
-        cookie: true, // This is important, it's not enabled by default
-        version: 'v2.2'
-      });
-    
-      FB.getLoginStatus(function (response) {
-        if (response.status === 'connected') {
-      	console.log("Logged in as" + response.authResponse.accessToken);
-        loadData(response);
-        
-        } else {
-          // log in again code
-          console.log("Expired token");
-          logout();
-        }
+    <script>
+        // facebook auth API logic
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: '1105437202885536',
+                cookie: true, // This is important, it's not enabled by default
+                version: 'v2.2'
+            });
 
-     });
-   };
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    console.log("Login successful");
+                    loadData(response);
 
-     (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="index.html">Date A Dog</a>
-			</div>
-			
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="https://date-a-dog.github.io/">Help</a></li>
-				<li><a href="requests.html">Requests</a></li>
-				<li><a href="history.html">History</a></li>
-				<li><a href="index.html" onclick="logout()">Logout</a></li>
-			</ul>
-		</div>
-	</nav>
-	
-	<h1>History</h1>
+                } else {
+                    // log in again code
+                    console.log("Expired token");
+                    logout();
+                }
 
-	<!-- For placement of request history -->
-	<div id="accordion">
-		<!-- Message for empty history page -->
-		<div class="accordionTitle" id="noRequests">
-			<h3 id="accordionheader">Loading request history...</h3>
-		</div>
-	</div>
-	<!-- Fills accordion with history display -->
-	<script type="text/javascript">
+            });
+        };
+        // Facebook definend call back fucntion
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">Date A Dog</a>
+            </div>
 
-	jQuery(function() { 
-          jQuery( "#accordion" ).accordion({
-            collapsible: true,  // enable collapse all
-            active: false // collapsed by default   
-          });
-	});
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://date-a-dog.github.io/">Help</a></li>
+                <li><a href="requests.html">Requests</a></li>
+                <li><a href="history.html">History</a></li>
+                <li><a href="index.html" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
 
-	var siteUrl = '/'; 
+    <h1>History</h1>
+
+    <!-- For placement of request history -->
+    <div id="accordion">
+        <!-- Message for empty history page -->
+        <div class="accordionTitle" id="noRequests">
+            <h3 id="accordionheader">Loading request history...</h3>
+        </div>
+    </div>
+
+    <!-- Declare ccordion where we attach requests and available actions -->
+    <script type="text/javascript">
+        jQuery(function() {
+            jQuery("#accordion").accordion({
+                collapsible: true, // enable collapse all
+                active: false // collapsed by default
+            });
+        });
+
+        // Logs out suer from facebook, and automatically redirects to index page
         function logout() {
-          FB.logout();
-          window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html"; 
+            FB.logout();
+            window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/index.html";
         };
 
-        var shelter;      
+        var shelter; // object variable used to interact with back end
 
         // Builds shelter object and attaches shelter's date requests
         // to the accordion list. The list is sorted from most recent requests
         // to oldest requests according to date.
+        //
+        // param:
+        //   fbResponse - The facebook response object containig all user login info
         function loadData(fbResponse) {
-          // we pass the user token to identify shelter
-          shelter = Shelter(fbResponse.authResponse.accessToken);
+            // we pass the user token to identify shelter
+            shelter = Shelter(fbResponse.authResponse.accessToken);
 
-          // Get updated history date requests asynchroniously
-          shelter.updateDateRequests(function(){
-            // we reverse the order, this results with request history displayed
-            // with most recent requests at top of accordion list
-            var requestsList = (shelter.getHistoryRequests()).reverse();
-            
-            // removes empty request page info if there are any requests
-            if (requestsList.length > 0) {
-               $("#accordion").empty(); // remove loading header 
-            } else {
-               // the list is empty, so we update accordion header
-               document.getElementById('accordionheader').innerHTML = "You have no request history";
-            }
-            for (var i = 0; i < requestsList.length; i++) {
-              // build the html div and attach to accordion
-              var newDiv = buildDiv(requestsList[i]);
-              $("#accordion").append(newDiv);
-            }
+            // Get updated history date requests asynchronously
+            shelter.updateDateRequests(function() {
+                // we reverse the order, this results with request history displayed
+                // with most recent requests at top of accordion list
+                var requestsList = (shelter.getHistoryRequests()).reverse();
 
-            $("#accordion").accordion("refresh");
-            $("#accordion").accordion();
-          });
-        };  // end of loadData()
+                // removes empty request page info if there are any requests
+                if (requestsList.length > 0) {
+                    $("#accordion").empty(); // remove loading header
+                } else {
+                    // the list is empty, so we update accordion header
+                    document.getElementById('accordionheader').innerHTML = "You have no request history";
+                }
+                for (var i = 0; i < requestsList.length; i++) {
+                    // build the html div and attach to accordion
+                    var newDiv = buildDiv(requestsList[i]);
+                    $("#accordion").append(newDiv);
+                }
 
-        
+                $("#accordion").accordion("refresh");
+                $("#accordion").accordion();
+            });
+        }; // end of loadData()
+
+
         // Resets the request identified by the given param
         // to a "pending" status, deleting the previous feedback
-        // shelter comment. 
-        function undoRequest(reqId){  
-          var undoButton = document.getElementById("U" + reqId);
-          undoButton.disabled = true;
-          shelter.updateRequestStatus(reqId, "P", "");
-          alert("Undoing request: " + reqId);
+        // shelter comment.
+        function undoRequest(reqId) {
+            var undoButton = document.getElementById(reqId);
+            undoButton.disabled = true;
+            // reset shelter request to status "P", and empty string as feedback
+            shelter.updateRequestStatus(reqId, "P", "");
+            alert("Undoing request: " + reqId);
         };
 
         // Builds a new HTML div intended for use in the site's accordion
         function buildDiv(request) {
-          var currentDate = new Date();
-          var imgName = (request.status == "A") ? "check_icon.png": "x_icon.png";
+            // determine appropriate icon to display for this request
+            var imgName = (request.status == "A") ? "check_icon.png" : "x_icon.png";
 
-          // disable undo button if request has expired 
-          var buttonViewState = (request.isActive) ? " enabled ":" disabled ";     
-          var newDiv = "<div class=\"accordionTitle\">"+
-						   "<img src=" + imgName +" width=\"30\" height=\"38\">"+
-						   "<h3> Dog Name: " + request.dogProfile.name + "</h3>"+
-						   "<h3>Dater: " + request.daterProfile.fName +" " + request.daterProfile.lName + "</h3>"+
-						   "<h3>When: "+ request.dateTime + "</h3>"+
-                       "</div> " + 
-                       "<div class=\"accordionEle\"> " +
-						   "<h3> Requester Details: </h3>" +//<br>" + 
-						   "<p>" +
-							   "Name:  <strong>"  + request.daterProfile.fName +" " + request.daterProfile.lName +"</strong><br>" +
-							   "Phone: <strong>" + request.daterProfile.phone + "</strong><br>" +
-							   "Email: <strong>" + request.daterProfile.email + "</strong><br>" +
-							   "Street: <strong>" + request.daterProfile.address.street + "</strong><br>" +
-							   "City: <strong>" + request.daterProfile.address.city + "</strong><br>" +
-							   "State: <strong>" + request.daterProfile.address.state + "</strong><br>" + 
-							   "Zipcode: <strong>"+ request.daterProfile.address.zipcode+"</strong>"+ 
-						   "</p>" +
-						   "<h3>Date requested with: </h3>"+//<br>" +
-						   "<p>" +
-							   "<img class=\"accordion-img\" src=\""+ request.dogProfile.photoURL +"\" alt=\"dog image\">  " + 
-							   "<strong>"+ request.dogProfile.name+"</strong>" +
-						   "</p>" +
-						   "<p>" +
-							   "Age: <strong>" + request.dogProfile.age + "</strong><br>" +
-							   "Sex: <strong>" + request.dogProfile.sex + "</strong><br>" +
-							   "Dog Id: <strong>" + request.dogProfile.id + "</strong><br>" + 
-						   "</p>" +
-						   "<h3> Reason From Requester:  </h3>" +
-						   "<p>"+request.reason + "</p>"+
-					           "<h3> Shelter Notes/Denial Message: </h3>" +
-						   "<p>"+request.feedback + "</p>"+
-						   "<p class=\"request-button-container\"> " + 
-							    "<button id =\"U" + request.id + "\"" + buttonViewState + "class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + request.id + ")\"> Undo</button> " + 
-						   "</p>" +
-					   "</div>";
-          return newDiv; 
-        };
-	</script>
-	
- </body>
+            // disable undo button if request has expired
+            var buttonViewState = (request.isActive) ? " enabled " : " disabled ";
+            var newDiv = "<div class=\"accordionTitle\">" +
+                "<img src=" + imgName + " width=\"30\" height=\"38\">" +
+                "<h3> Dog Name: " + request.dogProfile.name + "</h3>" +
+                "<h3>Dater: " + request.daterProfile.fName + " " + request.daterProfile.lName + "</h3>" +
+                "<h3>When: " + request.dateTime + "</h3>" +
+                "</div> " +
+                "<div class=\"accordionEle\"> " +
+                "<h3> Requester Details: </h3>" + //<br>" +
+                "<p>" +
+                "Name:  <strong>" + request.daterProfile.fName + " " + request.daterProfile.lName + "</strong><br>" +
+                "Phone: <strong>" + request.daterProfile.phone + "</strong><br>" +
+                "Email: <strong>" + request.daterProfile.email + "</strong><br>" +
+                "Street: <strong>" + request.daterProfile.address.street + "</strong><br>" +
+                "City: <strong>" + request.daterProfile.address.city + "</strong><br>" +
+                "State: <strong>" + request.daterProfile.address.state + "</strong><br>" +
+                "Zipcode: <strong>" + request.daterProfile.address.zipcode + "</strong>" +
+                "</p>" +
+                "<h3>Date requested with: </h3>" + //<br>" +
+                "<p>" +
+                "<img class=\"accordion-img\" src=\"" + request.dogProfile.photoURL + "\" alt=\"dog image\">  " +
+                "<strong>" + request.dogProfile.name + "</strong>" +
+                "</p>" +
+                "<p>" +
+                "Age: <strong>" + request.dogProfile.age + "</strong><br>" +
+                "Sex: <strong>" + request.dogProfile.sex + "</strong><br>" +
+                "Dog Id: <strong>" + request.dogProfile.id + "</strong><br>" +
+                "</p>" +
+                "<h3> Reason From Requester:  </h3>" +
+                "<p>" + request.reason + "</p>" +
+                "<h3> Shelter Notes/Denial Message: </h3>" +
+                "<p>" + request.feedback + "</p>" +
+                "<p class=\"request-button-container\"> " +
+                "<button id =\"" + request.id + "\"" + buttonViewState + "class=\"request-buttons btn btn-secondary btn-lg\" onclick=\"undoRequest(" + request.id + ")\"> Undo</button> " +
+                "</p>" +
+                "</div>";
+            return newDiv;
+        }; // end of buildDiv()
+    </script>
+
+</body>

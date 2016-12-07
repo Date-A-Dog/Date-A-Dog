@@ -4,16 +4,17 @@
  */
 var Address = function(street, city, state, zipcode) {
 
-  var address = {};
-  address.street = street;
-  address.city = city;
-  address.state = state;
-  address.zipcode = zipcode;
-  return address;
+    var address = {};
+    address.street = street;
+    address.city = city;
+    address.state = state;
+    address.zipcode = zipcode;
+    return address;
 };
 
+/* Export this file only when testing */
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
- module.exports = Address;
+    module.exports = Address;
 } else {
-  window.Address = Address;
+    window.Address = Address;
 }

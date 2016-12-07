@@ -1,86 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="utf-8"/>
+	<meta charset="utf-8" />
 	<title>Date-A-Dog</title>
 
 	<link rel="icon" href="sample.png">
 
-	<link rel ="stylesheet" type="text/css" href="css/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
+
 <body id="dad" class="login-page">
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
 
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
 
-<nav class="navbar navbar-inverse">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="index.html">Date A Dog</a>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">Date A Dog</a>
+			</div>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="https://date-a-dog.github.io/">Help</a></li>
+			</ul>
 		</div>
-
-		<ul class="nav navbar-nav navbar-right">
-			<li><a href="https://date-a-dog.github.io/">Help</a></li>
-		</ul>
-	</div>
-</nav>
+	</nav>
 
 
 
-<h1 id="login-title">Welcome to Date-A-Dog!</h1>
-<h1 id="login-instructions">Log in using shelter Facebook information to view date
+	<h1 id="login-title">Welcome to Date-A-Dog!</h1>
+	<h1 id="login-instructions">Log in using shelter Facebook information to view date
 	requests.</h1>
 
-<center><div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onlogin="logInWithFacebook()"></div></center>
+	<center>
+		<div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onlogin="logInWithFacebook()"></div>
+	</center>
 
-<script>
-  logInWithFacebook = function() {
-    FB.login(function(response) {
-      if (response.authResponse) {
-        // Now you can redirect the user or do an AJAX request to
-        // a PHP script that grabs the signed request from the cookie.
-        window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/requests.html";
-        console.dir(response);
-      } else {
-        alert('User cancelled login or did not fully authorize.');
-      }
-    });
-    return false;
-  };
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId: '1105437202885536',
-      cookie: true, // This is important, it's not enabled by default
-      version: 'v2.2'
-    });
-  };
+	<script>
+		logInWithFacebook = function() {
+			FB.login(function(response) {
+				if (response.authResponse) {
+					// Now you can redirect the user or do an AJAX request to
+					// a PHP script that grabs the signed request from the cookie.
+					window.location.href = "http://ec2-35-160-226-75.us-west-2.compute.amazonaws.com/requests.html";
+					console.dir(response);
+				} else {
+					alert('User cancelled login or did not fully authorize.');
+				}
+			});
+			return false;
+		};
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId: '1105437202885536',
+				cookie: true, // This is important, it's not enabled by default
+				version: 'v2.2'
+			});
+		};
 
-  (function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-</script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {
+				return;
+			}
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
 
 </body>

@@ -6,6 +6,8 @@
 package dateadog.dateadog;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.support.v4.util.LongSparseArray;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -179,54 +181,6 @@ public class DADServer {
     }
 
     /**
-     * Makes a DAD server request at the given URL, parses the response as a JSON
-     * array of dogs and returns a set containing these dogs via the given callback listener.
-     *
-     * @param url a DAD endpoint that returns a JSON array of dogs
-     * @param dataListener a data listener that will receive a callback with the dogs
-     * @param numDogs the number of dogs to request
-     * @param zip the zip of the location in which to search for dogs
-     */
-    private void getDogsAtUrl(String url, final DogsDataListener dataListener, int numDogs, String zip) {
-        JSONObject parameters = new JSONObject();
-        try {
-            parameters.put(COUNT_PARAMETER, numDogs);
-            parameters.put(ZIP_PARAMETER, zip);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        makeRequest(url, parameters, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    List<Dog> result = new ArrayList<>();
-                    JSONArray dogsArray = (JSONArray) new JSONTokener(response).nextValue();
-                    for (int i = 0; i < dogsArray.length(); i++) {
-                        Dog dog = new Dog(dogsArray.getJSONObject(i));
-                        if (dog.isValid()) {
-                            result.add(dog);
-                        }
-                    }
-                    dataListener.onGotDogs(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Makes a DAD server request at the given URL, parses the response as a JSON
-     * array of dogs and returns a set containing these dogs via the given callback listener.
-     *
-     * @param url a DAD endpoint that returns a JSON array of dogs
-     * @param dataListener a data listener that will receive a callback with the dogs
-     */
-    private void getDogsAtUrl(String url, final DogsDataListener dataListener) {
-        getDogsAtUrl(url, dataListener, NUM_DOGS_REQUESTED, DEFAULT_ZIP);
-    }
-
-    /**
      * Retrieves the user's profile from the DAD server.
      *
      * @param dataListener a data listener that will receive a callback with the user profile
@@ -261,8 +215,112 @@ public class DADServer {
      *
      * @param dataListener a data listener that will receive a callback with the dogs
      */
-    public void getNextDogs(DogsDataListener dataListener) {
-        getDogsAtUrl(GET_NEXT_DOGS_URL, dataListener);
+    public void getNextDogs(final DogsDataListener dataListener) {
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put(COUNT_PARAMETER, NUM_DOGS_REQUESTED);
+            parameters.put(ZIP_PARAMETER, DEFAULT_ZIP);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        makeRequest(GET_NEXT_DOGS_URL, parameters, new Response.Listener<String>() {
+            @Override
+            public void onResponse(final String response) {
+                new AsyncTask<Void, Void, List<Dog>>() {
+                    @Override
+                    protected List<Dog> doInBackground(Void... voids) {
+                        List<Dog> result = new ArrayList<>();
+                        try {
+                            JSONArray dogsArray = (JSONArray) new JSONTokener(response).nextValue();
+                            for (int i = 0; i < dogsArray.length(); i++) {
+                                Dog dog = new Dog(dogsArray.getJSONObject(i));
+                                if (dog.isValid()) {
+                                    result.add(dog);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        return result;
+                    }
+
+                    @Override
+                    protected void onPostExecute(List<Dog> result) {
+
+                        dataListener.onGotDogs(result);
+                    }
+                }.execute();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a set of dogs that the user has liked, with their date request
+     * fields populated.
+     *
+     * @param dataListener a data listener that will receive a callback with the dogs
+     */
+    public void getLikedDogs(final DogsDataListener dataListener) {
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put(COUNT_PARAMETER, NUM_DOGS_REQUESTED);
+            parameters.put(ZIP_PARAMETER, DEFAULT_ZIP);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        getDateRequests(new DateRequestsDataListener() {
+            @Override
+            public void onGotDateRequests(Set<DateRequest> dateRequests) {
+
+            }
+        });
+        makeRequest(GET_LIKED_DOGS_URL, parameters, new Response.Listener<String>() {
+            @Override
+            public void onResponse(final String response) {
+                getDateRequests(new DateRequestsDataListener() {
+                    @Override
+                    public void onGotDateRequests(final Set<DateRequest> dateRequests) {
+                        new AsyncTask<Void, Void, List<Dog>>() {
+                            @Override
+                            protected List<Dog> doInBackground(Void... voids) {
+                                final LongSparseArray<DateRequest> dogIdToDateRequest = new LongSparseArray<>();
+                                for (DateRequest request : dateRequests) {
+                                    dogIdToDateRequest.put(request.getDogId(), request);
+                                }
+
+                                // Parse the returned dogs.
+                                List<Dog> dogs = new ArrayList<>();
+                                try {
+                                    JSONArray dogsArray = (JSONArray) new JSONTokener(response).nextValue();
+                                    for (int i = 0; i < dogsArray.length(); i++) {
+                                        Dog dog = new Dog(dogsArray.getJSONObject(i));
+                                        if (dog.isValid()) {
+                                            dogs.add(dog);
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                for (Dog dog : dogs) {
+                                    if (dogIdToDateRequest.get(dog.getDogId()) != null) {
+                                        dog.setDateRequest(dogIdToDateRequest.get(dog.getDogId()));
+                                    }
+                                }
+                                return dogs;
+                            }
+
+                            @Override
+                            protected void onPostExecute(List<Dog> dogs) {
+                                dataListener.onGotDogs(dogs);
+                            }
+                        }.execute();
+                    }
+
+
+                });
+            }
+        });
     }
 
     /**
@@ -278,48 +336,49 @@ public class DADServer {
         final String PENDING_STATUS_CODE = "P";
         makeRequest(GET_DATE_REQUESTS_STATUS_URL, parameters, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
-                try {
-                    Set<DateRequest> dateRequests = new HashSet<>();
-                    JSONArray jsonArray = (JSONArray) new JSONTokener(response).nextValue();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        long dogId = jsonObject.getJSONObject(DOG_OBJECT).getLong(ID_OBJECT);
-                        long requestId = jsonObject.getJSONObject(REQUEST_OBJECT).getLong(ID_OBJECT);
-                        String feedback = jsonObject.getJSONObject(REQUEST_OBJECT).getString(FEEDBACK_OBJECT);
-                        DateRequest.Status status;
-                        switch (jsonObject.getJSONObject(REQUEST_OBJECT).getString(STATUS_OBJECT)) {
-                            case APPROVED_STATUS_CODE:
-                                status = DateRequest.Status.APPROVED;
-                                break;
-                            case REJECTED_STATUS_CODE:
-                                status = DateRequest.Status.REJECTED;
-                                break;
-                            case PENDING_STATUS_CODE:
-                                status = DateRequest.Status.PENDING;
-                                break;
-                            default:
-                                status = null;
-                        }
-                        Date date = new Date(jsonObject.getJSONObject(REQUEST_OBJECT).getLong(TIME_OBJECT));
+            public void onResponse(final String response) {
+                new AsyncTask<Void, Void, Set<DateRequest>>() {
+                    @Override
+                    protected Set<DateRequest> doInBackground(Void... voids) {
+                        Set<DateRequest> dateRequests = new HashSet<>();
+                        try {
+                            JSONArray jsonArray = (JSONArray) new JSONTokener(response).nextValue();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                long dogId = jsonObject.getJSONObject(DOG_OBJECT).getLong(ID_OBJECT);
+                                long requestId = jsonObject.getJSONObject(REQUEST_OBJECT).getLong(ID_OBJECT);
+                                String feedback = jsonObject.getJSONObject(REQUEST_OBJECT).getString(FEEDBACK_OBJECT);
+                                DateRequest.Status status;
+                                switch (jsonObject.getJSONObject(REQUEST_OBJECT).getString(STATUS_OBJECT)) {
+                                    case APPROVED_STATUS_CODE:
+                                        status = DateRequest.Status.APPROVED;
+                                        break;
+                                    case REJECTED_STATUS_CODE:
+                                        status = DateRequest.Status.REJECTED;
+                                        break;
+                                    case PENDING_STATUS_CODE:
+                                        status = DateRequest.Status.PENDING;
+                                        break;
+                                    default:
+                                        status = null;
+                                }
+                                Date date = new Date(jsonObject.getJSONObject(REQUEST_OBJECT).getLong(TIME_OBJECT));
 
-                        dateRequests.add(new DateRequest(requestId, date, dogId, status, feedback));
+                                dateRequests.add(new DateRequest(requestId, date, dogId, status, feedback));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        return dateRequests;
                     }
-                    dataListener.onGotDateRequests(dateRequests);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
+                    @Override
+                    protected void onPostExecute(Set<DateRequest> dateRequests) {
+                        dataListener.onGotDateRequests(dateRequests);
+                    }
+                }.execute();
             }
         });
-    }
-
-    /**
-     * Retrieves a set of dogs that the user has liked.
-     *
-     * @param dataListener a data listener that will receive a callback with the dogs
-     */
-    public void getLikedDogs(DogsDataListener dataListener) {
-        getDogsAtUrl(GET_LIKED_DOGS_URL, dataListener);
     }
 
     /**

@@ -11,9 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -166,15 +163,15 @@ public class DogAndroidTest {
     @Test
     public void testGetImage() throws Exception {
 
-        // testing getImage which returns dog's image
-        assertEquals(dog1.getImage(), "http://photos.petfinder.com/photos/pets/8697861/1/?bust=1460409799&width=500&-x.jpg");
+        // testing getImageURL which returns dog's image
+        assertEquals(dog1.getImageURL(), "http://photos.petfinder.com/photos/pets/8697861/1/?bust=1460409799&width=500&-x.jpg");
     }
 
     @Test
     public void testGetImageNotEqual() throws Exception {
 
-        // testing getImage which returns dog's image
-        assertNotEquals(dog1.getImage(), "http://photos.petfinder.com");
+        // testing getImageURL which returns dog's image
+        assertNotEquals(dog1.getImageURL(), "http://photos.petfinder.com");
     }
 
     @Test

@@ -52,7 +52,6 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
         }
         return count;
     }
-    private static final boolean DEVELOPER_MODE = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +144,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
     public void onFinishDialog(Date date) {
         calendar.setTime(date);
         Date today = Calendar.getInstance().getTime();
-        if (date.before(today) && !DEVELOPER_MODE) {
+        if (date.before(today)) {
             // The user is attempting to set a date for today or earlier.
             AlertDialog alertDialog = new AlertDialog.Builder(DogProfileActivity.this).create();
             alertDialog.setTitle(R.string.past_date_error_title);

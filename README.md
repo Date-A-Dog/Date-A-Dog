@@ -10,4 +10,5 @@
 ![Android Login](/screenshots/android_swipe_screen.png)  ![Android Liked Dogs](/screenshots/android_liked_dogs_screen.png)  ![Android Dog Profile](/screenshots/android_dog_profile_screen.png)
 
 ![Shelter Requests](/screenshots/shelter_requests.png)
+
 ![Shelter History](/screenshots/shelter_history.png)

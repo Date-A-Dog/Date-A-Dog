@@ -139,7 +139,7 @@ public class Dog implements Serializable {
      *
      * @return a URL to a profile picture, or the empty string
      */
-    public String getImage() {
+    public String getImageURL() {
         return image;
     }
 

@@ -14,7 +14,7 @@ public class DogCard {
         this.description = "Name: " + dog.getName() + "\nAge: " + dog.getAge()
                            + "\nSex: " + dog.getSex() + "\nBreeds: " + dog.getBreedsString()
                            + "\nSize: " + dog.getSize() + "\nLocation: " + dog.getCity();
-        this.imagePath = dog.getImage();
+        this.imagePath = dog.getImageURL();
     }
 
     public long getDogId() { return dogId; }

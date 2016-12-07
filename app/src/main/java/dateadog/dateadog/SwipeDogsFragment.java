@@ -1,5 +1,6 @@
 package dateadog.dateadog;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import dateadog.dateadog.tindercard.SwipeFlingAdapterView;
 
@@ -87,22 +89,22 @@ public class SwipeDogsFragment extends Fragment {
 
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
-                View view = convertView;
-                if (view == null) {
+                if (convertView == null) {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
-                    view = inflater.inflate(R.layout.dog_card, parent, false);
+                    convertView = inflater.inflate(R.layout.dog_card, parent, false);
                     viewHolder = new ViewHolder();
-                    viewHolder.description = (TextView) view.findViewById(R.id.bookText);
-                    viewHolder.background = (FrameLayout) view.findViewById(R.id.background);
-                    viewHolder.cardImage = (ImageView) view.findViewById(R.id.cardImage);
-                    view.setTag(viewHolder);
+                    viewHolder.description = (TextView) convertView.findViewById(R.id.bookText);
+                    viewHolder.background = (FrameLayout) convertView.findViewById(R.id.background);
+                    viewHolder.cardImage = (ImageView) convertView.findViewById(R.id.cardImage);
+                    convertView.setTag(viewHolder);
                 } else {
-                    viewHolder = (ViewHolder) view.getTag();
+                    viewHolder = (ViewHolder) convertView.getTag();
                 }
                 viewHolder.description.setText(dogCards.get(position).getDescription());
+
                 Glide.with(getActivity()).load(dogCards.get(position).getImagePath()).into(viewHolder.cardImage);
 
-                return view;
+                return convertView;
             }
         });
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
@@ -155,6 +157,7 @@ public class SwipeDogsFragment extends Fragment {
     }
 
     public void updateUI() {
+        System.out.println("SwipeDogsFragment: updateUI()");
         server.getNextDogs(new DADServer.DogsDataListener() {
             @Override
             public void onGotDogs(List<Dog> dogs) {

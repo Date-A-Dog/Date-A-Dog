@@ -49,6 +49,7 @@ public class LikedDogsFragment extends Fragment {
     }
 
     public void updateUI() {
+        System.out.println("LikedDogsFragment: updateUI()");
         server.getDateRequests(new DADServer.DateRequestsDataListener() {
             @Override
             public void onGotDateRequests(Set<DateRequest> dateRequests) {
@@ -60,11 +61,6 @@ public class LikedDogsFragment extends Fragment {
                 server.getLikedDogs(new DADServer.DogsDataListener() {
                     @Override
                     public void onGotDogs(List<Dog> dogs) {
-                        for (Dog dog : dogs) {
-                            if (dogIdToDateRequest.get(dog.getDogId()) != null) {
-                                dog.setDateRequest(dogIdToDateRequest.get(dog.getDogId()));
-                            }
-                        }
                         likedDogs.clear();
                         likedDogs.addAll(dogs);
                         adapter.notifyDataSetChanged();

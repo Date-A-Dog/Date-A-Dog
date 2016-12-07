@@ -7,5 +7,4 @@
 ### [![Build Status](https://travis-ci.org/Date-A-Dog/Date-A-Dog.svg?branch=master)](https://travis-ci.org/Date-A-Dog/Date-A-Dog)
 
 ## Screenshots
-![Android Login](/screenshots/android_login_screen.png)  ![Android Liked Dogs](/screenshots/android_liked_dogs_screen.png)
-![Android Dog Profile](/screenshots/android_dog_profile_screen.png)
+![Android Login](/screenshots/android_login_screen.png)  ![Android Liked Dogs](/screenshots/android_liked_dogs_screen.png)  ![Android Dog Profile](/screenshots/android_dog_profile_screen.png)

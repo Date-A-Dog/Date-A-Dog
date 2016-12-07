@@ -19,7 +19,7 @@ var cn = {
 var db = pgp(cn);
 
 // add query functions
-function updateDoggie(dogs) {
+function updateDoggie(dogs, callback) {
   db.tx(function (t) {
         var queries = dogs.map(function (dog) {
             console.log('inserting: ' + dog.id);
@@ -32,10 +32,12 @@ function updateDoggie(dogs) {
     .then(function (data) {
         // SUCCESS
         console.log(data);
+        callback();
     })
     .catch(function (error) {
         // ERROR;
         console.log(error);
+        callback(error);
     });
 }
 

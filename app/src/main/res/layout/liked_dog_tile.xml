@@ -23,8 +23,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/colorPrimary"
-            android:padding="3dp" />
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="match_parent"

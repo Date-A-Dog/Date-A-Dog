@@ -42,7 +42,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
     //count the number of pending doggie date requests
     private int countPendingRequests(Set<DateRequest> dates) {
         int count = 0;
-        for (DateRequest date : dates){
+        for (DateRequest date : dates) {
             if (date.getStatus() == DateRequest.Status.PENDING) {
                 count++;
             }

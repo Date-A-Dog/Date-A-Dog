@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.Set;
 
 public class DogProfileActivity extends AppCompatActivity implements DatePickerFragment.DateDialogListener, TimePickerFragment.TimeDialogListener {
-
+    int MAX_REQUESTS = 1; //can't have more than 1 request
     /**
      * The dog that this profile displays information for. Passed via an intent when starting
      * this activity.
@@ -39,6 +39,16 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
     private TextView feedbackTitle;
     private TextView feedback;
 
+    //count the number of pending doggie date requests
+    private int countPendingRequests(Set<DateRequest> dates) {
+        int count = 0;
+        for (DateRequest date : dates){
+            if (date.getStatus() == DateRequest.Status.PENDING) {
+                count++;
+            }
+        }
+        return count;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +82,28 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
                     @Override
                     public void onGotUserProfile(final UserProfile userProfile) {
                         if (userProfile.isComplete()) {
-                            DatePickerFragment dateDialog = new DatePickerFragment();
-                            dateDialog.show(getSupportFragmentManager(), "DateDialog");
+                            server.getDateRequests(new DADServer.DateRequestsDataListener() {
+                                @Override
+                                public void onGotDateRequests(Set<DateRequest> dateRequests) {
+                                    int pendingRequests = countPendingRequests(dateRequests);
+                                    if (pendingRequests > MAX_REQUESTS) {
+                                        AlertDialog alertDialog = new AlertDialog.Builder(DogProfileActivity.this).create();
+                                        alertDialog.setTitle(R.string.no_more_dates);
+                                        alertDialog.setMessage(getString(R.string.no_more_dates));
+                                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+                                        alertDialog.show();
+                                    } else {
+                                        DatePickerFragment dateDialog = new DatePickerFragment();
+                                        dateDialog.show(getSupportFragmentManager(), "DateDialog");
+                                    }
+                                }
+                            });
+
                         } else {
                             Snackbar.make(findViewById(android.R.id.content), R.string.complete_profile_message, Snackbar.LENGTH_LONG)
                                     .setAction("Edit Profile", new View.OnClickListener() {

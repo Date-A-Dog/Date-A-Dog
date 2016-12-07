@@ -86,7 +86,6 @@ function getNextDogs(req, res, next) {
                                  FROM judged j \
                                  WHERE d.id = j.dogId \
                                  AND j.userId = $1) \
-               ORDER BY d.id ASC \
                LIMIT $2';
   db.any(query, [req.user.id, req.body.count])
     .then(function (data) {

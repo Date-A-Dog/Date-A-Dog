@@ -28,7 +28,10 @@ import java.util.Date;
 import java.util.Set;
 
 public class DogProfileActivity extends AppCompatActivity implements DatePickerFragment.DateDialogListener, TimePickerFragment.TimeDialogListener {
-    int MAX_REQUESTS = 1; //can't have more than 1 request
+
+    /** The max number of date requests a user can have pending at one time. */
+    private static final int MAX_PENDING_REQUESTS = 1;
+
     /**
      * The dog that this profile displays information for. Passed via an intent when starting
      * this activity.
@@ -88,7 +91,7 @@ public class DogProfileActivity extends AppCompatActivity implements DatePickerF
                                 @Override
                                 public void onGotDateRequests(Set<DateRequest> dateRequests) {
                                     int pendingRequests = countPendingRequests(dateRequests);
-                                    if (pendingRequests > MAX_REQUESTS) {
+                                    if (pendingRequests > MAX_PENDING_REQUESTS) {
                                         AlertDialog alertDialog = new AlertDialog.Builder(DogProfileActivity.this).create();
                                         alertDialog.setTitle(R.string.no_more_dates);
                                         alertDialog.setMessage(getString(R.string.no_more_dates));

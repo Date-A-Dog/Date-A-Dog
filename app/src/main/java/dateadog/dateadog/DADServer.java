@@ -50,7 +50,7 @@ public class DADServer {
     private static String UPDATE_USER_URL = DAD_SERVER_URL_BASE + "updateUser";
     private static String GET_DATE_REQUESTS_STATUS_URL = DAD_SERVER_URL_BASE + "getDateRequestsStatus";
     /** Number of dogs to request each time a request is made. */
-    private static int NUM_DOGS_REQUESTED = 20;
+    private static int NUM_DOGS_REQUESTED = 60;
     private static String DEFAULT_ZIP = "98105";
     /** Parameter names for backend. */
     private static String REASON_PARAMETER = "reason";
@@ -246,7 +246,6 @@ public class DADServer {
 
                     @Override
                     protected void onPostExecute(List<Dog> result) {
-
                         dataListener.onGotDogs(result);
                     }
                 }.execute();

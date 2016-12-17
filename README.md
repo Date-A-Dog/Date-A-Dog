@@ -1,5 +1,7 @@
 # Date-A-Dog
 
+### This project is no longer actively maintained. Please see jammua/dog-dating-app for a similar project that is currently under development.
+
 ### Please visit https://date-a-dog.github.io/ to download user guides for daters and shelters.
 ### Please visit https://date-a-dog.github.io/developers for help and to view the developer guide.
 
